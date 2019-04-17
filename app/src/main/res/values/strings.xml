@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">QueMePongo</string>
+    <string name="signIn">Ingresar</string>
+    <string name="signUp">Registrarse</string>
+    <string name="forgottenPassword"><u>He olvidado mi contraseña</u></string>
+    <string name="loading">Cargando</string>
+    <string name="mail">Mail</string>
+    <string name="password">Contraseña</string>
+    <string name="register"><u>Registrarme</u></string>
+    <string name="error">Error!</string>
 </resources>
