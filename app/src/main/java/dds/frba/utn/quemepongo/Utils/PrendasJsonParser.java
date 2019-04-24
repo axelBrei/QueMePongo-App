@@ -1,7 +1,6 @@
 package dds.frba.utn.quemepongo.Utils;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,23 +12,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Model.Prenda;
-import dds.frba.utn.quemepongo.Utils.PrendasJsonDeserializer.PrendasContainer;
-import dds.frba.utn.quemepongo.Utils.PrendasJsonDeserializer.SinglePrendaDeserializer;
+import dds.frba.utn.quemepongo.Utils.JsonParser.PrendasContainer;
+import dds.frba.utn.quemepongo.Utils.JsonParser.SinglePrendaDeserializer;
 
-
-public class PrendasJsonParser implements JsonDeserializer<PrendasContainer>{
+public class PrendasJsonParser implements JsonDeserializer<PrendasContainer> {
 
     @Override
-    public PrendasContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException{
+    public PrendasContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Gson gson = new GsonBuilder().registerTypeAdapter(Prenda.class, new SinglePrendaDeserializer()).create();
 
         List<Prenda> prendas = new ArrayList<>();
@@ -61,10 +57,8 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer>{
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return null;
     }

@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Guardarropa {
-    private List<Prenda> prendas;
+    private String descripcion;
+    private int id;
+    private List<Prenda> prendas ;
+
+    public void setDescripcion(String unaDescripcion){
+        descripcion = unaDescripcion;
+    }
+
 
     public Guardarropa() {
         this.prendas = new ArrayList<>();
@@ -16,5 +23,20 @@ public class Guardarropa {
 
     public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
+    }
+
+    void eliminarPrenda(Prenda unaPrenda){
+        prendas.remove(unaPrenda);
+    }
+
+    public void aniadirPrenda(Prenda unaPrenda) {
+        prendas.add(unaPrenda);
+    }
+
+    public Atuendo generarAtuendo(){
+
+        //ALGORITMO PARA GENERAR ATUENDO;
+        Atuendo atuendo = new Atuendo();
+        return atuendo;
     }
 }

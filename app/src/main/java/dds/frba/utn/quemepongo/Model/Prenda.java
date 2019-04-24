@@ -2,23 +2,19 @@ package dds.frba.utn.quemepongo.Model;
 
 public class Prenda {
 
+    private String tipo;
     private Integer id;
-    private TipoDeTela tipoDeTela;
+    private String tipoDeTela;
     private String descripcion;
     private String colorP;
     private String colorS;
+    // EG. Camprera Remera
+    private String tipoDePrenda;
 
-
-    public Prenda() {
+    public String getTipo(){
+        return tipo;
     }
 
-    public Prenda(Integer id, TipoDeTela tipoDeTela, String descripcion, String colorP, String colorS) {
-        this.id = id;
-        this.tipoDeTela = tipoDeTela;
-        this.descripcion = descripcion;
-        this.colorP = colorP;
-        this.colorS = colorS;
-    }
 
     public Integer getId() {
         return id;
@@ -28,11 +24,11 @@ public class Prenda {
         this.id = id;
     }
 
-    public TipoDeTela getTipoDeTela() {
+    public String getTipoDeTela() {
         return tipoDeTela;
     }
 
-    public void setTipoDeTela(TipoDeTela tipoDeTela) {
+    public void setTipoDeTela(String tipoDeTela) {
         this.tipoDeTela = tipoDeTela;
     }
 
@@ -58,6 +54,14 @@ public class Prenda {
 
     public void setColorS(String colorS) {
         this.colorS = colorS;
+    }
+
+    public String getTipoDePrenda() {
+        return tipoDePrenda;
+    }
+
+    public void setTipoDePrenda(String tipoDePrenda) {
+        this.tipoDePrenda = tipoDePrenda;
     }
 
 }

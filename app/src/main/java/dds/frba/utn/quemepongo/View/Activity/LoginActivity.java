@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 import java.util.List;
 
+import dds.frba.utn.quemepongo.Controllers.ColorJsonController;
+import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.PrendasJsonParser;
@@ -34,14 +37,16 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout mailLayout;
     private TextInputLayout passwordLayout;
     private ActionProcessButton logInButton;
-    private TextView signUpButton;
-    private TextView forgottenpasswordButton;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mAuth = FirebaseAuth.getInstance();
 
+        List<String> colores = new ColorJsonController().getColors(this);
         List<Prenda> prendas = PrendasJsonParser.getJsonPrendasJson(this);
 
         mail = findViewById(R.id.LoginUser);
@@ -49,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordLayout = findViewById(R.id.LoginPasswordLayout);
         password = findViewById(R.id.LoginPassword);
         logInButton = findViewById(R.id.LoginSignInButton);
-        signUpButton = findViewById(R.id.LoginRegisterButton);
-        forgottenpasswordButton = findViewById(R.id.LoginForgottenPasswordButton);
+        TextView signUpButton = findViewById(R.id.LoginRegisterButton);
+        TextView forgottenpasswordButton = findViewById(R.id.LoginForgottenPasswordButton);
 
         mail.addTextChangedListener(cleanErrors());
         password.addTextChangedListener(cleanErrors());
@@ -75,30 +80,45 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            Intent inten = new Intent(this, MainActivity.class);
+            startActivity(inten);
+        }
+    }
 
     private View.OnClickListener onClickLogIn(){
         return (View v) -> {
             logInButton.setProgress(10);
+            changeButtonsAccesibility(false);
             try{
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(mail.getText().toString(), password.getText().toString())
+                String mailT = mail.getText().toString();
+                String passT = password.getText().toString();
+                mAuth.signInWithEmailAndPassword(mailT, passT)
                         .addOnCompleteListener(( Task<AuthResult> task) -> {
                                     if(task.isSuccessful()){
                                         logInButton.setProgress(100);
+                                        changeButtonsAccesibility(true);
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }else{
                                         try{
+                                            changeButtonsAccesibility(true);
                                             throw task.getException();
                                         }catch (FirebaseAuthException e){
                                             setFirebaseError(e.getErrorCode());
                                         } catch (Exception e) {
                                             e.printStackTrace();
+                                            logInButton.setProgress(0);
+                                            Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
                         );
             }catch (IllegalArgumentException e){
+                changeButtonsAccesibility(true);
                 e.printStackTrace();
                 if(mail.getText().length() == 0)
                     mailLayout.setError("El campo no puede estar vacio");
@@ -165,5 +185,11 @@ public class LoginActivity extends AppCompatActivity {
             logInButton.setProgress(0);
         }, 1500);
         logInButton.clearFocus();
+    }
+
+    private void changeButtonsAccesibility(Boolean enabled){
+        mail.setEnabled(enabled);
+        password.setEnabled(enabled);
+        logInButton.setEnabled(enabled);
     }
 }

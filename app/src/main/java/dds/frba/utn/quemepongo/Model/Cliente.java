@@ -17,4 +17,12 @@ public class Cliente {
     public void setGuardarropas(List<Guardarropa> guardarropas) {
         this.guardarropas = guardarropas;
     }
+
+    public void addGuardarropa(Guardarropa g){
+        guardarropas.add(g);
+    }
+
+    public void anadirPrendaAlGuardarropa(Prenda prenda, Guardarropa guardarropa){
+        guardarropas.get(guardarropas.indexOf(guardarropa)).aniadirPrenda(prenda);
+    }
 }

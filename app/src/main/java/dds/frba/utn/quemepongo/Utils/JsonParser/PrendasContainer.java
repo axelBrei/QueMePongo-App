@@ -1,4 +1,4 @@
-package dds.frba.utn.quemepongo.Utils.PrendasJsonDeserializer;
+package dds.frba.utn.quemepongo.Utils.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;

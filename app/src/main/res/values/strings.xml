@@ -8,4 +8,14 @@
     <string name="password">Contraseña</string>
     <string name="register"><u>Registrarme</u></string>
     <string name="error">Error!</string>
+
+
+    <string name="description">Descripcion</string>
+    <string name="primaryColor">Color primario</string>
+    <string name="secondaryColor">Color secundario</string>
+    <string name="clotheComposition">Tipo de tela</string>
+    <string name="clotheType">Tipo de prenda</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

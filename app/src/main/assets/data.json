@@ -2,9 +2,7 @@
     "prendas":[
         {
             "id":1,
-            "tipoDeTela":{
-                "descripcion":"Algodon"
-            },
+            "tipoDeTela": "Algodon",
             "descripcion": "Remera de manga corta",
             "colorP":"Verde",
             "colorS":"Rojo",
@@ -12,9 +10,7 @@
         },
         {
             "id":2,
-            "tipoDeTela":{
-                "descripcion":"Cuero"
-            },
+            "tipoDeTela": "Cuero",
             "descripcion":"Campera",
             "colorP":"Negro",
             "colorS":"",
@@ -22,9 +18,7 @@
         },
         {
             "id":3,
-            "tipoDeTela":{
-                "descripcion":"Jean"
-            },
+            "tipoDeTela": "Jean",
             "descripcion":"Pantalón",
             "colorP":"Azul",
             "colorS":"",
@@ -32,9 +26,7 @@
         },
         {
             "id":4,
-            "tipoDeTela":{
-                "descripcion":"Gamuza"
-            },
+            "tipoDeTela": "Gamuza",
             "descripcion":"Zapatilla",
             "colorP":"Negro",
             "colorS":"Blanco",
@@ -42,9 +34,7 @@
         },
         {
             "id":5,
-            "tipoDeTela":{
-                "descripcion":""
-            },
+            "tipoDeTela": "",
             "descripcion":"Collar",
             "colorP":"Dorado",
             "colorS":"",
@@ -52,9 +42,7 @@
         },
         {
             "id":6,
-            "tipoDeTela":{
-                "descripcion":"Algodón"
-            },
+            "tipoDeTela": "Algodón",
             "descripcion":"Bufanda",
             "colorP":"Celeste",
             "colorS":"",
@@ -62,9 +50,7 @@
         },
         {
             "id":7,
-            "tipoDeTela":{
-                "descripcion":"Cuero"
-            },
+            "tipoDeTela": "Cuero",
             "descripcion":"Zapato",
             "colorP":"Negro",
             "colorS":"",
@@ -72,9 +58,7 @@
         },
         {
             "id":8,
-            "tipoDeTela":{
-                "descripcion":"Algodón"
-            },
+            "tipoDeTela": "Algodón",
             "descripcion":"Chomba",
             "colorP":"Azul",
             "colorS":"",
