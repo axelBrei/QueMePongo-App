@@ -5,12 +5,13 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Repository.PrendasRepository;
 
 public class CrearPrendasViewModel extends AndroidViewModel {
     // STATIC CONSTANTS
@@ -21,14 +22,21 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     public static final String DESCRIPCION_PRENDA = "descripcion";
     public static final String ID_PRENDA = "id";
 
+    // STATIC DATA
     private List<String> colores;
     private List<String> tiposDeTela;
-
+    // DATA
     private HashMap<String, Object> prenda;
+    // REPOSITORY
+    private PrendasRepository prendasRepository;
 
     public CrearPrendasViewModel(@NonNull Application application) {
         super(application);
-        prenda = new HashMap<>();
+        prenda = new HashMap<String, Object>();
+        prendasRepository = RetrofitInstanciator
+                .getInstance()
+                .getRetrofit()
+                .create(PrendasRepository.class);
     }
 
     public List<String> getColores() {
@@ -63,6 +71,10 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         prenda.put(field, value);
     }
 
+    public PrendasRepository getPrendasRepository() {
+        return prendasRepository;
+    }
+
     public Prenda getPrendaGenerada(){
 //        Field field;
         Prenda p;
@@ -88,9 +100,6 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-//        catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        }
         return null;
     }
 }

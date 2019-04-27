@@ -6,15 +6,23 @@ import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dds.frba.utn.quemepongo.Controllers.JsonController;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Model.WebServices.NuevaPrendaReq;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.PRIMARY_COLOR_TYPE;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.SECONDARY_COLOR_TYPE;
@@ -63,7 +71,23 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     private void initUI(){
         uploadButton.setOnClickListener( (v) -> {
             viewModel.setPrendaField(CrearPrendasViewModel.DESCRIPCION_PRENDA, descripcionEditText.getText().toString());
-            Prenda prenda = viewModel.getPrendaGenerada();
+            HashMap<String, Object> request = new HashMap<>();
+            request.put("prenda", viewModel.getPrenda());
+            request.put("username", "elnuevo");
+            request.put("idGuardarropa", "0");
+            Call<Object> c = viewModel.getPrendasRepository().anadirPrenda(request);
+            c.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    Toast.makeText(_activity, "Succes", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Toast.makeText(_activity, "Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         });
 
         initSpinners();

@@ -19,7 +19,7 @@ public class JsonConverterFactory extends Converter.Factory {
     @Nullable
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-
+        System.out.print("Tipo de response: " + type.getTypeName());
         if(type.equals(PrendasContainer.class)){
             return GsonConverterFactory.create(
                         new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create())
