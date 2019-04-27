@@ -2,7 +2,6 @@ package dds.frba.utn.quemepongo.Repository;
 
 import java.util.HashMap;
 
-import dds.frba.utn.quemepongo.Model.WebServices.NuevaPrendaReq;
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendasContainer;
 import retrofit2.Call;
 import retrofit2.http.Body;

@@ -11,11 +11,8 @@ import android.widget.Toast;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import dds.frba.utn.quemepongo.Controllers.JsonController;
-import dds.frba.utn.quemepongo.Model.Prenda;
-import dds.frba.utn.quemepongo.Model.WebServices.NuevaPrendaReq;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
@@ -70,6 +67,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
 
     private void initUI(){
         uploadButton.setOnClickListener( (v) -> {
+            setProgressDialog(true);
             viewModel.setPrendaField(CrearPrendasViewModel.DESCRIPCION_PRENDA, descripcionEditText.getText().toString());
             HashMap<String, Object> request = new HashMap<>();
             request.put("prenda", viewModel.getPrenda());
@@ -80,11 +78,14 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     Toast.makeText(_activity, "Succes", Toast.LENGTH_SHORT).show();
+                    // TODO: accion cuando se agrega staisfactoriamente la prenda
+                    setProgressDialog(false);
                 }
 
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
                     Toast.makeText(_activity, "Error", Toast.LENGTH_SHORT).show();
+                    setProgressDialog(false);
                 }
             });
 
