@@ -24,8 +24,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 import java.util.List;
 
-import dds.frba.utn.quemepongo.Controllers.ColorJsonController;
-import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
+import dds.frba.utn.quemepongo.Controllers.JsonController;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.PrendasJsonParser;
@@ -46,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
-        List<String> colores = new ColorJsonController().getColors(this);
-        List<Prenda> prendas = PrendasJsonParser.getJsonPrendasJson(this);
+//        List colores = new JsonController(this).getColors();
+//        List tiposDeTela = new JsonController(this).getTiposDeTela();
 
         mail = findViewById(R.id.LoginUser);
         mailLayout = findViewById(R.id.LoginUserLayout);

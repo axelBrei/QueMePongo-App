@@ -20,6 +20,7 @@
        app:layout_constraintBottom_toBottomOf="parent"
        app:cardElevation="@dimen/cardview_default_elevation"
        app:cardCornerRadius="15dp"
+       android:clickable="false"
 
        >
        <LinearLayout
@@ -28,6 +29,7 @@
            android:orientation="vertical"
            android:padding="20dp"
            android:background="#fff"
+           android:clickable="false"
            >
            <ProgressBar
                android:layout_width="wrap_content"

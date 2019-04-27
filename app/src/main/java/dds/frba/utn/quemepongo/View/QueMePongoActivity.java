@@ -1,10 +1,7 @@
 package dds.frba.utn.quemepongo.View;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,9 +28,22 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
         toolbar = currentView.findViewById(R.id.toolbar);
         if(toolbar != null){
             setSupportActionBar(toolbar);
-
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         progressFragment = new ProgressFragment();
+    }
+
+    public void enableBackButton(){
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

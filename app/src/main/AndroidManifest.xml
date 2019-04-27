@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
-        android:windowSoftInputMode="adjustPan|adjustResize"
-        >
+        android:windowSoftInputMode="adjustPan|adjustResize">
+        <activity android:name=".View.Activity.CrearPrendasActivity"></activity>
         <activity
             android:name=".View.Activity.LoginActivity"
             android:theme="@style/AppThemeWithoutActionBar">
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.Activity.MainActivity" />
-        <activity android:name=".View.Activity.RegisterActivity"></activity>
+        <activity android:name=".View.Activity.RegisterActivity" />
     </application>
 
 </manifest>

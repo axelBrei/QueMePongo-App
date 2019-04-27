@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Activity.CrearPrendasActivity"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+
+    >
+
+    <include
+        layout="@layout/toolbar_layout"
+        />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        >
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/CrearPrendaDescripcionLayout"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"
+            android:hint="Descripcion"
+            >
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/CrearPrendaDescripcion"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/CrearPrendaColoresLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/CrearPrendaDescripcionLayout"
+            android:weightSum="2"
+            android:layout_marginTop="30dp"
+            >
+
+            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                android:id="@+id/CrearPrendaPrimaryoloresSpiner"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/CrearPrendaTelasSpinner"
+                app:smsp_highlightColor="@color/colorPrimary"
+                app:smsp_hint="Color primario"
+                app:smsp_hintTextSize="14sp"
+                app:smsp_showEmptyDropdown="true"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                >
+
+            </com.chivorn.smartmaterialspinner.SmartMaterialSpinner>
+
+            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                android:id="@+id/CrearPrendaSecondaryColoresSpiner"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/CrearPrendaTelasSpinner"
+                app:smsp_highlightColor="@color/colorPrimary"
+                app:smsp_hint="Color secundario"
+                app:smsp_hintTextSize="14sp"
+                app:smsp_showEmptyDropdown="true"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                >
+
+            </com.chivorn.smartmaterialspinner.SmartMaterialSpinner>
+        </LinearLayout>
+
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+            android:id="@+id/CrearPrendaTelasSpinner"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/CrearPrendaColoresLayout"
+            app:smsp_highlightColor="@color/colorPrimary"
+            app:smsp_hint="Tipo de tela"
+            app:smsp_hintTextSize="14sp"
+            app:smsp_showEmptyDropdown="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="30dp"
+            >
+
+        </com.chivorn.smartmaterialspinner.SmartMaterialSpinner>
+
+
+
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+            android:id="@+id/CrearPrendaParteQueOcupaSpinner"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/CrearPrendaTelasSpinner"
+            app:smsp_highlightColor="@color/colorPrimary"
+            app:smsp_hint="Parte que ocupa"
+            app:smsp_hintTextSize="14sp"
+            app:smsp_showEmptyDropdown="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="30dp"
+            >
+
+        </com.chivorn.smartmaterialspinner.SmartMaterialSpinner>
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/CrearPrendaUploadButton"
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/uploadPrenda"
+            android:textAllCaps="false"
+            android:layout_marginHorizontal="45dp"
+            android:textSize="18sp"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

@@ -2,18 +2,13 @@ package dds.frba.utn.quemepongo.Model;
 
 public class Prenda {
 
-    private String tipo;
-    private Integer id;
-    private String tipoDeTela;
-    private String descripcion;
-    private String colorP;
-    private String colorS;
+    private Integer id = null;
+    private String tipoDeTela = "";
+    private String descripcion = "";
+    private String colorP = "";
+    private String colorS = "";
     // EG. Camprera Remera
-    private String tipoDePrenda;
-
-    public String getTipo(){
-        return tipo;
-    }
+    private String tipoDePrenda = "";
 
 
     public Integer getId() {

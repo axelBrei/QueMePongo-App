@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 
 public interface PrendasRepository {
 
-    @POST("/prendas/getPrendas")
-//    @GET("http://www.mocky.io/v2/5cc0a58e310000f61c036462")
+//    @POST("/prendas/getPrendas")
+    @GET("http://www.mocky.io/v2/5cc0a58e310000f61c036462")
     Call<PrendasContainer> getPrendas();
 }

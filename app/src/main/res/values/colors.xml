@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8d6e63</color>
-    <color name="colorPrimaryDark">#5f4339</color>
-    <color name="colorPrimarylight">#be9c91</color>
-    <color name="colorAccent">#f06292</color>
-    <color name="colorAccentLight">#ff94c2</color>
-    <color name="colorAccentDark">#ba2d65</color>
+    <color name="colorPrimary">#326289</color>
+    <color name="colorPrimaryDark">#12314B</color>
+    <color name="colorPrimarylight">#6E8599</color>
+    <color name="colorAccent">#f19a3e</color>
+    <color name="colorAccentLight">#ffcb6d</color>
+    <color name="colorAccentDark">#ba6c06</color>
     <color name="colorPrimarytext">#ffffff</color>
     <color name="colorSecondaryText">#000000</color>
     <color name="colorIcons">#212121</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="error_color">#dc3636</color>
     <color name="backgroundColor">#f5f5f5</color>
+    <color name="specialBackgroundColor">#A0AFBC</color>
 </resources>
+
+<!--
+$color1: rgba(18, 49, 75, 1); //#12314B
+$color2: rgba(110, 133, 153, 1); //#6E8599
+$color3: rgba(160, 175, 188, 1);// #A0AFBC
+$color4: rgba(241, 154, 62, 1); // #F19A3E
+$color5: rgba(50, 98, 137, 1); // #326289
+-->
