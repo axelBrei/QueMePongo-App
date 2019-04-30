@@ -102,4 +102,10 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         }
         return null;
     }
+
+    @NonNull
+    @Override
+    public <T extends Application> T getApplication() {
+        return super.getApplication();
+    }
 }

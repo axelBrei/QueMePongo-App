@@ -22,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -55,6 +58,7 @@ dependencies {
 
     // SPINNER
     implementation 'com.github.chivorns:smartmaterialspinner:1.0.4'
+    implementation 'com.jaredrummler:material-spinner:1.3.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

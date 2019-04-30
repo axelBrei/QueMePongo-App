@@ -17,4 +17,5 @@
     <string name="clotheType">Tipo de prenda</string>
 
     <string name="uploadPrenda">Crear prenda</string>
+    <string name="notPrendasAviable">No tiene prendas disponibles en el guardarropa seleccionado</string>
 </resources>

@@ -33,8 +33,8 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer> {
         JsonArray array = arrayObject.getAsJsonArray("prendas");
         for (JsonElement item : array) {
             Prenda prenda = gson.fromJson(item, Prenda.class);
-            prendas.add(prenda);
-//            prendas.add(context.deserialize(item, valueType));
+            if(prenda != null)
+                prendas.add(prenda);
         }
         return new PrendasContainer(prendas);
     }

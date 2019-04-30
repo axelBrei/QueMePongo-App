@@ -2,6 +2,7 @@ package dds.frba.utn.quemepongo.View.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Observable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -15,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,15 +25,25 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
+import dds.frba.utn.quemepongo.Model.Cliente;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Repository.ClienteRepository;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private ActionProcessButton registerButton;
     private TextInputEditText mail;
     private TextInputEditText password;
+    private TextInputEditText username;
+    private TextInputLayout usernameLayout;
     private TextInputLayout mailLayout;
     private TextInputLayout passwordLayout;
+
+    private ClienteRepository clienteRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         mail = findViewById(R.id.RegisterMail);
         password = findViewById(R.id.RegisterPassword);
+        username = findViewById(R.id.RegisterUsername);
+        usernameLayout = findViewById(R.id.RegisterUsernameLayout);
         registerButton = findViewById(R.id.RegisterButton);
         mailLayout = findViewById(R.id.RegisterMailLayout);
         passwordLayout = findViewById(R.id.RegisterPasswordLayout);
@@ -66,6 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        clienteRepository = RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class);
     }
 
     @Override
@@ -81,8 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                        if(task.isSuccessful()){
                            registerButton.setProgress(100);
-                           Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                           startActivity(intent);
+                           registerUser(task.getResult().getUser().getUid());
                        }else{
                            handleFirebaseError(task);
                        }
@@ -151,5 +166,21 @@ private void handleFirebaseError(Task<AuthResult> task){
             registerButton.setProgress(0);
         }, 1500);
         registerButton.clearFocus();
+    }
+
+    private void registerUser(String userId){
+        Call<Void> c = clienteRepository.nuevoCliente(new Cliente(userId, mail.getText().toString(), username.getText().toString()));
+        c.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+               startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                setButtonError();
+            }
+        });
     }
 }

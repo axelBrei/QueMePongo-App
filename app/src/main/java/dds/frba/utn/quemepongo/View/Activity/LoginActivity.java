@@ -22,12 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
-import java.util.List;
-
-import dds.frba.utn.quemepongo.Controllers.JsonController;
-import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
-import dds.frba.utn.quemepongo.Utils.PrendasJsonParser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,9 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-
-//        List colores = new JsonController(this).getColors();
-//        List tiposDeTela = new JsonController(this).getTiposDeTela();
 
         mail = findViewById(R.id.LoginUser);
         mailLayout = findViewById(R.id.LoginUserLayout);
@@ -79,14 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(mAuth.getCurrentUser() != null){
-            Intent inten = new Intent(this, MainActivity.class);
-            startActivity(inten);
-        }
-    }
+
 
     private View.OnClickListener onClickLogIn(){
         return (View v) -> {
@@ -98,10 +84,19 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(mailT, passT)
                         .addOnCompleteListener(( Task<AuthResult> task) -> {
                                     if(task.isSuccessful()){
-                                        logInButton.setProgress(100);
-                                        changeButtonsAccesibility(true);
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
+                                        SplashActivity.fectchGuardarropas(
+                                                param -> {
+                                            ((QueMePongo) getApplication()).setGuardarropas(param);
+                                            logInButton.setProgress(100);
+                                            changeButtonsAccesibility(true);
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        },
+                                                param -> {
+                                            logInButton.setProgress(0);
+                                            Toast.makeText(LoginActivity.this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+                                        }, null);
+
                                     }else{
                                         try{
                                             changeButtonsAccesibility(true);

@@ -9,16 +9,18 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
 import dds.frba.utn.quemepongo.Controllers.JsonController;
+import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.PRIMARY_COLOR_TYPE;
@@ -40,7 +42,6 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_crear_prendas);
         super.onCreate(savedInstanceState);
 
         // BUSCO EN EL XML LOS COMPONENTES
@@ -56,43 +57,47 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         viewModel.setColores(controller.getColors());
         viewModel.setTiposDeTela(controller.getTiposDeTela());
 
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setTitle("Crear prenda");
-        }
-
         initUI();
 
     }
 
+    @Override
+    protected int getView() {
+        return R.layout.activity_crear_prendas;
+    }
+
     private void initUI(){
+        setToolbarSpinner(false);
         uploadButton.setOnClickListener( (v) -> {
             setProgressDialog(true);
             viewModel.setPrendaField(CrearPrendasViewModel.DESCRIPCION_PRENDA, descripcionEditText.getText().toString());
             HashMap<String, Object> request = new HashMap<>();
             request.put("prenda", viewModel.getPrenda());
-            request.put("username", "elnuevo");
-            request.put("idGuardarropa", "0");
-            Call<Object> c = viewModel.getPrendasRepository().anadirPrenda(request);
-            c.enqueue(new Callback<Object>() {
+            request.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            request.put("idGuardarropa", ( (QueMePongo)viewModel.getApplication()).getGuardarropaActual().getValue().getId());
+            Call<Void> c = viewModel.getPrendasRepository().anadirPrenda(request);
+            c.enqueue(new CustomRetrofitCallback<Void>() {
                 @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    Toast.makeText(_activity, "Succes", Toast.LENGTH_SHORT).show();
-                    // TODO: accion cuando se agrega staisfactoriamente la prenda
+                public void onCustomResponse(Call<Void> call, Response<Void> response) {
+                    setProgressDialog(false);
+                    onBackPressed();
+                }
+
+                @Override
+                public void onCustomFailure(Call<Void> call, Error error) {
+                    Toast.makeText(_activity, error.getMessage(), Toast.LENGTH_SHORT).show();
                     setProgressDialog(false);
                 }
 
                 @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-                    Toast.makeText(_activity, "Error", Toast.LENGTH_SHORT).show();
+                public void onHttpRequestFail(Call<Void> call, Throwable t) {
+                    Toast.makeText(_activity, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show();
                     setProgressDialog(false);
                 }
             });
-
         });
 
         initSpinners();
-        // METODO QUE MUESTRA EL BACK BUTTON
         enableBackButton();
     }
     

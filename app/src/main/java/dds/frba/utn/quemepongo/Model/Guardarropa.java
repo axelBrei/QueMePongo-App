@@ -6,7 +6,7 @@ import java.util.List;
 public class Guardarropa {
     private String descripcion;
     private int id;
-    private List<Prenda> prendas ;
+    private List<Prenda> prendas;
 
     public void setDescripcion(String unaDescripcion){
         descripcion = unaDescripcion;
@@ -15,6 +15,11 @@ public class Guardarropa {
 
     public Guardarropa() {
         this.prendas = new ArrayList<>();
+    }
+
+    public Guardarropa(int id, String descripcion){
+        this.id = id;
+        this.descripcion = descripcion;
     }
 
     public List<Prenda> getPrendas() {
@@ -38,5 +43,17 @@ public class Guardarropa {
         //ALGORITMO PARA GENERAR ATUENDO;
         Atuendo atuendo = new Atuendo();
         return atuendo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

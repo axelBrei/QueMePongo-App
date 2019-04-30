@@ -2,35 +2,51 @@ package dds.frba.utn.quemepongo.View;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dds.frba.utn.quemepongo.Model.Guardarropa;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
-import dds.frba.utn.quemepongo.View.Fragments.ProgressFragment;
 
 public abstract class QueMePongoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     protected QueMePongoActivity _activity = this;
     protected View currentView;
-    private ProgressFragment progressFragment;
+    private QueMePongo application;
+    private ProgressBar progressBar;
+
+    // MANDATORY METHODS
+    protected abstract int getView();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentView = ((ViewGroup) _activity.findViewById(android.R.id.content)).getChildAt(0);
+        setContentView(getView());
+        application = ( (QueMePongo) getApplication());
 
-        toolbar = currentView.findViewById(R.id.toolbar);
+        application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
+
+        toolbar = findViewById(R.id.toolbar);
+        progressBar = findViewById(R.id.toolbarProgres);
         if(toolbar != null){
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        progressFragment = new ProgressFragment();
+
+        initSpinner();
     }
 
     public void enableBackButton(){
@@ -39,6 +55,26 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
+
+    private void initSpinner(){
+        List<Guardarropa> guardarropas = ( (QueMePongo) getApplication()).getGuardarropas();
+        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
+        List<String> descripciones = new ArrayList<>();
+        if(guardarropas == null || guardarropas.size() == 0) return;
+        for (Guardarropa g :guardarropas) {
+            descripciones.add(g.getDescripcion());
+        }
+        spinner.setItems(descripciones);
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                application.setGuardarropaActual( guardarropas.get(position));
+            }
+        });
+        application.setGuardarropaActual(guardarropas.get(0));
+        spinner.setSelectedIndex(0);
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -68,20 +104,19 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
     }
 
     protected void setProgressDialog(Boolean show){
-        if(show)
-            showDialog();
+        progressBar.setIndeterminate(show);
+        if(progressBar != null && show)
+            progressBar.setVisibility(View.VISIBLE);
         else
-            hideDialog();
+            progressBar.setVisibility(View.INVISIBLE);
     }
 
-    private void showDialog(){
-        FragmentTransaction transaction = _activity.getSupportFragmentManager().beginTransaction();
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.add(android.R.id.content,progressFragment,"FRAGMENT_LOADER").addToBackStack(null).commit();
-    }
-    private void hideDialog(){
-        progressFragment.dismiss();
+    protected void setToolbarSpinner(Boolean showToolbar){
+        findViewById(R.id.toolbarSpinner).setVisibility( showToolbar ? View.VISIBLE : View.GONE);
     }
 
+    protected void setSpinnerItem(int index){
+
+    }
 
 }
