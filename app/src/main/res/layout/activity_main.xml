@@ -18,38 +18,7 @@
        android:layout_height="match_parent"
        android:id="@+id/MainScreenContainer"
        >
-       <android.support.v7.widget.RecyclerView
-           android:id="@+id/MainScreenRecyclerView"
 
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           >
-
-       </android.support.v7.widget.RecyclerView>
-
-       <TextView
-           android:id="@+id/MainActivityTienePrendas"
-
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:textAlignment="center"
-           android:textSize="20sp"
-           android:layout_margin="15dp"
-           android:visibility="invisible"
-           android:text="@string/notPrendasAviable"
-           app:layout_constraintTop_toTopOf="@id/MainScreenRecyclerView"
-           />
-
-       <android.support.design.widget.FloatingActionButton
-           android:id="@+id/MainScreenFloatinActionButton"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="end|bottom"
-           android:src="@drawable/ic_add_black"
-           android:layout_margin="16dp"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintRight_toRightOf="parent"
-           />
    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

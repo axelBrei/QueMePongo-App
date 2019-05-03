@@ -3,9 +3,9 @@ package dds.frba.utn.quemepongo.Model.TiposPrenda;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.Model.TipoDeTela;
 
-public class PrendaInferior extends Prenda {
+public class Superior extends Prenda {
 
 
-    public PrendaInferior() {
+    public Superior() {
     }
 }

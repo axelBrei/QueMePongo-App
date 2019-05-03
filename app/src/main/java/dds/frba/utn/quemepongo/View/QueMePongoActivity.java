@@ -1,5 +1,6 @@
 package dds.frba.utn.quemepongo.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.View.Activity.LoginActivity;
 
 public abstract class QueMePongoActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -96,7 +99,10 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.MainMenuLogout:{
-                Toast.makeText(_activity, "", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(_activity, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             }
         }

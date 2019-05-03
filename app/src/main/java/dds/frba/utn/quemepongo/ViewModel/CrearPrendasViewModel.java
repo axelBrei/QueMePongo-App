@@ -56,7 +56,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     }
 
     public List<String> getPartesQueOcupa() {
-        return Arrays.asList("PrendaSuperior", "PrendaInferior", "Accesorios", "Calzado");
+        return Arrays.asList("Superior", "Inferior", "Accesorios", "Calzado");
     }
 
     public HashMap<String, Object> getPrenda() {
