@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import dds.frba.utn.quemepongo.Controllers.JsonController;
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Model.WebServices.Response.Prendas.AddPrendaResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
@@ -75,22 +76,24 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
             request.put("prenda", viewModel.getPrenda());
             request.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
             request.put("idGuardarropa", ( (QueMePongo)viewModel.getApplication()).getGuardarropaActual().getValue().getId());
-            Call<Void> c = viewModel.getPrendasRepository().anadirPrenda(request);
-            c.enqueue(new CustomRetrofitCallback<Void>() {
+            Call<HashMap<Object, Object>> c = viewModel.getPrendasRepository().anadirPrenda(request);
+            c.enqueue(new CustomRetrofitCallback<HashMap<Object, Object>>() {
                 @Override
-                public void onCustomResponse(Call<Void> call, Response<Void> response) {
+                public void onCustomResponse(Call<HashMap<Object, Object>> call, Response<HashMap<Object, Object>> response) {
                     setProgressDialog(false);
+                    Integer prendaId = Float.floatToIntBits(Float.parseFloat(response.body().get("idPrenda").toString()));
+                    viewModel.getApplication().addPrendaToGuardarropa(viewModel.getPrendaGenerada(prendaId));
                     onBackPressed();
                 }
 
                 @Override
-                public void onCustomFailure(Call<Void> call, Error error) {
+                public void onCustomFailure(Call<HashMap<Object, Object>> call, Error error) {
                     Toast.makeText(_activity, error.getMessage(), Toast.LENGTH_SHORT).show();
                     setProgressDialog(false);
                 }
 
                 @Override
-                public void onHttpRequestFail(Call<Void> call, Throwable t) {
+                public void onHttpRequestFail(Call<HashMap<Object, Object>> call, Throwable t) {
                     Toast.makeText(_activity, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show();
                     setProgressDialog(false);
                 }

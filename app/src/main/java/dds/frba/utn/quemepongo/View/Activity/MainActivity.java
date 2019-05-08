@@ -65,7 +65,7 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
 
     @Override
     public void onLoading(Boolean isLoading) {
-
+        setProgressDialog(isLoading);
     }
 
     @Override

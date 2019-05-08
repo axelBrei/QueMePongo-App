@@ -1,15 +1,18 @@
 package dds.frba.utn.quemepongo.View;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
@@ -19,6 +22,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
@@ -61,21 +65,30 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
 
     private void initSpinner(){
         List<Guardarropa> guardarropas = ( (QueMePongo) getApplication()).getGuardarropas();
-        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
+//        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
+        AppCompatSpinner spinner = findViewById(R.id.toolbarSpinner);
         List<String> descripciones = new ArrayList<>();
         if(guardarropas == null || guardarropas.size() == 0) return;
         for (Guardarropa g :guardarropas) {
             descripciones.add(g.getDescripcion());
         }
-        spinner.setItems(descripciones);
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+        spinner.setPrompt("Guardarropas");
+        SpinnerArrayAdapter<Guardarropa> adapter =
+                new SpinnerArrayAdapter<Guardarropa>(_activity, android.R.layout.simple_spinner_item);
+        adapter.addAll(guardarropas);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 application.setGuardarropaActual( guardarropas.get(position));
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
-        application.setGuardarropaActual(guardarropas.get(0));
-        spinner.setSelectedIndex(0);
     }
 
 

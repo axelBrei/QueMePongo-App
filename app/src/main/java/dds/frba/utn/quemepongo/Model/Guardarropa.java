@@ -1,5 +1,7 @@
 package dds.frba.utn.quemepongo.Model;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +57,11 @@ public class Guardarropa {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getDescripcion();
     }
 }

@@ -30,6 +30,7 @@ import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.SwipeToDeleteHelper;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.Activity.CrearPrendasActivity;
 import dds.frba.utn.quemepongo.ViewModel.PrendasViewModel;
 import retrofit2.Call;
@@ -82,6 +83,7 @@ public class PrendasFragment extends Fragment {
                 guardarropa -> {
                     eventsInterface.setSpinnerItem(prendasViewModel.getApplication().getGuardarropas().indexOf(guardarropa));
                     prendasViewModel.setPrendas(guardarropa.getPrendas());
+                    adapter.setIdGuardarropa(String.valueOf(guardarropa.getId()));
                 }
         );
         prendasViewModel.getPrendas().observe(
@@ -132,22 +134,14 @@ public class PrendasFragment extends Fragment {
             public void adapterRemoveItem(int index) {
                 eventsInterface.onLoading(true);
                 // TODO: handle errors
-                adapter.removeItem(index, new CustomRetrofitCallback<Object>() {
-                    @Override
-                    public void onCustomResponse(Call<Object> call, Response<Object> response) {
-                        eventsInterface.onLoading(false);
-                    }
-
-                    @Override
-                    public void onCustomFailure(Call<Object> call, Error error) {
-                        eventsInterface.onLoading(false);
-                    }
-
-                    @Override
-                    public void onHttpRequestFail(Call<Object> call, Throwable t) {
-                        eventsInterface.onLoading(false);
-                    }
-                });
+                adapter.removeItem(index,
+                        // on succes
+                        param -> eventsInterface.onLoading(false),
+                        // on fail
+                        error -> {
+                            eventsInterface.onLoading(false);
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        });
             }
         }).attachToRecyclerView(prendasRecyclerView);
     }

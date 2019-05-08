@@ -11,6 +11,7 @@ import java.util.List;
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
+import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.GetPrendasRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.ResponseObjects.GuardarropaResponseObject;
@@ -79,5 +80,11 @@ public class QueMePongo extends Application {
             guardarropasAux.add( new Guardarropa(g.getId(), g.getDesc()));
         }
         this.setGuardarropas(guardarropasAux);
+    }
+
+    public void addPrendaToGuardarropa(Prenda prenda){
+        Guardarropa g = guardarropaActual.getValue();
+        g.aniadirPrenda(prenda);
+        guardarropaActual.setValue(g);
     }
 }

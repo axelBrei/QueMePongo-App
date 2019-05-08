@@ -22,4 +22,8 @@
     <style name="SplashTheme" parent="AppThemeWithoutActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
+    
+    <style name="toolbarSpinner" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">@color/colorPrimarytext</item>
+    </style>
 </resources>

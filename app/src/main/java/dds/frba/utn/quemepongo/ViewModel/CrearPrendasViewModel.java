@@ -11,6 +11,7 @@ import java.util.List;
 
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
 
 public class CrearPrendasViewModel extends AndroidViewModel {
@@ -38,6 +39,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
                 .getRetrofit()
                 .create(PrendasRepository.class);
     }
+
 
     public List<String> getColores() {
         return colores;
@@ -75,7 +77,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         return prendasRepository;
     }
 
-    public Prenda getPrendaGenerada(){
+    public Prenda getPrendaGenerada(int id){
 //        Field field;
         Prenda p;
         try {
@@ -91,6 +93,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
                 }
                 f.set(p, val.toString());
             }
+            p.setId(id);
             return p;
 
         } catch (ClassNotFoundException e) {
@@ -103,9 +106,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         return null;
     }
 
-    @NonNull
-    @Override
-    public <T extends Application> T getApplication() {
-        return super.getApplication();
+    public QueMePongo getApplication(){
+        return (QueMePongo) super.getApplication();
     }
 }

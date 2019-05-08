@@ -16,18 +16,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Model.WebServices.PrendaRequestObject;
+import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.DeletePrendaRequest;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Repository.PrendasRepository;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class PrendasAdapter extends RecyclerView.Adapter {
 
     private List<Prenda> prendas;
+    private String idGuardarropa;
     private Activity activity;
+    private PrendasRepository repository = RetrofitInstanciator.getInstance().getRetrofit().create(PrendasRepository.class);
 
     public PrendasAdapter(Activity context) {
         prendas = new ArrayList<>();
@@ -69,24 +80,45 @@ public class PrendasAdapter extends RecyclerView.Adapter {
         this.notifyDataSetChanged();
     }
 
-    public void removeItem(int index, CustomRetrofitCallback<Object> callback){
+    public void removeItem(int index, OnCompleteListenner<Void> onCompleteListenner, OnCompleteListenner<String> onFailListener){
         Prenda prendaAux = prendas.get(index);
         prendas.remove(prendaAux);
         notifyItemRemoved(index);
-        showUndoSnackbar(prendaAux, index);
-        // TODO: usar callback para habdlear la respuesta del back
+        showUndoSnackbar(prendaAux, index, onCompleteListenner, onFailListener);
     }
 
-    private void showUndoSnackbar(Prenda prenda, int pos) {
+    private void showUndoSnackbar(Prenda prenda, int pos, OnCompleteListenner<Void> onCompleteListenner, OnCompleteListenner<String> onFailListener) {
         Snackbar snackbar = Snackbar.make(activity.findViewById(R.id.MainScreenContainer), "Deshacer", Snackbar.LENGTH_LONG);
         snackbar.setAction("Deshacer", v -> undoDelete(prenda, pos));
         snackbar.show();
         snackbar.addCallback(new Snackbar.Callback(){
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
-                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                    // TODO: pedido al back para que borre la prenda, en caso de que falle se vuelve a agregar a la lista con undo delete.
-                    Toast.makeText(activity, "DELETE ITSELF", Toast.LENGTH_SHORT).show();
+                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    repository.eliminarPrenda(
+                            new DeletePrendaRequest(
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                    getIdGuardarropa(),
+                                    new PrendaRequestObject(prenda)
+                            )
+                    ).enqueue(new CustomRetrofitCallback<Void>() {
+                        @Override
+                        public void onCustomResponse(Call<Void> call, Response<Void> response) {
+                            onCompleteListenner.onComplete(response.body());
+                        }
+
+                        @Override
+                        public void onCustomFailure(Call<Void> call, Error error) {
+                            undoDelete(prenda,pos);
+                            onFailListener.onComplete(error.getMessage());
+                        }
+
+                        @Override
+                        public void onHttpRequestFail(Call<Void> call, Throwable t) {
+                            undoDelete(prenda,pos);
+                            onFailListener.onComplete("Ha ocurrido un error inesperado");
+                        }
+                    });
                 }
             }
         });
@@ -95,6 +127,14 @@ public class PrendasAdapter extends RecyclerView.Adapter {
     private void undoDelete(Prenda prenda, int pos) {
         prendas.add(pos, prenda);
         notifyItemInserted(pos);
+    }
+
+    public String getIdGuardarropa() {
+        return idGuardarropa;
+    }
+
+    public void setIdGuardarropa(String idGuardarropa) {
+        this.idGuardarropa = idGuardarropa;
     }
 
     private class PrendasViewHolder extends RecyclerView.ViewHolder{
