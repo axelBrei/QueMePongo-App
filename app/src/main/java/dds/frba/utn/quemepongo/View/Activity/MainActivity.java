@@ -28,9 +28,6 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
         tabLayout = findViewById(R.id.MainScreenTabLayout);
         mainContainer = findViewById(R.id.MainScreenContainer);
 
-
-        // CREO SPINNER EN TOOLBAR
-        setToolbarSpinner(true);
         // INSTANCIO EL ADAPTER DEL VIEW PAGER
         ViewPagerAdapter adapter = new ViewPagerAdapter(
                 getSupportFragmentManager(),
@@ -70,9 +67,6 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
         setProgressDialog(isLoading);
     }
 
-    @Override
-    public void setSpinnerItem(int index) {
-    }
     // TAB LAYOUT METHODS
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
@@ -81,12 +75,13 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
+    @Override
+    public void setSpinnerItem(int index) {
+    }
 }

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public class ToolbarView extends Toolbar {
         this.view = activity.findViewById(R.id.toolbar);
         if(spinnerEnabled)
             initSpinner();
+
+        activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     public int getToolbarId(){
@@ -69,5 +73,9 @@ public class ToolbarView extends Toolbar {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    protected void setToolbarSpinner(Boolean showToolbar){
+        findViewById(R.id.toolbarSpinner).setVisibility( showToolbar ? View.VISIBLE : View.GONE);
     }
 }

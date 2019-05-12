@@ -32,13 +32,11 @@ import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 public abstract class QueMePongoActivity extends AppCompatActivity {
     private ToolbarView toolbar;
     protected QueMePongoActivity _activity = this;
-    protected View currentView;
     private QueMePongo application;
     private ProgressBar progressBar;
 
     // MANDATORY METHODS
     protected abstract int getView();
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +48,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
 
         toolbar = new ToolbarView(_activity, enableToolbarSpinner());
         progressBar = findViewById(R.id.toolbarProgres);
-        if(toolbar != null){
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
 
-//        initSpinner();
     }
 
     public void enableBackButton(){
@@ -103,13 +96,4 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
         else
             progressBar.setVisibility(View.INVISIBLE);
     }
-
-    protected void setToolbarSpinner(Boolean showToolbar){
-        findViewById(R.id.toolbarSpinner).setVisibility( showToolbar ? View.VISIBLE : View.GONE);
-    }
-
-    protected void setSpinnerItem(int index){
-
-    }
-
 }
