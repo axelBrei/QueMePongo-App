@@ -120,6 +120,7 @@ public class PrendasAdapter extends RecyclerView.Adapter {
                         }
                     });
                 }
+                onCompleteListenner.onComplete(null);
             }
         });
     }
