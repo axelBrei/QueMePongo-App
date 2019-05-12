@@ -26,6 +26,10 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer> {
 
     @Override
     public PrendasContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return new PrendasContainer(parsePrendas(json));
+    }
+
+    public static List<Prenda> parsePrendas(JsonElement json){
         Gson gson = new GsonBuilder().registerTypeAdapter(Prenda.class, new SinglePrendaDeserializer()).create();
 
         List<Prenda> prendas = new ArrayList<>();
@@ -36,30 +40,6 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer> {
             if(prenda != null)
                 prendas.add(prenda);
         }
-        return new PrendasContainer(prendas);
-    }
-
-
-
-    public static List<Prenda> getJsonPrendasJson(Context context){
-        try{
-            InputStream stream = context.getAssets().open("data.json");
-
-            int size = stream.available();
-            byte[] buffer = new byte[size];
-            stream.read(buffer);
-//            FileReader fileReader = new FileReader("dds/frba/utn/quemepongo/Constants/data.json");
-            Gson gson = new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create();
-            String json = new String(buffer);
-            PrendasContainer prendasContainer = gson.fromJson(json, PrendasContainer.class);
-            stream.close();
-            return prendasContainer.getPrendaslist();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return prendas;
     }
 }
