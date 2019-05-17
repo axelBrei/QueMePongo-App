@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 
 import dds.frba.utn.quemepongo.Model.Atuendo;
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendasContainer;
+import dds.frba.utn.quemepongo.Utils.JsonParser.SinglePrendaDeserializer;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -29,16 +30,15 @@ public class JsonConverterFactory extends Converter.Factory {
                         new GsonBuilder().registerTypeAdapter(PrendasContainer.class, new PrendasJsonParser()).create())
                     .responseBodyConverter(type, annotations,retrofit);
         }else if(type.equals(Atuendo.class)){
-            return GsonConverterFactory.create(
-                    new GsonBuilder().registerTypeAdapter(Atuendo.class, new JsonDeserializer<Atuendo>() {
-                        @Override
-                        public Atuendo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                            return new Atuendo(PrendasJsonParser.getPrendasDelJson(json));
-                        }
-                    }).create()
-            ).responseBodyConverter(type,annotations,retrofit);
+            return  GsonConverterFactory.create(
+                    new GsonBuilder().registerTypeAdapter(Atuendo.class, parserAtuendo()).create()
+            ).responseBodyConverter(type,annotations, retrofit);
         }
 
         return GsonConverterFactory.create().responseBodyConverter(type,annotations,retrofit);
+    }
+
+    private JsonDeserializer<Atuendo> parserAtuendo(){
+        return (json, typeOfT, context) -> new Atuendo(PrendasJsonParser.parsePrendas(json));
     }
 }

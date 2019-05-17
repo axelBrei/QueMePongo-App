@@ -1,6 +1,6 @@
 package dds.frba.utn.quemepongo.Model;
 
-public abstract class Prenda {
+public class Prenda {
 
     private Integer id = null;
     private String tipoDeTela;
@@ -10,6 +10,8 @@ public abstract class Prenda {
     // EG. Camprera Remera
     private String tipoDePrenda = "";
 
+    public Prenda() {
+    }
 
     public Integer getId() {
         return id;

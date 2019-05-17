@@ -27,11 +27,11 @@ import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.View.Activity.LoginActivity;
+import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 
 public abstract class QueMePongoActivity extends AppCompatActivity {
-    private Toolbar toolbar;
+    private ToolbarView toolbar;
     protected QueMePongoActivity _activity = this;
-    protected View currentView;
     private QueMePongo application;
     private ProgressBar progressBar;
 
@@ -46,30 +46,22 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
 
         application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = new ToolbarView(_activity, enableToolbarSpinner());
         progressBar = findViewById(R.id.toolbarProgres);
-        if(toolbar != null){
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
 
-        initSpinner();
     }
 
     public void enableBackButton(){
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        toolbar.enableBackButton();
     }
 
-    private void initSpinner(){
-        List<Guardarropa> guardarropas = ( (QueMePongo) getApplication()).getGuardarropas();
+    private void initSpinner() {
+        List<Guardarropa> guardarropas = ((QueMePongo) getApplication()).getGuardarropas();
 //        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
         AppCompatSpinner spinner = findViewById(R.id.toolbarSpinner);
         List<String> descripciones = new ArrayList<>();
-        if(guardarropas == null || guardarropas.size() == 0) return;
-        for (Guardarropa g :guardarropas) {
+        if (guardarropas == null || guardarropas.size() == 0) return;
+        for (Guardarropa g : guardarropas) {
             descripciones.add(g.getDescripcion());
         }
         spinner.setPrompt("Guardarropas");
@@ -81,7 +73,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                application.setGuardarropaActual( guardarropas.get(position));
+                application.setGuardarropaActual(guardarropas.get(position));
             }
 
             @Override
@@ -89,6 +81,9 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
 
             }
         });
+    }
+    protected boolean enableToolbarSpinner(){
+        return true;
     }
 
 
@@ -129,13 +124,4 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
         else
             progressBar.setVisibility(View.INVISIBLE);
     }
-
-    protected void setToolbarSpinner(Boolean showToolbar){
-        findViewById(R.id.toolbarSpinner).setVisibility( showToolbar ? View.VISIBLE : View.GONE);
-    }
-
-    protected void setSpinnerItem(int index){
-
-    }
-
 }

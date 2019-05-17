@@ -71,7 +71,6 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     }
 
     private void initUI(){
-        setToolbarSpinner(false);
         uploadButton.setOnClickListener( (v) -> {
             setProgressDialog(true);
             viewModel.setPrendaField(CrearPrendasViewModel.DESCRIPCION_PRENDA, descripcionEditText.getText().toString());

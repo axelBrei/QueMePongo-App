@@ -1,6 +1,5 @@
 package dds.frba.utn.quemepongo.View.Fragments;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,6 +24,7 @@ import dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo.GetAtuendosRequ
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.ViewModel.AtuendosViewModel;
+
 import retrofit2.Call;
 import retrofit2.Response;
 

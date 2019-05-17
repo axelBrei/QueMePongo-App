@@ -26,10 +26,11 @@ public class PrendasJsonParser implements JsonDeserializer<PrendasContainer> {
 
     @Override
     public PrendasContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return new PrendasContainer(getPrendasDelJson(json));
+
+        return new PrendasContainer(parsePrendas(json));
     }
 
-    public static List<Prenda> getPrendasDelJson(JsonElement json){
+    public static List<Prenda> parsePrendas(JsonElement json){
         Gson gson = new GsonBuilder().registerTypeAdapter(Prenda.class, new SinglePrendaDeserializer()).create();
 
         List<Prenda> prendas = new ArrayList<>();
