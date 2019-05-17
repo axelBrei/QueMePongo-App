@@ -35,7 +35,7 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
         ViewPagerAdapter adapter = new ViewPagerAdapter(
                 getSupportFragmentManager(),
                 PrendasFragment.newInstance(this),
-                new AtuendosFragment()
+                AtuendosFragment.newInstance()
         ) {
             @Override
             public String getItemTitle(int position) {

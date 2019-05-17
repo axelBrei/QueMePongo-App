@@ -1,5 +1,6 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,11 @@ public class SplashActivity extends AppCompatActivity {
             OnCompleteListenner<GetGuardarropasResponse> succedListener,
             @Nullable OnCompleteListenner<CustomRetrofitCallback.Error> errorListenner,
             @Nullable OnCompleteListenner<Throwable> failListenner){
-        repository.getGuardarropasDelCliente( new GetGuardarropaRequest( mAuth.getCurrentUser().getUid())).enqueue(new CustomRetrofitCallback<GetGuardarropasResponse>() {
+        repository
+                .getGuardarropasDelCliente(
+                        new GetGuardarropaRequest(
+                                mAuth.getCurrentUser().getUid())
+                ).enqueue(new CustomRetrofitCallback<GetGuardarropasResponse>() {
             @Override
             public void onCustomResponse(Call<GetGuardarropasResponse> call, Response<GetGuardarropasResponse> response) {
                 succedListener.onComplete(response.body());

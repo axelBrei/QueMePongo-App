@@ -37,7 +37,7 @@ dependencies {
 
     // MATERIAL DESIGN
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4' // LOADING_BUTTON
-//    implementation 'com.google.android.material:material:1.0.0' // MATERIAL DESIGN LIBRARY
+    implementation 'me.grantland:autofittextview:0.2.+'
 
     //ACTIVITY MODELATION
     implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -62,6 +62,11 @@ dependencies {
 
     //CRICULAR IMAGEVIEW
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    // EXPANDABLE LAYOUT
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+
+    //DIALOG
+    implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

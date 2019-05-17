@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/atuendoCellContainer"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginVertical="3dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/atuendoCellImage"
+
+            android:layout_width="40sp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_outfit"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_image_container"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
+
+        <TextView
+            android:id="@+id/atuendoCellTitulo"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/atuendoCellImage"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+
+            />
+        <ImageView
+            android:id="@+id/atuendoCellTituloImage"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_down"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+
+            />
+
+    </RelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/atuendoCellExpandableLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ael_duration="150"
+        app:ael_expanded="false"
+        >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/atuendosCellPrendasRecycler"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="60dp"
+                >
+
+
+
+            </android.support.v7.widget.RecyclerView>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+
+
+</LinearLayout>

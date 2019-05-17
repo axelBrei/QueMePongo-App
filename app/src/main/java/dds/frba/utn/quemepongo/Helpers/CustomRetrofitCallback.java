@@ -1,5 +1,7 @@
 package dds.frba.utn.quemepongo.Helpers;
 
+import android.app.Activity;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;

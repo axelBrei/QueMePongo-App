@@ -74,7 +74,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
         }
         spinner.setPrompt("Guardarropas");
         SpinnerArrayAdapter<Guardarropa> adapter =
-                new SpinnerArrayAdapter<Guardarropa>(_activity, android.R.layout.simple_spinner_item);
+                new SpinnerArrayAdapter<Guardarropa>(_activity, android.R.layout.simple_spinner_dropdown_item);
         adapter.addAll(guardarropas);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -4,8 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
@@ -13,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
+import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Controllers.JsonController;
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Prendas.AddPrendaResponse;

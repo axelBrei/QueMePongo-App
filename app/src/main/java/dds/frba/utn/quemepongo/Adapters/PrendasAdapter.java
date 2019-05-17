@@ -38,6 +38,7 @@ public class PrendasAdapter extends RecyclerView.Adapter {
     private List<Prenda> prendas;
     private String idGuardarropa;
     private Activity activity;
+    private int cellResource = R.layout.prenda_item_cell;
     private PrendasRepository repository = RetrofitInstanciator.getInstance().getRetrofit().create(PrendasRepository.class);
 
     public PrendasAdapter(Activity context) {
@@ -45,15 +46,26 @@ public class PrendasAdapter extends RecyclerView.Adapter {
         this.activity = context;
     }
 
-    public PrendasAdapter(List<Prenda> prendas, Activity context) {
+    public PrendasAdapter(Activity context, List<Prenda> prendas) {
         this.prendas = prendas;
         this.activity = context;
+    }
+
+    public PrendasAdapter(Activity activity, int cellResource){
+        this.activity = activity;
+        this.cellResource = cellResource;
+    }
+
+    public PrendasAdapter(Activity activity, int cellResource, List<Prenda> prendas){
+        this.activity = activity;
+        this.cellResource = cellResource;
+        this.prendas = prendas;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.prenda_item_cell,viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(cellResource,viewGroup, false);
         return new PrendasViewHolder(view);
     }
 
@@ -157,7 +169,12 @@ public class PrendasAdapter extends RecyclerView.Adapter {
 
         public void fillView(Prenda prenda, int index){
             description.setText(prenda.getDescripcion());
-            colorP.setText(prenda.getColorP());
+            String primaryColor = prenda.getColorP();
+            if(!prenda.getColorS().isEmpty()){
+                primaryColor += " /";
+            }
+
+            colorP.setText(primaryColor);
             colorS.setText(prenda.getColorS());
             comosition.setText(prenda.getTipoDeTela());
 
