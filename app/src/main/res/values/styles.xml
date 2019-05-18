@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -28,9 +28,13 @@
     </style>
 
     <style name="EditText" parent="AppTheme">
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlActivated">@color/colorAccentDark</item>
-        <item name="colorControlHighlight">@color/colorAccentLight</item>
+        <item name="colorControlNormal">@color/grayFontColor</item>
+        <item name="colorControlActivated">@color/colorAccentLight</item>
         <item name="android:textColorPrimary">@color/colorSecondaryText</item>
+        <item name="android:colorError" tools:ignore="NewApi">@color/error_color</item>
+        <item name="colorError">@color/error_color</item>
     </style>
+
+
+
 </resources>

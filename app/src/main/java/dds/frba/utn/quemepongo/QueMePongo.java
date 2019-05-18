@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class QueMePongo extends Application {
-    private List<Guardarropa> guardarropas;
+    private MutableLiveData<List<Guardarropa>> guardarropas = new MutableLiveData<>();
     private MutableLiveData<Guardarropa> guardarropaActual = new MutableLiveData<>();
     private MutableLiveData<List<Atuendo>> atuendosActuales = new MutableLiveData<>();
     private MutableLiveData<Map<String, List<Atuendo>>> atuendosMap = new MutableLiveData<>();
@@ -42,6 +42,7 @@ public class QueMePongo extends Application {
         guardarropaActual.setValue(new Guardarropa());
         atuendosActuales.setValue(new ArrayList<>());
         atuendosMap.setValue(new HashMap<>());
+        guardarropas.setValue(new ArrayList<>());
         prendasRepository = RetrofitInstanciator
                 .getInstance()
                 .getRetrofit()
@@ -81,6 +82,10 @@ public class QueMePongo extends Application {
     }
 
     public List<Guardarropa> getGuardarropas() {
+        return guardarropas.getValue();
+    }
+
+    public MutableLiveData<List<Guardarropa>> getGuardarropaObserver(){
         return guardarropas;
     }
 
@@ -89,7 +94,7 @@ public class QueMePongo extends Application {
     }
 
     public void setGuardarropas(List<Guardarropa> guardarropas) {
-        this.guardarropas = guardarropas;
+        this.guardarropas.setValue(guardarropas);
     }
 
     public void setGuardarropas(GetGuardarropasResponse guardarropasResponse){
@@ -102,6 +107,15 @@ public class QueMePongo extends Application {
         }
         this.setGuardarropas(guardarropasAux);
         atuendosMap.setValue(atuendosMapAux);
+    }
+
+    public void addGuardarropa(Guardarropa g){
+        List<Guardarropa> guardarropasAux = guardarropas.getValue();
+        Map<String, List<Atuendo>> atuendosAux = atuendosMap.getValue();
+        guardarropasAux.add(g);
+        guardarropas.postValue(guardarropasAux);
+        atuendosAux.put(String.valueOf(g.getId()), new ArrayList<>());
+        atuendosMap.postValue(atuendosAux);
     }
 
     public void addPrendaToGuardarropa(Prenda prenda){

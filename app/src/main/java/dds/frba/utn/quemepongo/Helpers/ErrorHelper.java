@@ -13,6 +13,10 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ErrorHelper {
 
@@ -44,5 +48,26 @@ public class ErrorHelper {
                         .build()
                         .show()
         );
+    }
+
+    public static <T> CustomRetrofitCallback<T>  showCallbackErrorIfNeed (QueMePongoActivity activity, OnCompleteListenner<Response<T>> listenner){
+        return new CustomRetrofitCallback<T>(){
+            @Override
+            public void onCustomResponse(Call<T> call, Response<T> response) {
+                listenner.onComplete(response);
+            }
+
+            @Override
+            public void onCustomFailure(Call<T> call, Error error) {
+                activity.setProgressDialog(false);
+                ShowSimpleError(activity, error.getMessage());
+            }
+
+            @Override
+            public void onHttpRequestFail(Call<T> call, Throwable t) {
+                activity.setProgressDialog(false);
+                showGenericError(activity);
+            }
+        };
     }
 }

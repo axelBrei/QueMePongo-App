@@ -8,17 +8,23 @@
     <string name="password">Contraseña</string>
     <string name="register"><u>Registrarme</u></string>
     <string name="error">Error!</string>
-
-
+    <string name="continuar">Continuar</string>
+    <string name="cerrarSesion">Cerrar Sesion</string>
     <string name="description">Descripcion</string>
     <string name="primaryColor">Colores</string>
-
     <string name="clotheComposition">Tipo de tela</string>
     <string name="clotheType">Tipo de prenda</string>
-
+    <string name="nombreDelGuardarropa">Nombre del guardarropa</string>
+    <string name="bienvenido">Bienvenido!</string>
+    <string name="crearGuardarropaIntro">Crea tu primer guardarropa para continuar</string>
     <string name="uploadPrenda">Crear prenda</string>
     <string name="notPrendasAviable">No tiene prendas disponibles en el guardarropa seleccionado</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- DRAWER TEXT -->
+    <string name="openDrawer">OPEN_DRAWER</string>
+    <string name="closeDrawer">CLOSE_DRAWER</string>
+    <string name="crearGuardarropa">Crear guardarropa</string>
 </resources>

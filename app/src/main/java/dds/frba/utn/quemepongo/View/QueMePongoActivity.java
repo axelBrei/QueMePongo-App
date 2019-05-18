@@ -56,30 +56,28 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
     }
 
     private void initSpinner() {
-        List<Guardarropa> guardarropas = ((QueMePongo) getApplication()).getGuardarropas();
-//        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
         AppCompatSpinner spinner = findViewById(R.id.toolbarSpinner);
-        List<String> descripciones = new ArrayList<>();
-        if (guardarropas == null || guardarropas.size() == 0) return;
-        for (Guardarropa g : guardarropas) {
-            descripciones.add(g.getDescripcion());
-        }
         spinner.setPrompt("Guardarropas");
         SpinnerArrayAdapter<Guardarropa> adapter =
                 new SpinnerArrayAdapter<Guardarropa>(_activity, android.R.layout.simple_spinner_dropdown_item);
-        adapter.addAll(guardarropas);
+
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                application.setGuardarropaActual(guardarropas.get(position));
+                application.setGuardarropaActual((Guardarropa) parent.getItemAtPosition(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });
+
+        ((QueMePongo)getApplication()).getGuardarropaObserver().observe(_activity, guardarropasList -> {
+            adapter.addAll(guardarropasList);
+            adapter.notifyDataSetChanged();
         });
     }
     protected boolean enableToolbarSpinner(){
@@ -94,30 +92,34 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(toolbar != null){
-            getMenuInflater().inflate(R.menu.main_menu, menu);
-        }
-        return super.onCreateOptionsMenu(menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        if(toolbar != null){
+//            getMenuInflater().inflate(R.menu.main_menu, menu);
+//        }
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        switch (id){
+//            case R.id.MainMenuLogout:{
+//
+//                return true;
+//            }
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    protected void logout(){
+        Intent intent = new Intent(_activity, LoginActivity.class);
+        startActivity(intent);
+        FirebaseAuth.getInstance().signOut();
+        finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.MainMenuLogout:{
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(_activity, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    protected void setProgressDialog(Boolean show){
+    public void setProgressDialog(Boolean show){
         progressBar.setIndeterminate(show);
         if(progressBar != null && show)
             progressBar.setVisibility(View.VISIBLE);

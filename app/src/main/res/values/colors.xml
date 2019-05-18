@@ -19,7 +19,6 @@
     <color name="cellBackgrouncColor">#E2E0E0</color>
     <color name="lightCellBlue">#45F89A63</color>
 
-    <color name="errorColor">#B00020</color>
     <color name="grayFontColor">#99000000</color>
     <color name="colorAccentIconBackground">#A1FFCB6D</color>
 </resources>

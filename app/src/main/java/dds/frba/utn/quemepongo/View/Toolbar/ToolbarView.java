@@ -21,6 +21,7 @@ public class ToolbarView extends Toolbar {
     private View view;
     private AppCompatActivity activity;
     private QueMePongo application;
+    private AppCompatSpinner spinner;
     private boolean spinnerEnabled;
 
     public ToolbarView(AppCompatActivity activity, boolean enableSpinner) {
@@ -29,8 +30,11 @@ public class ToolbarView extends Toolbar {
         this.activity = activity;
         this.spinnerEnabled = enableSpinner;
         this.view = activity.findViewById(R.id.toolbar);
+        spinner = view.findViewById(R.id.toolbarSpinner);
         if(spinnerEnabled)
             initSpinner();
+        else
+            spinner.setVisibility(GONE);
 
         activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -43,7 +47,6 @@ public class ToolbarView extends Toolbar {
     private void initSpinner(){
         List<Guardarropa> guardarropas = application.getGuardarropas();
 //        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
-        AppCompatSpinner spinner = view.findViewById(R.id.toolbarSpinner);
         List<String> descripciones = new ArrayList<>();
         if(guardarropas == null || guardarropas.size() == 0) return;
         for (Guardarropa g :guardarropas) {

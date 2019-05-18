@@ -39,8 +39,17 @@ public class SplashActivity extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null){
             SplashActivity.fectchGuardarropas(param -> {
+
                 ((QueMePongo) getApplication()).setGuardarropas(param);
+
                 Intent inten = new Intent(SplashActivity.this, MainActivity.class);
+
+                if(param.getGuardarropas().isEmpty()){
+                    inten = new Intent(SplashActivity.this, CrearGuardarropaActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
+                    inten.putExtras(bundle);
+                }
                 startActivity(inten);
             }, null, null);
         }else{
@@ -53,28 +62,31 @@ public class SplashActivity extends AppCompatActivity {
             OnCompleteListenner<GetGuardarropasResponse> succedListener,
             @Nullable OnCompleteListenner<CustomRetrofitCallback.Error> errorListenner,
             @Nullable OnCompleteListenner<Throwable> failListenner){
-        repository
-                .getGuardarropasDelCliente(
-                        new GetGuardarropaRequest(
-                                mAuth.getCurrentUser().getUid())
-                ).enqueue(new CustomRetrofitCallback<GetGuardarropasResponse>() {
-            @Override
-            public void onCustomResponse(Call<GetGuardarropasResponse> call, Response<GetGuardarropasResponse> response) {
-                succedListener.onComplete(response.body());
-            }
+        if(mAuth.getCurrentUser() != null){
+            repository
+                    .getGuardarropasDelCliente(
+                            new GetGuardarropaRequest(
+                                    mAuth.getCurrentUser().getUid())
+                    ).enqueue(new CustomRetrofitCallback<GetGuardarropasResponse>() {
+                @Override
+                public void onCustomResponse(Call<GetGuardarropasResponse> call, Response<GetGuardarropasResponse> response) {
+                    succedListener.onComplete(response.body());
+                }
 
-            @Override
-            public void onCustomFailure(Call<GetGuardarropasResponse> call, Error error) {
-                if(errorListenner != null)
-                    errorListenner.onComplete(error);
-            }
+                @Override
+                public void onCustomFailure(Call<GetGuardarropasResponse> call, Error error) {
+                    if(errorListenner != null)
+                        errorListenner.onComplete(error);
+                }
 
-            @Override
-            public void onHttpRequestFail(Call<GetGuardarropasResponse> call, Throwable t) {
-                if(failListenner != null)
-                    failListenner.onComplete(t);
-            }
-        });
+                @Override
+                public void onHttpRequestFail(Call<GetGuardarropasResponse> call, Throwable t) {
+                    if(failListenner != null)
+                        failListenner.onComplete(t);
+                }
+            });
+        }
+
     }
 
 }

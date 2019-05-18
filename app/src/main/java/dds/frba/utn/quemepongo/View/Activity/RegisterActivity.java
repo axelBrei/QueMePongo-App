@@ -19,21 +19,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
+import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Cliente;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.ClienteRepository;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends QueMePongoActivity {
 
     private ActionProcessButton registerButton;
     private TextInputEditText mail;
@@ -48,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if(toolbar != null){
@@ -85,6 +90,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected int getView() {
+        return R.layout.activity_register;
+    }
+
+    @Override
+    protected boolean enableToolbarSpinner() {
+        return false;
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -96,8 +111,22 @@ public class RegisterActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(mail.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(task -> {
                        if(task.isSuccessful()){
-                           registerButton.setProgress(100);
-                           registerUser(task.getResult().getUser().getUid());
+                           FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                           UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                   .setDisplayName(username.getText().toString())
+                                   .build();
+                           user.updateProfile(profileChangeRequest)
+                                   .addOnCompleteListener(task1 -> {
+                                       if(task1.isSuccessful()){
+                                           registerButton.setProgress(100);
+                                           registerUser(task.getResult().getUser().getUid());
+                                       }
+                                   })
+                                   .addOnFailureListener(e -> ErrorHelper.showGenericError(_activity))
+                                   .addOnCanceledListener(() -> {
+                                       ErrorHelper.ShowSimpleError(_activity, "Ha ocurrido un error y se ha cancelado la peticion, por favor intente de nuevo");
+                                   });
+
                        }else{
                            handleFirebaseError(task);
                        }
