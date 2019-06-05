@@ -14,6 +14,7 @@ import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
+import java.util.List;
 
 import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Controllers.JsonController;
@@ -23,6 +24,7 @@ import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
+import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -31,6 +33,7 @@ import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.PRIMARY_CO
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.SECONDARY_COLOR_TYPE;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.TIPO_DE_TELA;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.TIPO_PARTE_QUE_OCUPA;
+import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.TIPO_PRENDA_SUPERIOR;
 
 public class CrearPrendasActivity extends QueMePongoActivity implements CustomOnItemSelectedListener.OnItemSelectedCustom{
     // MODEL
@@ -40,6 +43,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     private SmartMaterialSpinner secondaryColorSpinner;
     private SmartMaterialSpinner telasSpinner;
     private SmartMaterialSpinner tipoDePrendaSpinner;
+    private SmartMaterialSpinner tipoDePrendaSuperiorSpinner;
     private TextInputEditText descripcionEditText;
     private MaterialButton uploadButton;
     
@@ -53,6 +57,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         primaryColorSpinner = findViewById(R.id.CrearPrendaPrimaryoloresSpiner);
         secondaryColorSpinner = findViewById(R.id.CrearPrendaSecondaryColoresSpiner);
         tipoDePrendaSpinner = findViewById(R.id.CrearPrendaParteQueOcupaSpinner);
+        tipoDePrendaSuperiorSpinner = findViewById(R.id.CrearPrendaTipoSuperior);
         descripcionEditText = findViewById(R.id.CrearPrendaDescripcion);
         uploadButton = findViewById(R.id.CrearPrendaUploadButton);
 
@@ -62,13 +67,16 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         viewModel.setTiposDeTela(controller.getTiposDeTela());
 
         initUI();
-
+        ToolbarView.setToolbarTitle(_activity, "Crear prenda");
     }
 
     @Override
     protected int getView() {
         return R.layout.activity_crear_prendas;
     }
+
+    @Override
+    protected boolean enableToolbarSpinner() { return false; }
 
     private void initUI(){
         uploadButton.setOnClickListener( (v) -> {
@@ -112,6 +120,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         secondaryColorSpinner.setItems(viewModel.getColores());
         tipoDePrendaSpinner.setItems(viewModel.getPartesQueOcupa());
         telasSpinner.setItems(viewModel.getTiposDeTela());
+        tipoDePrendaSuperiorSpinner.setItems(viewModel.getTiposSuperiores());
         setSpinnerClickListeners();
     }
 
@@ -120,11 +129,17 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         secondaryColorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this,SECONDARY_COLOR_TYPE));
         telasSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_DE_TELA));
         tipoDePrendaSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PARTE_QUE_OCUPA));
+        tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PRENDA_SUPERIOR));
     }
 
     @Override
     public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {
         String val = parent.getItemAtPosition(position).toString();
+        if(spinnerType.equals(TIPO_PARTE_QUE_OCUPA)){
+            Boolean esSuperior = val.equals("Superior");
+            tipoDePrendaSuperiorSpinner.setVisibility(esSuperior ? View.VISIBLE : View.INVISIBLE);
+            if(!esSuperior) tipoDePrendaSuperiorSpinner.setSelection(0);
+        }
         viewModel.setPrendaField(spinnerType, val);
     }
 }

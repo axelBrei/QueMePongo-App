@@ -37,7 +37,7 @@ public class RetrofitInstanciator {
 
     private RetrofitInstanciator() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.16:8080")
+                .baseUrl("http://10.5.57.171:8080")
 //                .baseUrl("http://192.168.0.9:8080")
                 .addConverterFactory(new JsonConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())

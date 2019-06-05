@@ -16,6 +16,7 @@ import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 
 public class ToolbarView extends Toolbar {
     private View view;
@@ -38,6 +39,11 @@ public class ToolbarView extends Toolbar {
 
         activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    public static void setToolbarTitle(QueMePongoActivity activity, String title){
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setTitle(title);
     }
 
     public int getToolbarId(){

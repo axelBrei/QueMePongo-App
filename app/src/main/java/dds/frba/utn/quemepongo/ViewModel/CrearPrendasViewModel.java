@@ -2,15 +2,19 @@ package dds.frba.utn.quemepongo.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import dds.frba.utn.quemepongo.Helpers.PrendaGenerator;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Model.TiposPrenda.Superior;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
 
@@ -21,6 +25,10 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     public static final String TIPO_DE_TELA = "tipoDeTela";
     public static final String TIPO_PARTE_QUE_OCUPA = "parteQueOcupa";
     public static final String DESCRIPCION_PRENDA = "descripcion";
+    public static final String TIPO_PRENDA_SUPERIOR = "TipoSuperior";
+    public static final String PRENDA_SUPERIOR_REMERA = "Remera";
+    public static final String PRENDA_SUPERIOR_BUZO = "Buzo";
+    public static final String PRENDA_SUPERIOR_CAMPERA = "Campera";
     public static final String ID_PRENDA = "id";
 
     // STATIC DATA
@@ -61,6 +69,10 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         return Arrays.asList("Superior", "Inferior", "Accesorios", "Calzado");
     }
 
+    public List<String> getTiposSuperiores() {
+        return Arrays.asList(PRENDA_SUPERIOR_REMERA, PRENDA_SUPERIOR_BUZO, PRENDA_SUPERIOR_CAMPERA);
+    }
+
     public HashMap<String, Object> getPrenda() {
         return prenda;
     }
@@ -78,32 +90,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     }
 
     public Prenda getPrendaGenerada(int id){
-//        Field field;
-        Prenda p;
-        try {
-            //CREO EL TIPO DE PRENDA EN BASE AL NOMBRE
-            Class<?> prendaClass = Class.forName("dds.frba.utn.quemepongo.Model.TiposPrenda." + prenda.get(TIPO_PARTE_QUE_OCUPA).toString());
-            p = (Prenda) prendaClass.newInstance();
-            // ASIGNO ATRIBUTOS A LA PRENDA
-            for (Field f : Prenda.class.getDeclaredFields()) {
-                Object val = prenda.get(f.getName());
-                if(val == null) continue;
-                if(!f.isAccessible()){
-                    f.setAccessible(true);
-                }
-                f.set(p, val.toString());
-            }
-            p.setId(id);
-            return p;
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return PrendaGenerator.generarPrenda(prenda, id);
     }
 
     public QueMePongo getApplication(){
