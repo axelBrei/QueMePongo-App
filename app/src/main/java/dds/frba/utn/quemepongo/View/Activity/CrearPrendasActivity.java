@@ -18,11 +18,12 @@ import java.util.List;
 
 import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Controllers.JsonController;
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Prendas.AddPrendaResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
@@ -87,27 +88,17 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
             request.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
             request.put("idGuardarropa", ( (QueMePongo)viewModel.getApplication()).getGuardarropaActual().getValue().getId());
             Call<HashMap<Object, Object>> c = viewModel.getPrendasRepository().anadirPrenda(request);
-            c.enqueue(new CustomRetrofitCallback<HashMap<Object, Object>>() {
-                @Override
-                public void onCustomResponse(Call<HashMap<Object, Object>> call, Response<HashMap<Object, Object>> response) {
-                    setProgressDialog(false);
-                    Integer prendaId = Float.floatToIntBits(Float.parseFloat(response.body().get("idPrenda").toString()));
-                    viewModel.getApplication().addPrendaToGuardarropa(viewModel.getPrendaGenerada(prendaId));
-                    onBackPressed();
-                }
-
-                @Override
-                public void onCustomFailure(Call<HashMap<Object, Object>> call, Error error) {
-                    Toast.makeText(_activity, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    setProgressDialog(false);
-                }
-
-                @Override
-                public void onHttpRequestFail(Call<HashMap<Object, Object>> call, Throwable t) {
-                    Toast.makeText(_activity, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show();
-                    setProgressDialog(false);
-                }
-            });
+            c.enqueue(new ErrorHelper().showCallbackErrorIfNeed(_activity,
+                    new OnCompleteListenner<HashMap<Object, Object>>() {
+                        @Override
+                        public void onComplete(HashMap<Object, Object> param) {
+                            setProgressDialog(false);
+                            Integer prendaId = Float.floatToIntBits(Float.parseFloat(param.get("idPrenda").toString()));
+                            viewModel.getApplication().addPrendaToGuardarropa(viewModel.getPrendaGenerada(prendaId));
+                            onBackPressed();
+                        }
+                    }
+            ));
         });
 
         initSpinners();
@@ -129,7 +120,12 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         secondaryColorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this,SECONDARY_COLOR_TYPE));
         telasSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_DE_TELA));
         tipoDePrendaSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PARTE_QUE_OCUPA));
-        tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PRENDA_SUPERIOR));
+        tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(new CustomOnItemSelectedListener.OnItemSelectedCustom() {
+            @Override
+            public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {
+                viewModel.setPrendaField(spinnerType, position);
+            }
+        }, TIPO_PRENDA_SUPERIOR));
     }
 
     @Override

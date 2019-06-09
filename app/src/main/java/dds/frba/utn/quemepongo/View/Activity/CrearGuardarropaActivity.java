@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
@@ -51,8 +50,19 @@ public class CrearGuardarropaActivity extends QueMePongoActivity {
             if (nombreGuardarropa.isEmpty()){
                 nombreLayout.setError("Debe ingresar el nombre para continuar");
             }else {
+                setProgressDialog(true);
                 repository.crearGuardarropa(FirebaseAuth.getInstance().getCurrentUser().getUid(), nombreGuardarropa)
-                        .enqueue(getRestrofitCallback());
+                        .enqueue(new ErrorHelper().showCallbackErrorIfNeed(_activity,
+                                new OnCompleteListenner<Integer>() {
+                                    @Override
+                                    public void onComplete(Integer param) {
+                                        Guardarropa guardarropa = new Guardarropa(param, nombre.getText().toString());
+                                        application.addGuardarropa(guardarropa);
+                                        Intent intent = new Intent(_activity, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                        ));
             }
         });
         nombre.addTextChangedListener(new TextWatcher() {
@@ -88,17 +98,4 @@ public class CrearGuardarropaActivity extends QueMePongoActivity {
         return false;
     }
 
-    private CustomRetrofitCallback<Integer> getRestrofitCallback(){
-        setProgressDialog(true);
-        return ErrorHelper.showCallbackErrorIfNeed(_activity, new OnCompleteListenner<Response<Integer>>() {
-            @Override
-            public void onComplete(Response<Integer> param) {
-                Guardarropa guardarropa = new Guardarropa(param.body(), nombre.getText().toString());
-                application.addGuardarropa(guardarropa);
-                Intent intent = new Intent(_activity, MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-    }
 }

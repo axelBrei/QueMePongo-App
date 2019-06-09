@@ -1,6 +1,7 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,14 +13,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
+import dds.frba.utn.quemepongo.Model.Schedulable;
+import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Guardarropa.GetGuardarropaRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -30,17 +34,19 @@ public class SplashActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAuth = FirebaseAuth.getInstance();
         repository = RetrofitInstanciator.getInstance().getRetrofit().create(GuardarropasRepository.class);
 
         if(mAuth.getCurrentUser() != null){
-            SplashActivity.fectchGuardarropas(param -> {
+            QueMePongo application = ((QueMePongo) getApplication());
+            SplashActivity.fectchGuardarropas(application,param -> {
 
-                ((QueMePongo) getApplication()).setGuardarropas(param);
+                application.setGuardarropas(param);
 
                 Intent inten = new Intent(SplashActivity.this, MainActivity.class);
 
@@ -51,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                     inten.putExtras(bundle);
                 }
                 startActivity(inten);
-            }, null, null);
+            }, null);
         }else{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -59,32 +65,28 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public static void fectchGuardarropas(
+            Schedulable activity,
             OnCompleteListenner<GetGuardarropasResponse> succedListener,
-            @Nullable OnCompleteListenner<CustomRetrofitCallback.Error> errorListenner,
-            @Nullable OnCompleteListenner<Throwable> failListenner){
+            @Nullable OnCompleteListenner<Error> errorListenner){
         if(mAuth.getCurrentUser() != null){
             repository
-                    .getGuardarropasDelCliente(
+            .getGuardarropasDelCliente(
                             new GetGuardarropaRequest(
                                     mAuth.getCurrentUser().getUid())
-                    ).enqueue(new CustomRetrofitCallback<GetGuardarropasResponse>() {
-                @Override
-                public void onCustomResponse(Call<GetGuardarropasResponse> call, Response<GetGuardarropasResponse> response) {
-                    succedListener.onComplete(response.body());
-                }
-
-                @Override
-                public void onCustomFailure(Call<GetGuardarropasResponse> call, Error error) {
-                    if(errorListenner != null)
-                        errorListenner.onComplete(error);
-                }
-
-                @Override
-                public void onHttpRequestFail(Call<GetGuardarropasResponse> call, Throwable t) {
-                    if(failListenner != null)
-                        failListenner.onComplete(t);
-                }
-            });
+                    )
+            .enqueue(new ErrorHelper().showCallbackErrorIfNeed(activity,
+                    new OnCompleteListenner<GetGuardarropasResponse>() {
+                        @Override
+                        public void onComplete(GetGuardarropasResponse param) {
+                            succedListener.onComplete(param);
+                        }
+                    },
+                    new OnCompleteListenner<Error>() {
+                        @Override
+                        public void onComplete(Error param) {
+                            errorListenner.onComplete(param);
+                        }
+                    }));
         }
 
     }

@@ -21,11 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.Model.WebServices.PrendaRequestObject;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.DeletePrendaRequest;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
@@ -113,24 +115,21 @@ public class PrendasAdapter extends RecyclerView.Adapter {
                                     getIdGuardarropa(),
                                     new PrendaRequestObject(prenda)
                             )
-                    ).enqueue(new CustomRetrofitCallback<Void>() {
-                        @Override
-                        public void onCustomResponse(Call<Void> call, Response<Void> response) {
-                            onCompleteListenner.onComplete(response.body());
-                        }
-
-                        @Override
-                        public void onCustomFailure(Call<Void> call, Error error) {
-                            undoDelete(prenda,pos);
-                            onFailListener.onComplete(error.getMessage());
-                        }
-
-                        @Override
-                        public void onHttpRequestFail(Call<Void> call, Throwable t) {
-                            undoDelete(prenda,pos);
-                            onFailListener.onComplete("Ha ocurrido un error inesperado");
-                        }
-                    });
+                    ).enqueue( new ErrorHelper().showCallbackErrorIfNeed((QueMePongo) activity.getApplication(),
+                            new OnCompleteListenner<Void>() {
+                                @Override
+                                public void onComplete(Void param) {
+                                    onCompleteListenner.onComplete(param);
+                                }
+                            },
+                            new OnCompleteListenner<Error>() {
+                                @Override
+                                public void onComplete(Error param) {
+                                    undoDelete(prenda,pos);
+                                    onFailListener.onComplete(param.getMessage());
+                                }
+                            }
+                    ));
                 }
                 onCompleteListenner.onComplete(null);
             }

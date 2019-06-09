@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dds.frba.utn.quemepongo">
 
+    <uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
+
     <application
         android:name=".QueMePongo"
         android:allowBackup="true"
@@ -12,8 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".View.Activity.CrearGuardarropaActivity"></activity>
-        <!-- SPLASH SCREEN -->
+        <receiver
+            android:name=".CalendarReciver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
+                <data android:scheme="content"/>
+                <data android:host="com.android.calendar"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".View.Activity.CrearGuardarropaActivity" /> <!-- SPLASH SCREEN -->
         <activity
             android:name=".View.Activity.SplashActivity"
             android:theme="@style/SplashTheme">

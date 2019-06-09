@@ -26,7 +26,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Adapters.PrendasAdapter;
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.SwipeToDeleteHelper;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.R;

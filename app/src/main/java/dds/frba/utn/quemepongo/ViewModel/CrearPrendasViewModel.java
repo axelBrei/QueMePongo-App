@@ -81,7 +81,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
         this.prenda = prenda;
     }
 
-    public void setPrendaField(String field, String value) {
+    public void setPrendaField(String field, Object value) {
         prenda.put(field, value);
     }
 

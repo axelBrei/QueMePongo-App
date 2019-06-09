@@ -1,8 +1,10 @@
 package dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.ResponseObjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GuardarropaResponseObject {
     private int id;
-    private String desc;
+    private String descripcion;
 
     public GuardarropaResponseObject() {
     }
@@ -15,11 +17,11 @@ public class GuardarropaResponseObject {
         this.id = id;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

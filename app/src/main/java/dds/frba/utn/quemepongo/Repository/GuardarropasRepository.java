@@ -17,7 +17,7 @@ public interface GuardarropasRepository {
     Call<GetGuardarropasResponse> getGuardarropasDelCliente(@Body GetGuardarropaRequest body);
 
     @POST("guardaropa/nuevo")
-    Call<Integer> crearGuardarropa(@Query("userName")String userId, @Query("desc")String nombreGuardarropa);
+    Call<Integer> crearGuardarropa(@Query("userName")String userId, @Query("descripcion")String nombreGuardarropa);
 
     @POST("guardaropa/delete")
     Call<Void> borrarGuardarropa(@Query("userName") String userId, @Query("id")int id);

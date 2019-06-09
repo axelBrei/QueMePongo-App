@@ -22,10 +22,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import dds.frba.utn.quemepongo.Model.WebServices.Error;
+import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends QueMePongoActivity {
 
     private TextInputEditText mail;
     private TextInputEditText password;
@@ -36,9 +40,13 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     @Override
+    protected int getView() {
+        return R.layout.activity_login;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
         mail = findViewById(R.id.LoginUser);
@@ -84,19 +92,24 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(mailT, passT)
                         .addOnCompleteListener(( Task<AuthResult> task) -> {
                                     if(task.isSuccessful()){
-                                        SplashActivity.fectchGuardarropas(
-                                                param -> {
-                                            ((QueMePongo) getApplication()).setGuardarropas(param);
-                                            logInButton.setProgress(100);
-                                            changeButtonsAccesibility(true);
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                        },
-                                                param -> {
-                                            logInButton.setProgress(0);
-                                            Toast.makeText(LoginActivity.this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
-                                        }, null);
-
+                                        SplashActivity.fectchGuardarropas(_activity,
+                                                new OnCompleteListenner<GetGuardarropasResponse>() {
+                                                    @Override
+                                                    public void onComplete(GetGuardarropasResponse param) {
+                                                        ((QueMePongo) getApplication()).setGuardarropas(param);
+                                                        logInButton.setProgress(100);
+                                                        changeButtonsAccesibility(true);
+                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                },
+                                                new OnCompleteListenner<Error>() {
+                                                    @Override
+                                                    public void onComplete(Error param) {
+                                                        logInButton.setProgress(0);
+                                                    }
+                                                }
+                                        );
                                     }else{
                                         try{
                                             changeButtonsAccesibility(true);

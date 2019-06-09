@@ -14,6 +14,8 @@ public  class CustomOnItemSelectedListener implements AdapterView.OnItemSelected
     }
 
 
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
        customListenner.onItemSelectedCustom(parent,view,position,id, listenerType);

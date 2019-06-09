@@ -2,10 +2,11 @@ package dds.frba.utn.quemepongo.Helpers;
 
 import android.app.Activity;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,8 +19,8 @@ public abstract class CustomRetrofitCallback<T> implements Callback<T> {
             onCustomResponse(call,response);
         }else if(response.code() == 404 && response.errorBody() != null){
             try{
-                Gson gson = new Gson();
-                Error e = gson.fromJson(response.errorBody().string(), Error.class);
+                ObjectMapper mapper = new ObjectMapper();
+                Error e = mapper.readValue(response.errorBody().string(),Error.class);
                 onCustomFailure(call, e);
             } catch (IOException e) {
                 onHttpRequestFail(call, e);
@@ -36,54 +37,4 @@ public abstract class CustomRetrofitCallback<T> implements Callback<T> {
     public abstract void onCustomFailure(Call<T> call, Error error);
     public abstract void onHttpRequestFail(Call<T> call, Throwable t);
 
-    public class Error {
-        private String timestamp;
-        private Integer status;
-        private String error;
-        private String message;
-        private String path;
-
-        public Error() {
-        }
-
-        public String getTimestamp() {
-            return timestamp;
-        }
-
-        public void setTimestamp(String timestamp) {
-            this.timestamp = timestamp;
-        }
-
-        public Integer getStatus() {
-            return status;
-        }
-
-        public void setStatus(Integer status) {
-            this.status = status;
-        }
-
-        public String getError() {
-            return error;
-        }
-
-        public void setError(String error) {
-            this.error = error;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-    }
 }

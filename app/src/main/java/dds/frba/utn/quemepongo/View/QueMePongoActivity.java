@@ -1,5 +1,6 @@
 package dds.frba.utn.quemepongo.View;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,12 +25,13 @@ import java.util.List;
 
 import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
+import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.View.Activity.LoginActivity;
 import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 
-public abstract class QueMePongoActivity extends AppCompatActivity {
+public abstract class QueMePongoActivity extends AppCompatActivity implements Schedulable {
     private ToolbarView toolbar;
     protected QueMePongoActivity _activity = this;
     private QueMePongo application;
@@ -92,25 +94,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if(toolbar != null){
-//            getMenuInflater().inflate(R.menu.main_menu, menu);
-//        }
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        switch (id){
-//            case R.id.MainMenuLogout:{
-//
-//                return true;
-//            }
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
 
     protected void logout(){
         Intent intent = new Intent(_activity, LoginActivity.class);
@@ -125,5 +109,20 @@ public abstract class QueMePongoActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
         else
             progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void startLoading() {
+        setProgressDialog(true);
+    }
+
+    @Override
+    public void stopLoading() {
+        setProgressDialog(false);
+    }
+
+    @Override
+    public Context getContext() {
+        return _activity;
     }
 }

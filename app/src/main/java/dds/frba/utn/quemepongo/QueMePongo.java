@@ -2,6 +2,8 @@ package dds.frba.utn.quemepongo;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,21 +13,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Atuendo;
 import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.GetPrendasRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.ResponseObjects.GuardarropaResponseObject;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendasContainer;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class QueMePongo extends Application {
+public class QueMePongo extends Application implements Schedulable {
     private MutableLiveData<List<Guardarropa>> guardarropas = new MutableLiveData<>();
     private MutableLiveData<Guardarropa> guardarropaActual = new MutableLiveData<>();
     private MutableLiveData<List<Atuendo>> atuendosActuales = new MutableLiveData<>();
@@ -58,27 +61,17 @@ public class QueMePongo extends Application {
         loading.setValue(true);
         prendasRepository
                 .getPrendas(new GetPrendasRequest(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(guardarropa.getId())))
-                .enqueue(new CustomRetrofitCallback<PrendasContainer>() {
-                    @Override
-                    public void onCustomResponse(Call<PrendasContainer> call, Response<PrendasContainer> response) {
-                        guardarropa.setPrendas(response.body().getPrendaslist());
-                        guardarropaActual.setValue(guardarropa);
-                        atuendosActuales.setValue(atuendosMap.getValue().get(String.valueOf(guardarropa.getId())));
-                        loading.setValue(false);
-                    }
-
-                    @Override
-                    public void onCustomFailure(Call<PrendasContainer> call, Error error) {
-                        loading.setValue(false);
-                        Toast.makeText(QueMePongo.this, "Ha ocurrido un error al buscar el guardarropa desdeado", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onHttpRequestFail(Call<PrendasContainer> call, Throwable t) {
-                        loading.setValue(false);
-                        Toast.makeText(QueMePongo.this, "Ha ocurrido un error al buscar el guardarropa desdeado", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .enqueue(new ErrorHelper().showCallbackErrorIfNeed(this,
+                        new OnCompleteListenner<PrendasContainer>() {
+                            @Override
+                            public void onComplete(PrendasContainer param) {
+                                guardarropa.setPrendas(param.getPrendaslist());
+                                guardarropaActual.setValue(guardarropa);
+                                atuendosActuales.setValue(atuendosMap.getValue().get(String.valueOf(guardarropa.getId())));
+                                loading.setValue(false);
+                            }
+                        }
+                ));
     }
 
     public List<Guardarropa> getGuardarropas() {
@@ -102,7 +95,7 @@ public class QueMePongo extends Application {
         Map<String, List<Atuendo>> atuendosMapAux = new HashMap<>();
         if(guardarropasResponse == null || guardarropasResponse.getGuardarropas().size() == 0) return;
         for (GuardarropaResponseObject g :guardarropasResponse.getGuardarropas()) {
-            guardarropasAux.add( new Guardarropa(g.getId(), g.getDesc()));
+            guardarropasAux.add( new Guardarropa(g.getId(), g.getDescripcion()));
             atuendosMapAux.put(String.valueOf(g.getId()), new ArrayList<>());
         }
         this.setGuardarropas(guardarropasAux);
@@ -130,4 +123,19 @@ public class QueMePongo extends Application {
         atuendosActuales.postValue(atuendosAux);
     }
 
+
+    @Override
+    public void startLoading() {
+        loading.setValue(true);
+    }
+
+    @Override
+    public void stopLoading() {
+        loading.setValue(false);
+    }
+
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
 }

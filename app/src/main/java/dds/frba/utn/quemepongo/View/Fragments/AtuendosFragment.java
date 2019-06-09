@@ -17,12 +17,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth;
 
 import dds.frba.utn.quemepongo.Adapters.AtuendosAdapter;
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Model.Atuendo;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo.GetAtuendosRequest;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.ViewModel.AtuendosViewModel;
 
 import retrofit2.Call;
@@ -79,25 +80,18 @@ public class AtuendosFragment extends Fragment {
         );
         Call<Atuendo> call = atuendosViewModel.getAtuendosRespository().getAtuendoRecomendado(request);
         application.loading.setValue(true);
-        new Thread(() -> call.enqueue(new CustomRetrofitCallback<Atuendo>() {
-            @Override
-            public void onCustomResponse(Call<Atuendo> call1, Response<Atuendo> response) {
-                atuendosViewModel.addAtuendo(response.body());
-                application.loading.setValue(false);
-            }
-
-            @Override
-            public void onCustomFailure(Call<Atuendo> call1, Error error) {
-                ErrorHelper.ShowSimpleError(getActivity(), error.getMessage());
-                application.loading.setValue(false);
-            }
-
-            @Override
-            public void onHttpRequestFail(Call<Atuendo> call1, Throwable t) {
-                ErrorHelper.ShowSimpleError(getActivity(), t.getMessage());
-                application.loading.setValue(false);
-            }
-        })).run();
+        new Thread(() ->
+                call.enqueue(new ErrorHelper().showCallbackErrorIfNeed((QueMePongoActivity) getActivity(),
+                        new OnCompleteListenner<Atuendo>() {
+                            @Override
+                            public void onComplete(Atuendo param) {
+                                atuendosViewModel.addAtuendo(param);
+                                application.loading.setValue(false);
+                            }
+                        },
+                        null
+                ))
+        ).run();
 
     }
 }

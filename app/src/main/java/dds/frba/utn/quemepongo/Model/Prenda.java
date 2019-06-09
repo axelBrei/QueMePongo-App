@@ -1,5 +1,13 @@
 package dds.frba.utn.quemepongo.Model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import dds.frba.utn.quemepongo.Utils.JsonParser.PrendaDeserializer;
+import dds.frba.utn.quemepongo.Utils.JsonParser.PrendaSerializer;
+
+@JsonSerialize(using = PrendaSerializer.class)
+@JsonDeserialize(using = PrendaDeserializer.class)
 public class Prenda {
 
     private Integer id = null;

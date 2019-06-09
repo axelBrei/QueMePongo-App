@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Atuendo;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo.GetAtuendosRequest;
