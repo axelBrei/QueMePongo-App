@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -36,6 +37,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     protected QueMePongoActivity _activity = this;
     private QueMePongo application;
     private ProgressBar progressBar;
+    private FirebaseAuth mAuth;
 
     // MANDATORY METHODS
     protected abstract int getView();
@@ -46,10 +48,18 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         setContentView(getView());
         application = ( (QueMePongo) getApplication());
 
-        application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
 
-        toolbar = new ToolbarView(_activity, enableToolbarSpinner());
-        progressBar = findViewById(R.id.toolbarProgres);
+        /**/
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
+
+            toolbar = new ToolbarView(_activity, enableToolbarSpinner());
+            progressBar = findViewById(R.id.toolbarProgres);
+        }
+        /*
+
+        */
 
     }
 

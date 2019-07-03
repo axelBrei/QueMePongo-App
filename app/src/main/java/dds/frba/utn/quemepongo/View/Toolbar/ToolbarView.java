@@ -32,6 +32,7 @@ public class ToolbarView extends Toolbar {
         this.spinnerEnabled = enableSpinner;
         this.view = activity.findViewById(R.id.toolbar);
         spinner = view.findViewById(R.id.toolbarSpinner);
+
         if(spinnerEnabled)
             initSpinner();
         else

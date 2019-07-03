@@ -26,7 +26,7 @@ public class RetrofitInstanciator {
 
     private RetrofitInstanciator() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.16:8080")
+                .baseUrl("http://192.168.0.6:8080")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

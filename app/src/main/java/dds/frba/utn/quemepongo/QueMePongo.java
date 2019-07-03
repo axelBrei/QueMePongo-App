@@ -58,6 +58,7 @@ public class QueMePongo extends Application implements Schedulable {
     }
 
     public void setGuardarropaActual(Guardarropa guardarropa) {
+
         loading.setValue(true);
         prendasRepository
                 .getPrendas(new GetPrendasRequest(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(guardarropa.getId())))
@@ -72,6 +73,7 @@ public class QueMePongo extends Application implements Schedulable {
                             }
                         }
                 ));
+
     }
 
     public List<Guardarropa> getGuardarropas() {
