@@ -17,15 +17,24 @@ public class PrendaGenerator {
             // ASIGNO ATRIBUTOS A LA PRENDA
             for (Field f : Prenda.class.getDeclaredFields()) {
                 Object val = prendaMap.get(f.getName());
-                if(val == null) continue;
-                if(!f.isAccessible()){
+
+                if(val == null)
+                    continue;
+
+                else if(!f.isAccessible()) {
                     f.setAccessible(true);
                 }
-                f.set(p, val.toString());
+                if(f.getName()=="posicion"){
+                    p.setPosicion(0);
+                }else {
+                    f.set(p, val.toString());
+                }
             }
-            if(prendaClass.equals(Superior.class)){
-                ((Superior)p).setIdTipo((Integer)prendaMap.get(TIPO_PRENDA_SUPERIOR));
+
+            if(true){
+                p.setPosicion(0);
             }
+
             p.setId(id);
             return p;
 

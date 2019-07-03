@@ -25,10 +25,12 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     public static final String TIPO_DE_TELA = "tipoDeTela";
     public static final String TIPO_PARTE_QUE_OCUPA = "parteQueOcupa";
     public static final String DESCRIPCION_PRENDA = "descripcion";
-    public static final String TIPO_PRENDA_SUPERIOR = "TipoSuperior";
-    public static final String PRENDA_SUPERIOR_REMERA = "Remera";
-    public static final String PRENDA_SUPERIOR_BUZO = "Buzo";
-    public static final String PRENDA_SUPERIOR_CAMPERA = "Campera";
+    public static final String POSICION = "posicion";
+    public static final String POSICION0 = "Posicion 0";
+    public static final String POSICION1 = "Posicion 1";
+    public static final String POSICION2 = "Posicion 2";
+    public static final String POSICION3 = "Posicion 3";
+    public static final String POSICION4 = "Posicion 4";
     public static final String ID_PRENDA = "id";
 
     // STATIC DATA
@@ -70,7 +72,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     }
 
     public List<String> getTiposSuperiores() {
-        return Arrays.asList(PRENDA_SUPERIOR_REMERA, PRENDA_SUPERIOR_BUZO, PRENDA_SUPERIOR_CAMPERA);
+        return Arrays.asList(POSICION0, POSICION1,POSICION2,POSICION3,POSICION4);
     }
 
     public HashMap<String, Object> getPrenda() {

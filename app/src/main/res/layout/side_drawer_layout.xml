@@ -18,29 +18,26 @@
     <android.support.constraint.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/sideMenuLogoutButton"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/sideMenuLogoutButton"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_logout"
-                android:background="@color/backgroundColor"
-                android:text="@string/cerrarSesion"
-                android:textColor="@color/colorSecondaryText"
-                android:textAllCaps="false"
-                android:textAlignment="viewStart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:drawablePadding="20dp"
-                android:drawableTint="@color/grayFontColor"
-                android:paddingLeft="22dp"
-                />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundColor"
+            android:drawableLeft="@drawable/ic_logout"
+            android:drawablePadding="20dp"
+            android:drawableTint="@color/grayFontColor"
+            android:paddingLeft="22dp"
+            android:text="@string/cerrarSesion"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>

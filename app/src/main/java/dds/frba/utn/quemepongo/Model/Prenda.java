@@ -11,6 +11,7 @@ import dds.frba.utn.quemepongo.Utils.JsonParser.PrendaSerializer;
 public class Prenda {
 
     private Integer id = null;
+    private Integer posicion=null;
     private String tipoDeTela;
     private String descripcion = "";
     private String colorP = "";
@@ -19,6 +20,14 @@ public class Prenda {
     private String tipoDePrenda = "";
 
     public Prenda() {
+    }
+
+    public Integer getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(Integer posicion) {
+        this.posicion = posicion;
     }
 
     public Integer getId() {

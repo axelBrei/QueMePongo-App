@@ -9,6 +9,7 @@
     <string name="register"><u>Registrarme</u></string>
     <string name="error">Error!</string>
     <string name="continuar">Continuar</string>
+    <string name="pruebaPremium">Prueba Premium</string>
     <string name="cerrarSesion">Cerrar Sesion</string>
     <string name="description">Descripcion</string>
     <string name="primaryColor">Colores</string>
@@ -27,4 +28,5 @@
     <string name="openDrawer">OPEN_DRAWER</string>
     <string name="closeDrawer">CLOSE_DRAWER</string>
     <string name="crearGuardarropa">Crear guardarropa</string>
+    <string name="premium">Premium</string>
 </resources>

@@ -95,6 +95,11 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
                 startActivity(intent);
                 break;
             }
+            case R.id.sideMenuPremium: {
+                Intent intent = new Intent(_activity, PruebaPremium.class);
+                startActivity(intent);
+                break;
+            }
         }
         return true;
     }

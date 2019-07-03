@@ -34,6 +34,7 @@ import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Cliente;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.ClienteRepository;
+import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +49,7 @@ public class RegisterActivity extends QueMePongoActivity {
     private TextInputLayout usernameLayout;
     private TextInputLayout mailLayout;
     private TextInputLayout passwordLayout;
+
 
     private ClienteRepository clienteRepository;
 
@@ -69,7 +71,7 @@ public class RegisterActivity extends QueMePongoActivity {
         registerButton = findViewById(R.id.RegisterButton);
         mailLayout = findViewById(R.id.RegisterMailLayout);
         passwordLayout = findViewById(R.id.RegisterPasswordLayout);
-
+        clienteRepository = RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class);
         registerButton.setOnClickListener( (view) -> registerNewUser());
 
         password.addTextChangedListener(cleanErrors());
@@ -86,7 +88,7 @@ public class RegisterActivity extends QueMePongoActivity {
             }
         });
 
-        clienteRepository = RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class);
+
     }
 
     @Override
@@ -106,12 +108,18 @@ public class RegisterActivity extends QueMePongoActivity {
     }
 
     private void registerNewUser(){
+        String mail_ = mail.getText().toString();
+        String name_ = username.getText().toString();
+
         registerButton.setProgress(10);
+
         try{
+
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(mail.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(task -> {
                        if(task.isSuccessful()){
                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                           String uid_  = user.getUid();
                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                                    .setDisplayName(username.getText().toString())
                                    .build();
@@ -119,7 +127,7 @@ public class RegisterActivity extends QueMePongoActivity {
                                    .addOnCompleteListener(task1 -> {
                                        if(task1.isSuccessful()){
                                            registerButton.setProgress(100);
-                                           registerUser(task.getResult().getUser().getUid());
+                                           registerUser(new Cliente(uid_,mail_,name_));
                                        }
                                    })
                                    .addOnFailureListener(e -> ErrorHelper.showGenericError(_activity))
@@ -197,13 +205,14 @@ private void handleFirebaseError(Task<AuthResult> task){
         registerButton.clearFocus();
     }
 
-    private void registerUser(String userId){
-        Call<Void> c = clienteRepository.nuevoCliente(new Cliente(userId, mail.getText().toString(), username.getText().toString()));
-        c.enqueue(new Callback<Void>() {
+    private void registerUser(Cliente cliente){
+        System.out.println(cliente.getUid());
+        clienteRepository.nuevoCliente(cliente)
+                .enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-               startActivity(intent);
+                startActivity(intent);
             }
 
             @Override

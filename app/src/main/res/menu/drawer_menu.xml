@@ -6,4 +6,9 @@
         android:title="@string/crearGuardarropa"
         android:icon="@drawable/ic_add_black"
         />
+    <item
+        android:id="@+id/sideMenuPremium"
+        android:title="@string/premium"
+        android:icon="@drawable/ic_add_black"
+        />
 </menu>
