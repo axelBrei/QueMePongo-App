@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ListContainer {
+public class ListContainer<T>{
     @JsonProperty("list")
-    private List list;
+    private List<T> list;
 
     public ListContainer(List list) {
         this.list = list;
@@ -17,11 +17,11 @@ public class ListContainer {
     public ListContainer() {
     }
 
-    public List getList() {
+    public List<T> getList() {
         return list;
     }
 
-    public void setList(List list) {
+    public void setList(List<T> list) {
         this.list = list;
     }
 }

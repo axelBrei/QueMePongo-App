@@ -5,69 +5,30 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendaDeserializer;
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendaSerializer;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@JsonSerialize(using = PrendaSerializer.class)
-@JsonDeserialize(using = PrendaDeserializer.class)
+@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+//@JsonSerialize(using = PrendaSerializer.class)
+//@JsonDeserialize(using = PrendaDeserializer.class)
 public class Prenda {
 
-    private Integer id = null;
-    private String tipoDeTela;
-    private String descripcion = "";
-    private String colorP = "";
-    private String colorS = "";
-    // EG. Camprera Remera
-    private String tipoDePrenda = "";
-
-    public Prenda() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTipoDeTela() {
-        return tipoDeTela;
-    }
-
-    public void setTipoDeTela(String tipoDeTela) {
-        this.tipoDeTela = tipoDeTela;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getColorP() {
-        return colorP;
-    }
-
-    public void setColorP(String colorP) {
-        this.colorP = colorP;
-    }
-
-    public String getColorS() {
-        return colorS;
-    }
-
-    public void setColorS(String colorS) {
-        this.colorS = colorS;
-    }
-
-    public String getTipoDePrenda() {
-        return tipoDePrenda;
-    }
-
-    public void setTipoDePrenda(String tipoDePrenda) {
-        this.tipoDePrenda = tipoDePrenda;
-    }
-
-
+    Integer id = null;
+    String tipoDeTela = "";
+    String descripcion = "";
+    String colorP = "";
+    String colorS = "";
+    Double abrigo = 0.0;
+    String tipoDePrenda = "";
+    // Ej. Superior-4, Inferior
+    Integer indiceSuperposicion;
+    Boolean reservada;
 }

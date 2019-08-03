@@ -180,7 +180,7 @@ public class PrendasAdapter extends RecyclerView.Adapter {
 
             typeImage.setImageDrawable(
                     setTypeImageDrawable(
-                            prenda.getClass().getName().split("TiposPrenda.")[1]
+                            prenda.getTipoDePrenda()
                     )
             );
         }

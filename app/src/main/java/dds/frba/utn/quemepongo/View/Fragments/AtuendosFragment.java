@@ -24,6 +24,7 @@ import dds.frba.utn.quemepongo.Model.Atuendo;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo.GetAtuendosRequest;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.ListContainer;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.ViewModel.AtuendosViewModel;
@@ -85,12 +86,12 @@ public class AtuendosFragment extends Fragment {
         new Thread(() ->
                 call.enqueue(new ErrorHelper().showCallbackErrorIfNeed((QueMePongoActivity) getActivity(),
                         new OnCompleteListenner<List<Atuendo>>() {
-                    @Override
-                    public void onComplete(List<Atuendo> param) {
-                        atuendosViewModel.addAtuendos(param);
-                        application.loading.setValue(false);
-                    }
-                }, null)
+                            @Override
+                            public void onComplete(List<Atuendo> param) {
+                                atuendosViewModel.setAtuendos(param);
+                                application.loading.setValue(false);
+                            }
+                        }, null)
                 )
         ).run();
 
