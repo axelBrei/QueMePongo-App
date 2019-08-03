@@ -34,6 +34,7 @@ import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Cliente;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.ClienteRepository;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -202,8 +203,15 @@ private void handleFirebaseError(Task<AuthResult> task){
         c.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-               startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
+                startActivity(
+                        ActivityHelper.startActivityWithBacbButtonBlocked(
+                                RegisterActivity.this,
+                                CrearGuardarropaActivity.class,
+                                bundle
+                        )
+                );
             }
 
             @Override

@@ -9,7 +9,7 @@ public class Ubicacion {
     public Ubicacion(double latitud, double longitud) {
         this.latitud= (float) latitud;
         this.longitud = (float)longitud;
-        this.radio = (float)5.0;
+        this.radio = 5.0f;
     }
 
     public Ubicacion getUbicacion(){return this;}

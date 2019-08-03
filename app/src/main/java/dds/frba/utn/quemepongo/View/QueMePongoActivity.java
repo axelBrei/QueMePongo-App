@@ -16,8 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -33,11 +31,15 @@ import dds.frba.utn.quemepongo.View.Activity.LoginActivity;
 import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 
 public abstract class QueMePongoActivity extends AppCompatActivity implements Schedulable {
+    public static final String ENABLE_BACK_BUTTON = "ENABLE_BACK_BUTTON";
+
     private ToolbarView toolbar;
     protected QueMePongoActivity _activity = this;
     private QueMePongo application;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+
+    private Boolean backPressEnabled = true;
 
     // MANDATORY METHODS
     protected abstract int getView();
@@ -47,24 +49,34 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         super.onCreate(savedInstanceState);
         setContentView(getView());
         application = ( (QueMePongo) getApplication());
-
-
-        /**/
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
-
+        if (mAuth.getCurrentUser() != null){
             toolbar = new ToolbarView(_activity, enableToolbarSpinner());
-            progressBar = findViewById(R.id.toolbarProgres);
+            if(toolbar.getView() != null){
+                application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
+                progressBar = findViewById(R.id.toolbarProgres);
+            }
         }
-        /*
+        retriveBundleData();
+    }
 
-        */
-
+    private void retriveBundleData(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null){
+            backPressEnabled = bundle.getBoolean(ENABLE_BACK_BUTTON,true);
+        }
     }
 
     public void enableBackButton(){
         toolbar.enableBackButton();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(backPressEnabled){
+            super.onBackPressed();
+        }
     }
 
     private void initSpinner() {
@@ -103,9 +115,6 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         return true;
     }
 
-
-
-
     protected void logout(){
         Intent intent = new Intent(_activity, LoginActivity.class);
         startActivity(intent);
@@ -132,7 +141,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     }
 
     @Override
-    public Context getContext() {
+    public AppCompatActivity getContext() {
         return _activity;
     }
 }

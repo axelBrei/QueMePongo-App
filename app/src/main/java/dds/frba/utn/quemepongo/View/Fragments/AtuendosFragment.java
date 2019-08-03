@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 import dds.frba.utn.quemepongo.Adapters.AtuendosAdapter;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Model.Atuendo;
@@ -78,19 +80,18 @@ public class AtuendosFragment extends Fragment {
                 FirebaseAuth.getInstance().getCurrentUser().getUid(),
                 atuendosViewModel.getApplication().getGuardarropaActual().getValue().getId()
         );
-        Call<Atuendo> call = atuendosViewModel.getAtuendosRespository().getAtuendoRecomendado(request);
+        Call<List<Atuendo>> call = atuendosViewModel.getAtuendosRespository().getAtuendoRecomendado(request);
         application.loading.setValue(true);
         new Thread(() ->
                 call.enqueue(new ErrorHelper().showCallbackErrorIfNeed((QueMePongoActivity) getActivity(),
-                        new OnCompleteListenner<Atuendo>() {
-                            @Override
-                            public void onComplete(Atuendo param) {
-                                atuendosViewModel.addAtuendo(param);
-                                application.loading.setValue(false);
-                            }
-                        },
-                        null
-                ))
+                        new OnCompleteListenner<List<Atuendo>>() {
+                    @Override
+                    public void onComplete(List<Atuendo> param) {
+                        atuendosViewModel.addAtuendos(param);
+                        application.loading.setValue(false);
+                    }
+                }, null)
+                )
         ).run();
 
     }

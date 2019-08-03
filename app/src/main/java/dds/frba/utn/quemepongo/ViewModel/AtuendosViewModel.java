@@ -50,4 +50,7 @@ public class AtuendosViewModel extends AndroidViewModel {
         application.addAtuendo(a);
 //        atuendo.setValue(a);
     }
+    public void addAtuendos(List<Atuendo> atuendos){
+        application.addAtuendos(atuendos);
+    }
 }

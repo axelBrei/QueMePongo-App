@@ -1,31 +1,29 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
+import dds.frba.utn.quemepongo.Services.CalendarReciver;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
-import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Guardarropa.GetGuardarropaRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
     private static GuardarropasRepository repository;
@@ -42,22 +40,32 @@ public class SplashActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         repository = RetrofitInstanciator.getInstance().getRetrofit().create(GuardarropasRepository.class);
 
+        initalizeCalendarReciver();
+
         if(mAuth.getCurrentUser() != null){
             QueMePongo application = ((QueMePongo) getApplication());
-            SplashActivity.fectchGuardarropas(application,param -> {
-
-                application.setGuardarropas(param);
+            SplashActivity.fectchGuardarropas(application, param -> {
 
                 Intent inten = new Intent(SplashActivity.this, MainActivity.class);
 
-                if(param.getGuardarropas().isEmpty()){
-                    inten = new Intent(SplashActivity.this, CrearGuardarropaActivity.class);
+                if (param.getGuardarropas().isEmpty()) {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
-                    inten.putExtras(bundle);
+                    inten = ActivityHelper.startActivityWithBacbButtonBlocked(
+                            SplashActivity.this,
+                            CrearGuardarropaActivity.class,
+                            bundle);
+                }else {
+                    application.setGuardarropas(param);
                 }
                 startActivity(inten);
-            }, null);
+
+            }, new OnCompleteListenner<Error>() {
+                @Override
+                public void onComplete(Error param) {
+                    //TODO send retry to the execute again the failed method
+                }
+            });
         }else{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -65,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public static void fectchGuardarropas(
-            Schedulable activity,
+            Schedulable schedulable,
             OnCompleteListenner<GetGuardarropasResponse> succedListener,
             @Nullable OnCompleteListenner<Error> errorListenner){
         if(mAuth.getCurrentUser() != null){
@@ -74,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                             new GetGuardarropaRequest(
                                     mAuth.getCurrentUser().getUid())
                     )
-            .enqueue(new ErrorHelper().showCallbackErrorIfNeed(activity,
+            .enqueue(new ErrorHelper().showCallbackErrorIfNeed(schedulable,
                     new OnCompleteListenner<GetGuardarropasResponse>() {
                         @Override
                         public void onComplete(GetGuardarropasResponse param) {
@@ -84,11 +92,20 @@ public class SplashActivity extends AppCompatActivity {
                     new OnCompleteListenner<Error>() {
                         @Override
                         public void onComplete(Error param) {
-                            errorListenner.onComplete(param);
+                            if(errorListenner != null)
+                                errorListenner.onComplete(param);
                         }
                     }));
         }
+    }
 
+    private void initalizeCalendarReciver(){
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(CalendarContract.ACTION_EVENT_REMINDER);
+        filter.addDataScheme("content");
+        filter.addDataAuthority("com.android.calendar", null);
+        registerReceiver(new CalendarReciver(), filter);
     }
 
 }

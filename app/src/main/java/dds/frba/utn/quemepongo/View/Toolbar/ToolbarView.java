@@ -31,15 +31,20 @@ public class ToolbarView extends Toolbar {
         this.activity = activity;
         this.spinnerEnabled = enableSpinner;
         this.view = activity.findViewById(R.id.toolbar);
-        spinner = view.findViewById(R.id.toolbarSpinner);
+        if(view != null){
+            spinner = view.findViewById(R.id.toolbarSpinner);
+            if(spinnerEnabled)
+                initSpinner();
+            else
+                spinner.setVisibility(GONE);
 
-        if(spinnerEnabled)
-            initSpinner();
-        else
-            spinner.setVisibility(GONE);
+            activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+    }
 
-        activity.setSupportActionBar(activity.findViewById(R.id.toolbar));
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+    public View getView() {
+        return view;
     }
 
     public static void setToolbarTitle(QueMePongoActivity activity, String title){

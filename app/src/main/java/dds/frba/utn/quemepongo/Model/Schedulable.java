@@ -7,5 +7,5 @@ import android.support.v7.app.AppCompatActivity;
 public interface Schedulable {
     void startLoading();
     void stopLoading();
-    Context getContext();
+    Activity getContext();
 }

@@ -35,6 +35,11 @@
         <item name="colorError">@color/error_color</item>
     </style>
 
+    <style name="MaterialButton" parent="Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimarytext</item>
+        <item name="android:bottomLeftRadius">20dp</item>
+    </style>
 
 
 </resources>

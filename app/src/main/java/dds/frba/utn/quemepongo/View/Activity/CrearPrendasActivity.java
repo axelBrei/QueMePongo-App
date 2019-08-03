@@ -123,7 +123,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(new CustomOnItemSelectedListener.OnItemSelectedCustom() {
             @Override
             public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {
-                viewModel.setPrendaField(spinnerType, position);
+                viewModel.setPrendaField(spinnerType, position + 1);
             }
         }, TIPO_PRENDA_SUPERIOR));
     }

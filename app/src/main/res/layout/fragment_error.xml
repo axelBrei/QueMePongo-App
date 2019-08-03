@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/backgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragments.ErrorFragment"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_error_white"
+        android:tint="@color/error_color"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:text="Ha ocurrido un error inesperado"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="15dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/ErrorFragmentretryButton"
+
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="reintentar"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="150dp"
+            android:background="@color/colorPrimary"
+            style="@style/MaterialButton"
+            app:pb_colorNormal="@color/colorPrimary"
+            app:pb_colorProgress="@color/colorPrimarylight"
+            app:pb_colorError="@color/error_color"
+            app:pb_colorPressed="@color/colorPrimaryDark"
+            app:pb_colorComplete="@color/colorAccent"
+            app:pb_textProgress="Reintentando"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

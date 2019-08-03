@@ -11,15 +11,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+
 import dds.frba.utn.quemepongo.Adapters.ViewPagerAdapter;
+import dds.frba.utn.quemepongo.Helpers.CustomNotificationManager;
+import dds.frba.utn.quemepongo.Model.Evento;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.View.Fragments.AtuendosFragment;
 import dds.frba.utn.quemepongo.View.Fragments.PrendasFragment;
@@ -94,6 +96,9 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
                 Intent intent = new Intent(_activity, CrearGuardarropaActivity.class);
                 startActivity(intent);
                 break;
+            }
+            case R.id.sideMenuNotificacion:{
+                CustomNotificationManager.showNotification(this);
             }
         }
         return true;

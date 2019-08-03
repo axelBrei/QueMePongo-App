@@ -42,4 +42,28 @@ public class Cliente {
     public void anadirPrendaAlGuardarropa(Prenda prenda, Guardarropa guardarropa){
         guardarropas.get(guardarropas.indexOf(guardarropa)).aniadirPrenda(prenda);
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

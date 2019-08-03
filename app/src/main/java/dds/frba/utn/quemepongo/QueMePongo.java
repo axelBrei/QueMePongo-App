@@ -1,5 +1,6 @@
 package dds.frba.utn.quemepongo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -23,22 +24,26 @@ import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.GetPrendasReque
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.ResponseObjects.GuardarropaResponseObject;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
+import dds.frba.utn.quemepongo.Utils.ActivityLifeCycleCallbackImpl;
 import dds.frba.utn.quemepongo.Utils.JsonParser.PrendasContainer;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
-import retrofit2.Call;
-import retrofit2.Response;
+
 
 public class QueMePongo extends Application implements Schedulable {
+
     private MutableLiveData<List<Guardarropa>> guardarropas = new MutableLiveData<>();
     private MutableLiveData<Guardarropa> guardarropaActual = new MutableLiveData<>();
     private MutableLiveData<List<Atuendo>> atuendosActuales = new MutableLiveData<>();
     private MutableLiveData<Map<String, List<Atuendo>>> atuendosMap = new MutableLiveData<>();
     public MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private PrendasRepository prendasRepository;
+    private ActivityLifeCycleCallbackImpl activityLifeCycleCallback;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        activityLifeCycleCallback = new ActivityLifeCycleCallbackImpl();
+        registerActivityLifecycleCallbacks(activityLifeCycleCallback);
         RetrofitInstanciator.initializeRetrofit(this);
 
         loading.setValue(false);
@@ -125,6 +130,12 @@ public class QueMePongo extends Application implements Schedulable {
         atuendosActuales.postValue(atuendosAux);
     }
 
+    public void addAtuendos(List<Atuendo> atuendos){
+        List<Atuendo> atuendosAux = atuendosActuales.getValue();
+        atuendosAux.addAll(atuendos);
+        atuendosActuales.postValue(atuendosAux);
+    }
+
 
     @Override
     public void startLoading() {
@@ -137,7 +148,7 @@ public class QueMePongo extends Application implements Schedulable {
     }
 
     @Override
-    public Context getContext() {
-        return getApplicationContext();
+    public Activity getContext() {
+        return activityLifeCycleCallback.getCurrentActivity();
     }
 }
