@@ -1,13 +1,18 @@
 package dds.frba.utn.quemepongo.Model;
 
+import android.os.AsyncTask;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import dds.frba.utn.quemepongo.QueMePongo;
 
 public class Evento {
     private String nombre;
     private Date fecha;
     private int hora;
+    private int posicion;
     private Ubicacion ubicacion;
     private List<Atuendo> sugeridos = new ArrayList<Atuendo>();
     private Atuendo seleccionado;
@@ -22,9 +27,11 @@ public class Evento {
         return this.ubicacion;
     }
 
-    public void obtenerAtuendos(){
+    public Atuendo obtenerAtuendos(Guardarropa guardarropa){
 
-    }
+        Atuendo Atu = guardarropa.generarAtuendo();
+        return Atu;
+       }
 
     public Date getDate(){
         return this.fecha;

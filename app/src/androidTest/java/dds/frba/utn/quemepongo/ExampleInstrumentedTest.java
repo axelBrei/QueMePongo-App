@@ -7,6 +7,8 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import dds.frba.utn.quemepongo.Model.Evento;
+
 import static org.junit.Assert.*;
 
 /**

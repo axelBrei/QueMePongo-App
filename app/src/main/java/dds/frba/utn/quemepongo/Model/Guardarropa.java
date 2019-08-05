@@ -43,6 +43,7 @@ public class Guardarropa {
     public Atuendo generarAtuendo(){
 
         //ALGORITMO PARA GENERAR ATUENDO;
+
         Atuendo atuendo = new Atuendo();
         return atuendo;
     }
