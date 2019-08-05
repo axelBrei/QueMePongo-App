@@ -46,11 +46,7 @@ public class AtuendosViewModel extends AndroidViewModel {
         return this.atuendosRespository;
     }
 
-    public void addAtuendo(Atuendo a){
-        application.addAtuendo(a);
-//        atuendo.setValue(a);
-    }
-    public void addAtuendos(List<Atuendo> atuendos){
-        application.addAtuendos(atuendos);
+    public void setAtuendos(List<Atuendo> atuendos){
+        application.setAtuendos(atuendos);
     }
 }

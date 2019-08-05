@@ -2,29 +2,25 @@ package dds.frba.utn.quemepongo.Model;
 
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Atuendo {
-    private List<Prenda> prendas;
+    long id;
+    float calificacion;
+    List<Prenda> prendas;
+    Double abrigo;
 
     public Atuendo(List<Prenda> prendas) {
-        this.prendas = prendas;
-    }
-
-    public Atuendo() {
-    }
-
-    public void anadirPrenda(Prenda p){
-        prendas.add(p);
-    }
-
-    public void eliminarPrenda(Prenda p){
-        prendas.remove(p);
-    }
-
-    public List<Prenda> getPrendas() {
-        return prendas;
-    }
-
-    public void setPrendas(List<Prenda> prendas) {
         this.prendas = prendas;
     }
 }

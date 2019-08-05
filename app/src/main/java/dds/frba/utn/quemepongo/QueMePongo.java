@@ -124,18 +124,10 @@ public class QueMePongo extends Application implements Schedulable {
         guardarropaActual.setValue(g);
     }
 
-    public void addAtuendo(Atuendo atuendo){
-        List<Atuendo> atuendosAux = atuendosActuales.getValue();
-        atuendosAux.add(atuendo);
-        atuendosActuales.postValue(atuendosAux);
-    }
 
-    public void addAtuendos(List<Atuendo> atuendos){
-        List<Atuendo> atuendosAux = atuendosActuales.getValue();
-        atuendosAux.addAll(atuendos);
-        atuendosActuales.postValue(atuendosAux);
+    public void setAtuendos(List<Atuendo> atuendos){
+        atuendosActuales.postValue(atuendos);
     }
-
 
     @Override
     public void startLoading() {
