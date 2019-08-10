@@ -18,7 +18,7 @@ public class PrendaGenerator {
                 if(!f.isAccessible()){
                     f.setAccessible(true);
                 }
-                f.set(p, val.toString());
+                f.set(p, val);
             }
             p.setId(id);
             return p;

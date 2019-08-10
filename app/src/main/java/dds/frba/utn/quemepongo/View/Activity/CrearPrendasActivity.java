@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     private SmartMaterialSpinner tipoDePrendaSpinner;
     private SmartMaterialSpinner tipoDePrendaSuperiorSpinner;
     private SmartMaterialSpinner formalidadSpinner;
+    private SmartMaterialSpinner abrigoSpinner;
     private TextInputEditText descripcionEditText;
     private MaterialButton uploadButton;
     
@@ -62,6 +64,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         tipoDePrendaSpinner = findViewById(R.id.CrearPrendaParteQueOcupaSpinner);
         tipoDePrendaSuperiorSpinner = findViewById(R.id.CrearPrendaTipoSuperior);
         formalidadSpinner = findViewById(R.id.CrearPrendaFormalidadSpinner);
+        abrigoSpinner = findViewById(R.id.CrearPrendaAbrigo);
         descripcionEditText = findViewById(R.id.CrearPrendaDescripcion);
         uploadButton = findViewById(R.id.CrearPrendaUploadButton);
 
@@ -116,6 +119,8 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         telasSpinner.setItems(viewModel.getTiposDeTela());
         tipoDePrendaSuperiorSpinner.setItems(viewModel.getTiposSuperiores());
         formalidadSpinner.setItems(viewModel.getFormalidades());
+        abrigoSpinner.setItems(Arrays.asList("1","2","3","4","5","6","7","8","9","10"));
+        abrigoSpinner.showFloatingLabel();
         initSpinnerData();
         setSpinnerClickListeners();
     }
@@ -130,6 +135,14 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         telasSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_DE_TELA));
         tipoDePrendaSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PARTE_QUE_OCUPA));
         formalidadSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, FORMALIDAD));
+        abrigoSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(new CustomOnItemSelectedListener.OnItemSelectedCustom() {
+            @Override
+            public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {
+                Integer abrigoSele = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                Double abrigoCalculado = abrigoSele * 9.5;
+                viewModel.setPrendaField(spinnerType, abrigoCalculado);
+            }
+        },"abrigo"));
         tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(new CustomOnItemSelectedListener.OnItemSelectedCustom() {
             @Override
             public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {
@@ -143,7 +156,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         String val = parent.getItemAtPosition(position).toString();
         if(spinnerType.equals(TIPO_PARTE_QUE_OCUPA)){
             Boolean esSuperior = val.equals("Superior");
-            tipoDePrendaSuperiorSpinner.setVisibility(esSuperior ? View.VISIBLE : View.INVISIBLE);
+            tipoDePrendaSuperiorSpinner.setVisibility(esSuperior ? View.VISIBLE : View.GONE);
             if(!esSuperior) tipoDePrendaSuperiorSpinner.setSelection(0);
         }
         viewModel.setPrendaField(spinnerType, val);
