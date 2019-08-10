@@ -21,10 +21,7 @@ public class PrendasViewModel extends AndroidViewModel {
     public PrendasViewModel(@NonNull Application application) {
         super(application);
         prendas = new MutableLiveData<>();
-        prendasRepository = RetrofitInstanciator
-                .getInstance()
-                .getRetrofit()
-                .create(PrendasRepository.class);
+        prendasRepository = RetrofitInstanciator.instanciateRepository(PrendasRepository.class);
     }
 
     public void init(){

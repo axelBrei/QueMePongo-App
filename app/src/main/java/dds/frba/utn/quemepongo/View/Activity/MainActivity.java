@@ -58,7 +58,7 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
 
     private void sendFirebaseToken() {
        FirebaseMessagingService.getFirebaseToken(token -> {
-           RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class)
+           RetrofitInstanciator.instanciateRepository(ClienteRepository.class)
                    .actualizarToken(
                            FirebaseAuth.getInstance().getUid(),
                            token
@@ -71,7 +71,6 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
                }
            });
        });
-
     }
 
     private void initSideMenu(){

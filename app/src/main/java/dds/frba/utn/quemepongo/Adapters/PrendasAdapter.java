@@ -41,7 +41,7 @@ public class PrendasAdapter extends RecyclerView.Adapter {
     private String idGuardarropa;
     private Activity activity;
     private int cellResource = R.layout.prenda_item_cell;
-    private PrendasRepository repository = RetrofitInstanciator.getInstance().getRetrofit().create(PrendasRepository.class);
+    private PrendasRepository repository = RetrofitInstanciator.instanciateRepository(PrendasRepository.class);
 
     public PrendasAdapter(Activity context) {
         prendas = new ArrayList<>();

@@ -3,7 +3,6 @@ package dds.frba.utn.quemepongo.View.Activity;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
@@ -21,8 +20,6 @@ import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class CrearGuardarropaActivity extends QueMePongoActivity {
     public static final String SHOW_INTRO_TEXT = "SHOW_INTRO_TEXT";
@@ -42,7 +39,7 @@ public class CrearGuardarropaActivity extends QueMePongoActivity {
         nombre = findViewById(R.id.crearGuardarropaNombre);
         botonContinuar = findViewById(R.id.crearGuardarropaButton);
 
-        repository = RetrofitInstanciator.getInstance().getRetrofit().create(GuardarropasRepository.class);
+        repository = RetrofitInstanciator.instanciateRepository(GuardarropasRepository.class);
         application = (QueMePongo)getApplication();
 
         botonContinuar.setOnClickListener( v -> {

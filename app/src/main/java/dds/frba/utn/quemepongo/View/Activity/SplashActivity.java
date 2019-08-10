@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
-        repository = RetrofitInstanciator.getInstance().getRetrofit().create(GuardarropasRepository.class);
+        repository = RetrofitInstanciator.instanciateRepository(GuardarropasRepository.class);
 
         if(mAuth.getCurrentUser() != null){
             QueMePongo application = ((QueMePongo) getApplication());

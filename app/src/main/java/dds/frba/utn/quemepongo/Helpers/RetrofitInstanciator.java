@@ -19,6 +19,10 @@ public class RetrofitInstanciator {
         return retrofit;
     }
 
+    public static <T> T instanciateRepository(Class<T> repository){
+        return getInstance().getRetrofit().create(repository);
+    };
+
     public static void initializeRetrofit(QueMePongo app){
         instance = new RetrofitInstanciator();
         application = app;
@@ -26,7 +30,7 @@ public class RetrofitInstanciator {
 
     private RetrofitInstanciator() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.4:8080")
+                .baseUrl("http://192.168.0.14:8080")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

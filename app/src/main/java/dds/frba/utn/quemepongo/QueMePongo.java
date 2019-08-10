@@ -53,10 +53,7 @@ public class QueMePongo extends Application implements Schedulable {
 
         loading.setValue(false);
         firebaseId = FirebaseAuth.getInstance().getUid();
-        guardarropasRepository = RetrofitInstanciator
-                .getInstance()
-                .getRetrofit()
-                .create(GuardarropasRepository.class);
+        guardarropasRepository = RetrofitInstanciator.instanciateRepository(GuardarropasRepository.class);
 
 
         guardarropaActual.observeForever( guardarropa ->  {

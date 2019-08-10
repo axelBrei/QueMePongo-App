@@ -87,7 +87,7 @@ public class RegisterActivity extends QueMePongoActivity {
             }
         });
 
-        clienteRepository = RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class);
+        clienteRepository = RetrofitInstanciator.instanciateRepository(ClienteRepository.class);
     }
 
     @Override

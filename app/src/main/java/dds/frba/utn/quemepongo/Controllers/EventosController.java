@@ -19,7 +19,7 @@ public class EventosController {
     private QueMePongo application;
 
     public EventosController(Context context) {
-        repository = RetrofitInstanciator.getInstance().getRetrofit().create(EventRepository.class);
+        repository = RetrofitInstanciator.instanciateRepository(EventRepository.class);
         this.context = context;
         application = (QueMePongo) context.getApplicationContext();
     }

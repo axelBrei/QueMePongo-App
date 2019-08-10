@@ -2,12 +2,9 @@ package dds.frba.utn.quemepongo.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,10 +41,7 @@ public class CrearPrendasViewModel extends AndroidViewModel {
     public CrearPrendasViewModel(@NonNull Application application) {
         super(application);
         prenda = new HashMap<String, Object>();
-        prendasRepository = RetrofitInstanciator
-                .getInstance()
-                .getRetrofit()
-                .create(PrendasRepository.class);
+        prendasRepository = RetrofitInstanciator.instanciateRepository(PrendasRepository.class);
     }
 
 
