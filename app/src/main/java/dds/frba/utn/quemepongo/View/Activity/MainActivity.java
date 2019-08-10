@@ -16,16 +16,23 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
 import dds.frba.utn.quemepongo.Adapters.ViewPagerAdapter;
 import dds.frba.utn.quemepongo.Helpers.CustomNotificationManager;
+import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Evento;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Repository.ClienteRepository;
+import dds.frba.utn.quemepongo.Services.FirebaseMessagingService;
 import dds.frba.utn.quemepongo.View.Fragments.AtuendosFragment;
 import dds.frba.utn.quemepongo.View.Fragments.PrendasFragment;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends QueMePongoActivity  implements PrendasFragment.EventsInterface, TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener{
     // UI
@@ -34,10 +41,10 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
     private DrawerLayout drawerLayout;
     private NavigationView sideMenuView;
     private ActionBarDrawerToggle drawerToggle;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //BUSCO UI
         viewPager = findViewById(R.id.MainScreenViewPager);
         tabLayout = findViewById(R.id.MainScreenTabLayout);
@@ -46,6 +53,25 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
 
         initTabs();
         initSideMenu();
+        sendFirebaseToken();
+    }
+
+    private void sendFirebaseToken() {
+       FirebaseMessagingService.getFirebaseToken(token -> {
+           RetrofitInstanciator.getInstance().getRetrofit().create(ClienteRepository.class)
+                   .actualizarToken(
+                           FirebaseAuth.getInstance().getUid(),
+                           token
+                   ).enqueue(new Callback<Void>() {
+               @Override
+               public void onResponse(Call<Void> call, Response<Void> response) {
+               }
+               @Override
+               public void onFailure(Call<Void> call, Throwable t) {
+               }
+           });
+       });
+
     }
 
     private void initSideMenu(){

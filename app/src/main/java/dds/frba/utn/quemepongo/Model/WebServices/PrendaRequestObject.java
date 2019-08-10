@@ -13,7 +13,7 @@ public class PrendaRequestObject {
     private String tipoDePrenda = "";
 
     public PrendaRequestObject(Prenda prenda) {
-        this.parteQueOcupa = prenda.getClass().getName().split("TiposPrenda.")[1];
+        this.parteQueOcupa = prenda.getTipoDePrenda();
         this.id = prenda.getId();
         this.tipoDePrenda = prenda.getTipoDePrenda();
         this.descripcion = prenda.getDescripcion();

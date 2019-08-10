@@ -13,6 +13,7 @@ import java.util.List;
 
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Atuendo;
+import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo.GetAtuendosRequest;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.AtuendosRespository;
@@ -34,8 +35,8 @@ public class AtuendosViewModel extends AndroidViewModel {
                 .create(AtuendosRespository.class);
     }
 
-    public void getAtuendo(LifecycleOwner owner, Observer<List<Atuendo>> observer) {
-        application.getAtuendosActuales().observe(owner, observer);
+    public void getAtuendo(LifecycleOwner owner, Observer<Guardarropa> observer) {
+        application.getGuardarropaActual().observe(owner, observer);
     }
 
     public QueMePongo getApplication() {
@@ -47,6 +48,6 @@ public class AtuendosViewModel extends AndroidViewModel {
     }
 
     public void setAtuendos(List<Atuendo> atuendos){
-        application.setAtuendos(atuendos);
+//        application.setAtuendos(atuendos);
     }
 }

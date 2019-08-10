@@ -1,22 +1,20 @@
-package dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package dds.frba.utn.quemepongo.Model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GetAtuendosRequest {
-    String uid;
+@AllArgsConstructor
+public class GuardarropasCompartido {
+    String uidCompartido;
     Integer idGuardarropa;
+    String nombreGuardarropa;
+    String nombreCompartido;
 }

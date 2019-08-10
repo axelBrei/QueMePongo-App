@@ -30,6 +30,7 @@ import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.FORMALIDAD;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.PRIMARY_COLOR_TYPE;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.SECONDARY_COLOR_TYPE;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.TIPO_DE_TELA;
@@ -45,6 +46,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     private SmartMaterialSpinner telasSpinner;
     private SmartMaterialSpinner tipoDePrendaSpinner;
     private SmartMaterialSpinner tipoDePrendaSuperiorSpinner;
+    private SmartMaterialSpinner formalidadSpinner;
     private TextInputEditText descripcionEditText;
     private MaterialButton uploadButton;
     
@@ -59,6 +61,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         secondaryColorSpinner = findViewById(R.id.CrearPrendaSecondaryColoresSpiner);
         tipoDePrendaSpinner = findViewById(R.id.CrearPrendaParteQueOcupaSpinner);
         tipoDePrendaSuperiorSpinner = findViewById(R.id.CrearPrendaTipoSuperior);
+        formalidadSpinner = findViewById(R.id.CrearPrendaFormalidadSpinner);
         descripcionEditText = findViewById(R.id.CrearPrendaDescripcion);
         uploadButton = findViewById(R.id.CrearPrendaUploadButton);
 
@@ -112,7 +115,13 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         tipoDePrendaSpinner.setItems(viewModel.getPartesQueOcupa());
         telasSpinner.setItems(viewModel.getTiposDeTela());
         tipoDePrendaSuperiorSpinner.setItems(viewModel.getTiposSuperiores());
+        formalidadSpinner.setItems(viewModel.getFormalidades());
+        initSpinnerData();
         setSpinnerClickListeners();
+    }
+
+    private void initSpinnerData(){
+        formalidadSpinner.setSelection(1);
     }
 
     private void setSpinnerClickListeners(){
@@ -120,6 +129,7 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         secondaryColorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this,SECONDARY_COLOR_TYPE));
         telasSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_DE_TELA));
         tipoDePrendaSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, TIPO_PARTE_QUE_OCUPA));
+        formalidadSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(this, FORMALIDAD));
         tipoDePrendaSuperiorSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(new CustomOnItemSelectedListener.OnItemSelectedCustom() {
             @Override
             public void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType) {

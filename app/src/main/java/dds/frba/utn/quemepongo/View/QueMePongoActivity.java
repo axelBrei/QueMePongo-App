@@ -79,31 +79,6 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         }
     }
 
-    private void initSpinner() {
-        AppCompatSpinner spinner = findViewById(R.id.toolbarSpinner);
-        spinner.setPrompt("Guardarropas");
-        SpinnerArrayAdapter<Guardarropa> adapter =
-                new SpinnerArrayAdapter<Guardarropa>(_activity, android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                application.setGuardarropaActual((Guardarropa) parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        ((QueMePongo)getApplication()).getGuardarropaObserver().observe(_activity, guardarropasList -> {
-            adapter.addAll(guardarropasList);
-            adapter.notifyDataSetChanged();
-        });
-    }
     protected boolean enableToolbarSpinner(){
         return true;
     }

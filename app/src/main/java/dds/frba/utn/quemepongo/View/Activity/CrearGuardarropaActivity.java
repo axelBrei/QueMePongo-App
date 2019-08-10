@@ -57,7 +57,7 @@ public class CrearGuardarropaActivity extends QueMePongoActivity {
                                     @Override
                                     public void onComplete(Integer param) {
                                         Guardarropa guardarropa = new Guardarropa(param, nombre.getText().toString());
-                                        application.addGuardarropa(guardarropa);
+                                        application.getGuardarropas().add(guardarropa);
                                         Intent intent = new Intent(_activity, MainActivity.class);
                                         startActivity(intent);
                                     }

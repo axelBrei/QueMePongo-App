@@ -23,11 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Model.Atuendo;
-import dds.frba.utn.quemepongo.Model.Prenda;
-import dds.frba.utn.quemepongo.Model.TiposPrenda.Accesorios;
-import dds.frba.utn.quemepongo.Model.TiposPrenda.Calzado;
-import dds.frba.utn.quemepongo.Model.TiposPrenda.Inferior;
-import dds.frba.utn.quemepongo.Model.TiposPrenda.Superior;
 import dds.frba.utn.quemepongo.R;
 
 public class AtuendosAdapter extends RecyclerView.Adapter {
@@ -67,9 +62,11 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
     }
 
     public void setList(List<Atuendo> atuendos){
-        atuendoList.clear();
-        atuendoList.addAll(atuendos);
-        notifyDataSetChanged();
+        if(atuendos != null){
+            atuendoList.clear();
+            atuendoList.addAll(atuendos);
+            notifyDataSetChanged();
+        }
     }
 
     private class AtuendoViewHolder extends RecyclerView.ViewHolder{

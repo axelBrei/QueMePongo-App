@@ -34,7 +34,6 @@ import retrofit2.Response;
 
 public class AtuendosFragment extends Fragment {
     //UI
-    private FloatingActionButton generarAtuendoButton;
     private RecyclerView atuendosRecyclerView;
     //MODEL
     private AtuendosViewModel atuendosViewModel;
@@ -59,41 +58,18 @@ public class AtuendosFragment extends Fragment {
         this.atuendosViewModel = ViewModelProviders.of(getActivity()).get(AtuendosViewModel.class);
         this.application = (QueMePongo) getActivity().getApplication();
 
-        generarAtuendoButton = view.findViewById(R.id.atuendosFragmentFAB);
         atuendosRecyclerView = view.findViewById(R.id.atuendosFragmentRecyclerView);
 
-        generarAtuendoButton.setOnClickListener( v -> fetchAtuendos());
 
         AtuendosAdapter adapter = new AtuendosAdapter(getActivity());
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         atuendosRecyclerView.addItemDecoration(itemDecoration);
         atuendosRecyclerView.setAdapter(adapter);
         atuendosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        atuendosViewModel.getAtuendo(this, atuendo -> {
-            adapter.setList(atuendo);
+        atuendosViewModel.getAtuendo(this, guardarropa -> {
+            adapter.setList(guardarropa.getAtuendos());
         });
 
         return view;
-    }
-
-    private void fetchAtuendos(){
-        GetAtuendosRequest request = new GetAtuendosRequest(
-                FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                atuendosViewModel.getApplication().getGuardarropaActual().getValue().getId()
-        );
-        Call<List<Atuendo>> call = atuendosViewModel.getAtuendosRespository().getAtuendoRecomendado(request);
-        application.loading.setValue(true);
-        new Thread(() ->
-                call.enqueue(new ErrorHelper().showCallbackErrorIfNeed((QueMePongoActivity) getActivity(),
-                        new OnCompleteListenner<List<Atuendo>>() {
-                            @Override
-                            public void onComplete(List<Atuendo> param) {
-                                atuendosViewModel.setAtuendos(param);
-                                application.loading.setValue(false);
-                            }
-                        }, null)
-                )
-        ).run();
-
     }
 }

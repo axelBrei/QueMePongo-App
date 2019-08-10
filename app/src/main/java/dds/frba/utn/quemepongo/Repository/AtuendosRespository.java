@@ -9,7 +9,4 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AtuendosRespository {
-
-    @POST("/atuendo/getAtuendo")
-    Call<List<Atuendo>> getAtuendoRecomendado(@Body GetAtuendosRequest body);
 }
