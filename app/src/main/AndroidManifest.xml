@@ -16,11 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
         android:windowSoftInputMode="adjustPan|adjustResize">
-
-        <receiver
-            android:name=".Services.CalendarReciver"
+        <service
+            android:name=".Services.FirebaseMessagingService"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".View.Activity.CrearGuardarropaActivity" /> <!-- SPLASH SCREEN -->
         <activity

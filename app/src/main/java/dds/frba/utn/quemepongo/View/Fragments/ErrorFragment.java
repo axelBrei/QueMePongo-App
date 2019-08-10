@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import com.dd.processbutton.iml.ActionProcessButton;
 
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
+import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ErrorFragment extends Fragment {
@@ -36,7 +38,23 @@ public class ErrorFragment extends Fragment {
         ActionProcessButton button = view.findViewById(R.id.ErrorFragmentretryButton);
         button.setOnClickListener( (View v) -> {
             button.setProgress(50);
-            call.clone().enqueue(callback);
+            call.clone().enqueue(new CustomRetrofitCallback() {
+                @Override
+                public void onCustomResponse(Call call, Response response) {
+                    getActivity().getFragmentManager().beginTransaction().remove(ErrorFragment.this).commit();
+                    callback.onCustomResponse(call, response);
+                }
+
+                @Override
+                public void onCustomFailure(Call call, Error error) {
+                    callback.onCustomFailure(call, error);
+                }
+
+                @Override
+                public void onHttpRequestFail(Call call, Throwable t) {
+                    callback.onHttpRequestFail(call, t);
+                }
+            });
         });
 
         return  view;

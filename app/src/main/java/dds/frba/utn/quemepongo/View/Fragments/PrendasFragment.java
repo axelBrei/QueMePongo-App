@@ -80,7 +80,7 @@ public class PrendasFragment extends Fragment {
         prendasViewModel.getApplication().getGuardarropaActual().observe(
                 getActivity(),
                 guardarropa -> {
-                    if (guardarropa.getDescripcion() != null) {
+                        if (guardarropa.getPrendas() != null) {
                         eventsInterface.setSpinnerItem(prendasViewModel.getApplication().getGuardarropas().indexOf(guardarropa));
                         prendasViewModel.setPrendas(guardarropa.getPrendas());
                         adapter.setIdGuardarropa(String.valueOf(guardarropa.getId()));

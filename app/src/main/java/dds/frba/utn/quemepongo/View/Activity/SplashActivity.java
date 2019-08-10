@@ -1,18 +1,13 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.provider.CalendarContract;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import dds.frba.utn.quemepongo.Services.CalendarReciver;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Schedulable;
@@ -23,7 +18,6 @@ import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
 import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
-import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private static GuardarropasRepository repository;
@@ -39,8 +33,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         repository = RetrofitInstanciator.getInstance().getRetrofit().create(GuardarropasRepository.class);
-
-        initalizeCalendarReciver();
 
         if(mAuth.getCurrentUser() != null){
             QueMePongo application = ((QueMePongo) getApplication());
@@ -99,13 +91,5 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void initalizeCalendarReciver(){
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(CalendarContract.ACTION_EVENT_REMINDER);
-        filter.addDataScheme("content");
-        filter.addDataAuthority("com.android.calendar", null);
-        registerReceiver(new CalendarReciver(), filter);
-    }
 
 }

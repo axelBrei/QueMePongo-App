@@ -109,13 +109,13 @@ public class PrendasAdapter extends RecyclerView.Adapter {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    repository.eliminarPrenda(
-                            new DeletePrendaRequest(
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                    getIdGuardarropa(),
-                                    new PrendaRequestObject(prenda)
-                            )
-                    ).enqueue( new ErrorHelper().showCallbackErrorIfNeed((QueMePongo) activity.getApplication(),
+                    DeletePrendaRequest request = new DeletePrendaRequest(
+                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                            Integer.parseInt(getIdGuardarropa()),
+                            prenda.getId()
+                    );
+                    repository.eliminarPrenda(request)
+                            .enqueue( new ErrorHelper().showCallbackErrorIfNeed((QueMePongo) activity.getApplication(),
                             new OnCompleteListenner<Void>() {
                                 @Override
                                 public void onComplete(Void param) {
