@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import dds.frba.utn.quemepongo.Controllers.GuardarropaController;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Schedulable;
@@ -17,10 +18,13 @@ import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardar
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
 import dds.frba.utn.quemepongo.Utils.ActivityHelper;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 
 public class SplashActivity extends AppCompatActivity {
     private static GuardarropasRepository repository;
+    private GuardarropaController guardarropaController;
     private static FirebaseAuth mAuth;
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -32,64 +36,34 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        guardarropaController = new GuardarropaController(SplashActivity.this);
         repository = RetrofitInstanciator.instanciateRepository(GuardarropasRepository.class);
 
         if(mAuth.getCurrentUser() != null){
-            QueMePongo application = ((QueMePongo) getApplication());
-            SplashActivity.fectchGuardarropas(application, param -> {
+            guardarropaController.getGuardarropasDelCliente(
+                    new OnCompleteListenerWithStatusAndApplication() {
+                        @Override
+                        public void onComplete(Boolean succed, QueMePongo application, Object obj) {
+                            if(succed){
+                                GetGuardarropasResponse reponse = (GetGuardarropasResponse) obj;
 
-                Intent inten = new Intent(SplashActivity.this, MainActivity.class);
-
-                if (param.getGuardarropas().isEmpty()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
-                    inten = ActivityHelper.startActivityWithBacbButtonBlocked(
-                            SplashActivity.this,
-                            CrearGuardarropaActivity.class,
-                            bundle);
-                }else {
-                    application.setGuardarropas(param);
-                }
-                startActivity(inten);
-
-            }, new OnCompleteListenner<Error>() {
-                @Override
-                public void onComplete(Error param) {
-                    //TODO send retry to the execute again the failed method
-                }
-            });
+                                if (reponse.getGuardarropas().isEmpty()) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
+                                    ActivityHelper.startActivityWithBacbButtonBlocked(
+                                            SplashActivity.this,
+                                            CrearGuardarropaActivity.class,
+                                            bundle);
+                                }else {
+                                    application.setGuardarropas(reponse);
+                                    ActivityHelper.startActivity(SplashActivity.this, MainActivity.class);
+                                }
+                            }
+                        }
+                    }
+            );
         }else{
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            ActivityHelper.startActivity(SplashActivity.this, LoginActivity.class);
         }
     }
-
-    public static void fectchGuardarropas(
-            Schedulable schedulable,
-            OnCompleteListenner<GetGuardarropasResponse> succedListener,
-            @Nullable OnCompleteListenner<Error> errorListenner){
-        if(mAuth.getCurrentUser() != null){
-            repository
-            .getGuardarropasDelCliente(
-                            new GetGuardarropaRequest(
-                                    mAuth.getCurrentUser().getUid())
-                    )
-            .enqueue(new ErrorHelper().showCallbackErrorIfNeed(schedulable,
-                    new OnCompleteListenner<GetGuardarropasResponse>() {
-                        @Override
-                        public void onComplete(GetGuardarropasResponse param) {
-                            succedListener.onComplete(param);
-                        }
-                    },
-                    new OnCompleteListenner<Error>() {
-                        @Override
-                        public void onComplete(Error param) {
-                            if(errorListenner != null)
-                                errorListenner.onComplete(param);
-                        }
-                    }));
-        }
-    }
-
-
 }

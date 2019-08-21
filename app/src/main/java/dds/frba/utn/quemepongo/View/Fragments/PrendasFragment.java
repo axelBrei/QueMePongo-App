@@ -2,15 +2,12 @@ package dds.frba.utn.quemepongo.View.Fragments;
 
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Rect;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,17 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import dds.frba.utn.quemepongo.Adapters.PrendasAdapter;
-import dds.frba.utn.quemepongo.Helpers.SwipeToDeleteHelper;
-import dds.frba.utn.quemepongo.Model.Prenda;
+import dds.frba.utn.quemepongo.Helpers.ListSwipeHelper;
 import dds.frba.utn.quemepongo.R;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.View.Activity.CrearPrendasActivity;
 import dds.frba.utn.quemepongo.ViewModel.PrendasViewModel;
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +73,7 @@ public class PrendasFragment extends Fragment {
                 getActivity(),
                 guardarropa -> {
                         if (guardarropa.getPrendas() != null) {
-                        eventsInterface.setSpinnerItem(prendasViewModel.getApplication().getGuardarropas().indexOf(guardarropa));
+                        eventsInterface.setSpinnerItem(prendasViewModel.getApplication().getGuardarropas().getValue().indexOf(guardarropa));
                         prendasViewModel.setPrendas(guardarropa.getPrendas());
                         adapter.setIdGuardarropa(String.valueOf(guardarropa.getId()));
                     }
@@ -96,8 +88,7 @@ public class PrendasFragment extends Fragment {
 
         agregarPrendaFAB.setOnClickListener( (View v) -> {
             // CARGO FRAGMENT PARA CREAR PRENDA
-            Intent intent = new Intent(getContext(), CrearPrendasActivity.class);
-            startActivity(intent);
+            ActivityHelper.startActivity(getActivity(), CrearPrendasActivity.class);
         });
         return view;
     }
@@ -131,19 +122,36 @@ public class PrendasFragment extends Fragment {
     }
 
     private void attachItemTouchHelper(PrendasAdapter adapter){
-        new ItemTouchHelper(new SwipeToDeleteHelper<PrendasAdapter>(adapter, getContext()){
+        new ItemTouchHelper(new ListSwipeHelper<PrendasAdapter>(getContext()){
             @Override
-            public void adapterRemoveItem(int index) {
-                eventsInterface.onLoading(true);
-                // TODO: handle errors
-                adapter.removeItem(index,
-                        // on succes
-                        param -> eventsInterface.onLoading(false),
-                        // on fail
-                        error -> {
-                            eventsInterface.onLoading(false);
-                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                        });
+            public int enableDirections() {
+                return ListSwipeHelper.LEFT;
+            }
+
+            @Override
+            public ColorDrawable getColorDirection(int direction) {
+                return new ColorDrawable(Color.RED);
+            }
+
+            @Override
+            public int getDirectionIcon(int dir) {
+                return R.drawable.ic_delete_gray_24dp;
+            }
+
+            @Override
+            public void onSwipe(int index, int direction) {
+                if(direction == ListSwipeHelper.LEFT){
+                    eventsInterface.onLoading(true);
+                    // TODO: handle errors
+                    adapter.removeItem(index,
+                            // on succes
+                            param -> eventsInterface.onLoading(false),
+                            // on fail
+                            error -> {
+                                eventsInterface.onLoading(false);
+                                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                            });
+                }
             }
         }).attachToRecyclerView(prendasRecyclerView);
     }

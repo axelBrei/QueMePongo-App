@@ -9,7 +9,7 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.R;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.Fragments.ErrorFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +26,7 @@ public class ErrorHelper {
 
     }
 
-    public static void ShowSimpleError(Context activity, String errorMessage){
+    public static void showSimpleError(Context activity, String errorMessage){
          getDefaultErrorBuilder(activity)
             .setDescription(errorMessage)
              .setNeutralText("Aceptar")
@@ -58,16 +58,18 @@ public class ErrorHelper {
     }
 
     public <T> CustomRetrofitCallback<T>  showCallbackErrorIfNeed(Schedulable schedulable, OnCompleteListenner<T> listenner){
+        schedulable.startLoading();
         return new CustomRetrofitCallback<T>(){
             @Override
             public void onCustomResponse(Call<T> call, Response<T> response) {
+                schedulable.stopLoading();
                 listenner.onComplete(response.body());
             }
 
             @Override
             public void onCustomFailure(Call<T> call, Error error) {
                 schedulable.stopLoading();
-                ShowSimpleError(schedulable.getContext(), error.getMessage());
+                showSimpleError(schedulable.getContext(), error.getMessage());
             }
 
             @Override
@@ -82,9 +84,11 @@ public class ErrorHelper {
     }
 
     public <T> CustomRetrofitCallback<T>  showCallbackErrorIfNeed(Schedulable schedulable, OnCompleteListenner<T> succedListenner, OnCompleteListenner<Error> errorListener){
+        schedulable.startLoading();
         return new CustomRetrofitCallback<T>(){
             @Override
             public void onCustomResponse(Call<T> call, Response<T> response) {
+                schedulable.stopLoading();
                 succedListenner.onComplete(response.body());
             }
 
@@ -93,7 +97,7 @@ public class ErrorHelper {
                 if(errorListener != null)
                     errorListener.onComplete(error);
                 schedulable.stopLoading();
-                ShowSimpleError(schedulable.getContext(), error.getMessage());
+                showSimpleError(schedulable.getContext(), error.getMessage());
             }
 
             @Override

@@ -1,19 +1,16 @@
 package dds.frba.utn.quemepongo.Model.WebServices.Request.Atuendo;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults( level = AccessLevel.PRIVATE)
 public class GetAtuendoRequest {
-    private String username;
-    private Integer idGuardarropa;
-
-    public GetAtuendoRequest(String username, Integer idGuardarropa) {
-        this.username = username;
-        this.idGuardarropa = idGuardarropa;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public Integer getIdGuardarropa() {
-        return idGuardarropa;
-    }
+    String username;
+    Integer idGuardarropa;
 }

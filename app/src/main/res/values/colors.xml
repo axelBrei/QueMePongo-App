@@ -16,9 +16,16 @@
 
     <color name="cardbackground">#FFFFFF</color>
 
+    <color name="opacityBackground">#CC242323</color>
+
     <color name="cellBackgrouncColor">#E2E0E0</color>
     <color name="lightCellBlue">#45F89A63</color>
 
     <color name="grayFontColor">#99000000</color>
     <color name="colorAccentIconBackground">#A1FFCB6D</color>
+
+    <color name="shareGreen">#4AB41D</color>
+
+    <!-- REGULAR COLORS -->
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -1,13 +1,9 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.database.Observable;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -16,12 +12,8 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,16 +21,15 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import dds.frba.utn.quemepongo.Controllers.ClienteController;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Cliente;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.ClienteRepository;
 import dds.frba.utn.quemepongo.Utils.ActivityHelper;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterActivity extends QueMePongoActivity {
 
@@ -49,6 +40,8 @@ public class RegisterActivity extends QueMePongoActivity {
     private TextInputLayout usernameLayout;
     private TextInputLayout mailLayout;
     private TextInputLayout passwordLayout;
+
+    private ClienteController clienteController;
 
     private ClienteRepository clienteRepository;
 
@@ -87,6 +80,7 @@ public class RegisterActivity extends QueMePongoActivity {
             }
         });
 
+        clienteController = new ClienteController(this);
         clienteRepository = RetrofitInstanciator.instanciateRepository(ClienteRepository.class);
     }
 
@@ -125,7 +119,7 @@ public class RegisterActivity extends QueMePongoActivity {
                                    })
                                    .addOnFailureListener(e -> ErrorHelper.showGenericError(_activity))
                                    .addOnCanceledListener(() -> {
-                                       ErrorHelper.ShowSimpleError(_activity, "Ha ocurrido un error y se ha cancelado la peticion, por favor intente de nuevo");
+                                       ErrorHelper.showSimpleError(_activity, "Ha ocurrido un error y se ha cancelado la peticion, por favor intente de nuevo");
                                    });
 
                        }else{
@@ -199,25 +193,25 @@ private void handleFirebaseError(Task<AuthResult> task){
     }
 
     private void registerUser(String userId){
-        Call<Void> c = clienteRepository.nuevoCliente(new Cliente(userId, mail.getText().toString(), username.getText().toString()));
-        c.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
-                startActivity(
-                        ActivityHelper.startActivityWithBacbButtonBlocked(
-                                RegisterActivity.this,
-                                CrearGuardarropaActivity.class,
-                                bundle
-                        )
-                );
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                setButtonError();
-            }
-        });
+        Cliente cliente = new Cliente(userId, mail.getText().toString(), username.getText().toString());
+        clienteController.registrarClienteNuevo(
+                cliente,
+                new OnCompleteListenerWithStatus() {
+                    @Override
+                    public void onComplete(Boolean succed, Object obj) {
+                        if(succed){
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean(CrearGuardarropaActivity.SHOW_INTRO_TEXT, true);
+                            ActivityHelper.startActivityWithBacbButtonBlocked(
+                                    RegisterActivity.this,
+                                    CrearGuardarropaActivity.class,
+                                    bundle
+                            );
+                        }else {
+                            setButtonError();
+                        }
+                    }
+                }
+        );
     }
 }

@@ -71,6 +71,9 @@ dependencies {
     //DIALOG
     implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 
+    //QR READER/GENERATOR
+    implementation 'me.ydcool.lib:qrmodule:latest.integration'
+
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 

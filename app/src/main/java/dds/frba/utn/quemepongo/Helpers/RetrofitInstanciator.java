@@ -30,7 +30,8 @@ public class RetrofitInstanciator {
 
     private RetrofitInstanciator() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.14:8080")
+//                .baseUrl("http://192.168.1.204:8080")
+                .baseUrl("https://49cff3a9.ngrok.io")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

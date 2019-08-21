@@ -27,4 +27,7 @@
     <string name="openDrawer">OPEN_DRAWER</string>
     <string name="closeDrawer">CLOSE_DRAWER</string>
     <string name="crearGuardarropa">Crear guardarropa</string>
+    <string name="drawerGuardarropas">Guardarropas</string>
+    <string name="drawerEventos">Eventos</string>
+    <string name="drawerShowQr">Mostrar mi QR</string>
 </resources>

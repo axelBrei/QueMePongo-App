@@ -3,6 +3,7 @@ package dds.frba.utn.quemepongo.Repository;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Model.Guardarropa;
+import dds.frba.utn.quemepongo.Model.WebServices.Request.Guardarropa.CompartirGuardarropaRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Guardarropa.GetGuardarropaRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import retrofit2.Call;
@@ -14,7 +15,6 @@ import retrofit2.http.Query;
 public interface GuardarropasRepository {
 
     @POST("guardaropa/getCantidad")
-//    @POST("http://www.mocky.io/v2/5cc7320d3200008734b9513e")
     Call<GetGuardarropasResponse> getGuardarropasDelCliente(@Body GetGuardarropaRequest body);
 
     @POST("guardaropa/nuevo")
@@ -25,4 +25,7 @@ public interface GuardarropasRepository {
 
     @GET("guardaropa/get")
     Call<Guardarropa> getGuardarropas(@Query("uid")String uid, @Query("idGuardarropa")   int idGuardarropa);
+
+    @POST("guardaropa/compartir")
+    Call<Void> compartirGuardarropa(@Body CompartirGuardarropaRequest request);
 }

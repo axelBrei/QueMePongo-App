@@ -4,32 +4,27 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
-import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
 import dds.frba.utn.quemepongo.Controllers.JsonController;
+import dds.frba.utn.quemepongo.Controllers.PrendasController;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
-import dds.frba.utn.quemepongo.Model.WebServices.Response.Prendas.AddPrendaResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 import dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel;
 import retrofit2.Call;
-import retrofit2.Response;
 
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.FORMALIDAD;
 import static dds.frba.utn.quemepongo.ViewModel.CrearPrendasViewModel.PRIMARY_COLOR_TYPE;
@@ -51,6 +46,8 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     private SmartMaterialSpinner abrigoSpinner;
     private TextInputEditText descripcionEditText;
     private MaterialButton uploadButton;
+
+    private PrendasController prendasController;
     
     
     @Override
@@ -73,8 +70,10 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         viewModel.setColores(controller.getColors());
         viewModel.setTiposDeTela(controller.getTiposDeTela());
 
+        prendasController = new PrendasController(_activity);
+
         initUI();
-        ToolbarView.setToolbarTitle(_activity, "Crear prenda");
+        setToolbarTitle("Crear prenda");
     }
 
     @Override
@@ -89,24 +88,21 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
         uploadButton.setOnClickListener( (v) -> {
             setProgressDialog(true);
             viewModel.setPrendaField(CrearPrendasViewModel.DESCRIPCION_PRENDA, descripcionEditText.getText().toString());
-            HashMap<String, Object> request = new HashMap<>();
-            request.put("prenda", viewModel.getPrenda());
-            request.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            request.put("idGuardarropa", ( (QueMePongo)viewModel.getApplication()).getGuardarropaActual().getValue().getId());
-            Call<HashMap<Object, Object>> c = viewModel.getPrendasRepository().anadirPrenda(request);
-            c.enqueue(new ErrorHelper().showCallbackErrorIfNeed(_activity,
-                    new OnCompleteListenner<HashMap<Object, Object>>() {
-                        @Override
-                        public void onComplete(HashMap<Object, Object> param) {
-                            setProgressDialog(false);
-                            Integer prendaId = Float.floatToIntBits(Float.parseFloat(param.get("idPrenda").toString()));
-                            viewModel.getApplication().addPrendaToGuardarropa(viewModel.getPrendaGenerada(prendaId));
-                            onBackPressed();
-                        }
-                    }
-            ));
-        });
 
+            prendasController.agregarPrenda(viewModel.getPrenda(), new OnCompleteListenerWithStatusAndApplication() {
+                @Override
+                public void onComplete(Boolean success, QueMePongo application, Object obj) {
+                    if(success){
+                        HashMap<String, Object> response = (HashMap<String, Object>) obj;
+                        setProgressDialog(false);
+                        Integer prendaId = Float.floatToIntBits(Float.parseFloat(response.get("idPrenda").toString()));
+                        viewModel.getApplication().addPrendaToGuardarropa(viewModel.getPrendaGenerada(prendaId));
+                        onBackPressed();
+                    }
+
+                }
+            });
+        });
         initSpinners();
         enableBackButton();
     }

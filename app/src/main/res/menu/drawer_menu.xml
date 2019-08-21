@@ -2,8 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/sideMenuShareQr"
+        android:title="@string/drawerShowQr"
+        android:icon="@drawable/ic_qr_code"
+        >
+
+    </item>
+    <item
         android:id="@+id/sideMenuCrearGuardarropa"
         android:title="@string/crearGuardarropa"
+        android:icon="@drawable/ic_add_black"
+        />
+
+    <item
+        android:id="@+id/sideMenuVerGuardarropas"
+        android:title="@string/drawerGuardarropas"
+        android:icon="@drawable/ic_add_black"
+        />
+
+    <item
+        android:id="@+id/sideMenuEventos"
+        android:title="@string/drawerEventos"
         android:icon="@drawable/ic_add_black"
         />
 

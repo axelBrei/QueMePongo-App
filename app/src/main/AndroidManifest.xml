@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".QueMePongo"
@@ -16,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
         android:windowSoftInputMode="adjustPan|adjustResize">
+        <activity android:name=".View.Activity.GuardarropasActivity" />
+
         <service
             android:name=".Services.FirebaseMessagingService"
             android:enabled="true"
@@ -26,6 +31,7 @@
         </service>
 
         <activity android:name=".View.Activity.CrearGuardarropaActivity" /> <!-- SPLASH SCREEN -->
+        <activity android:name="me.ydcool.lib.qrmodule.activity.QrScannerActivity" /> <!-- QR ACTIVITY -->
         <activity
             android:name=".View.Activity.SplashActivity"
             android:theme="@style/SplashTheme">

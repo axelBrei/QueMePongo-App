@@ -47,7 +47,7 @@ public class ToolbarView extends Toolbar {
         return view;
     }
 
-    public static void setToolbarTitle(QueMePongoActivity activity, String title){
+    public void setToolbarTitle(String title){
         activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
         activity.getSupportActionBar().setTitle(title);
     }
@@ -57,23 +57,22 @@ public class ToolbarView extends Toolbar {
     }
 
     private void initSpinner(){
-        List<Guardarropa> guardarropas = application.getGuardarropas();
-//        MaterialSpinner spinner = findViewById(R.id.toolbarSpinner);
-        List<String> descripciones = new ArrayList<>();
-        if(guardarropas == null || guardarropas.size() == 0) return;
-        for (Guardarropa g :guardarropas) {
-            descripciones.add(g.getDescripcion());
-        }
-        spinner.setPrompt("Guardarropas");
         SpinnerArrayAdapter<Guardarropa> adapter =
                 new SpinnerArrayAdapter<Guardarropa>(activity, android.R.layout.simple_spinner_dropdown_item);
-        adapter.addAll(guardarropas);
+
+        application.getGuardarropas().observe(activity, list -> {
+            adapter.clear();
+            adapter.addAll(list);
+            adapter.notifyDataSetChanged();
+        });
+        spinner.setPrompt("Guardarropas");
+
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                application.setGuardarropaActual( guardarropas.get(position));
+                application.setGuardarropaActual( application.getGuardarropas().getValue().get(position) );
             }
 
             @Override

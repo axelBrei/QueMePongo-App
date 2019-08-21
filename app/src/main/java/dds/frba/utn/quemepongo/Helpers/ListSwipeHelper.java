@@ -13,16 +13,20 @@ import android.view.View;
 
 import dds.frba.utn.quemepongo.R;
 
-public abstract class SwipeToDeleteHelper<T extends RecyclerView.Adapter> extends ItemTouchHelper.SimpleCallback {
-    private RecyclerView.Adapter adapter;
+
+public abstract class ListSwipeHelper<T extends RecyclerView.Adapter> extends ItemTouchHelper.SimpleCallback {
+    public static final int LEFT = ItemTouchHelper.LEFT;
+    public static final int RIGHT = ItemTouchHelper.RIGHT;
+
     private Drawable icon;
     private  ColorDrawable background;
+    private Context context;
 
-    public SwipeToDeleteHelper(RecyclerView.Adapter adapter, Context context) {
+    public ListSwipeHelper(Context context) {
         super(0,ItemTouchHelper.LEFT);
-        this.adapter = adapter;
-        icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_black_24dp);
+        icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_gray_24dp);
         background = new ColorDrawable(Color.RED);
+        this.context = context;
     }
 
     @Override
@@ -32,8 +36,12 @@ public abstract class SwipeToDeleteHelper<T extends RecyclerView.Adapter> extend
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        adapterRemoveItem(viewHolder.getAdapterPosition());
+        onSwipe(
+                viewHolder.getAdapterPosition(),
+                i == LEFT ? LEFT : RIGHT
+        );
     }
+
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -43,15 +51,29 @@ public abstract class SwipeToDeleteHelper<T extends RecyclerView.Adapter> extend
         int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconBottom = iconTop + icon.getIntrinsicHeight();
-
         if (dX < 0) { // Swiping izquierdo
+            background = getColorDirection(LEFT);
+            icon = ContextCompat.getDrawable(context,getDirectionIcon(LEFT));
+
             int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
             background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        } else { // sin swipe
+        } else if (dX > 0) { // Swiping to the right
+            background = getColorDirection(RIGHT);
+            icon = ContextCompat.getDrawable(context,getDirectionIcon(RIGHT));
+
+            int iconLeft = itemView.getLeft() + iconMargin;
+            int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
+            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+            background.setBounds(itemView.getLeft(), itemView.getTop(),
+                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset,
+                    itemView.getBottom());
+
+        }else { // sin swipe
             background.setBounds(0, 0, 0, 0);
             icon.setBounds(0,0,0,0);
         }
@@ -60,9 +82,15 @@ public abstract class SwipeToDeleteHelper<T extends RecyclerView.Adapter> extend
         icon.draw(c);
     }
 
+    @Override
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        return makeMovementFlags(0, enableDirections());
+    }
 
-
-    public abstract void adapterRemoveItem(int index);
-
-
+    public abstract void onSwipe(int index, int direction);
+    public int enableDirections(){
+        return LEFT | RIGHT;
+    }
+    public abstract ColorDrawable getColorDirection(int direction);
+    public abstract int getDirectionIcon(int dir);
 }

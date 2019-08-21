@@ -1,9 +1,7 @@
 package dds.frba.utn.quemepongo.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -12,28 +10,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dds.frba.utn.quemepongo.Controllers.PrendasController;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Prenda;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
-import dds.frba.utn.quemepongo.Model.WebServices.PrendaRequestObject;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.DeletePrendaRequest;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class PrendasAdapter extends RecyclerView.Adapter {
 
@@ -41,11 +39,12 @@ public class PrendasAdapter extends RecyclerView.Adapter {
     private String idGuardarropa;
     private Activity activity;
     private int cellResource = R.layout.prenda_item_cell;
-    private PrendasRepository repository = RetrofitInstanciator.instanciateRepository(PrendasRepository.class);
+    private PrendasController prendasController;
 
     public PrendasAdapter(Activity context) {
         prendas = new ArrayList<>();
         this.activity = context;
+        prendasController = new PrendasController(context);
     }
 
     public PrendasAdapter(Activity context, List<Prenda> prendas) {
@@ -109,27 +108,21 @@ public class PrendasAdapter extends RecyclerView.Adapter {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    DeletePrendaRequest request = new DeletePrendaRequest(
-                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                            Integer.parseInt(getIdGuardarropa()),
-                            prenda.getId()
-                    );
-                    repository.eliminarPrenda(request)
-                            .enqueue( new ErrorHelper().showCallbackErrorIfNeed((QueMePongo) activity.getApplication(),
-                            new OnCompleteListenner<Void>() {
+                    prendasController.eliminarPrenda(
+                            prenda.getId(),
+                            new OnCompleteListenerWithStatusAndApplication() {
                                 @Override
-                                public void onComplete(Void param) {
-                                    onCompleteListenner.onComplete(param);
-                                }
-                            },
-                            new OnCompleteListenner<Error>() {
-                                @Override
-                                public void onComplete(Error param) {
-                                    undoDelete(prenda,pos);
-                                    onFailListener.onComplete(param.getMessage());
+                                public void onComplete(Boolean success, QueMePongo application, @Nullable Object obj) {
+                                    if(success){
+                                        onCompleteListenner.onComplete(null);
+                                    }else {
+                                        undoDelete(prenda, pos);
+                                        onFailListener.onComplete( ((Error)obj).getMessage() );
+                                    }
+
                                 }
                             }
-                    ));
+                    );
                 }
                 onCompleteListenner.onComplete(null);
             }

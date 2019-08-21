@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/MainMenuLogout"
-        android:title="Cerrar sesion"
-        android:icon="@drawable/ic_exit_to_app_white"
+        android:id="@+id/ToolbarMenuShowQr"
+        android:title="Mostrar Qr"
+        android:icon="@drawable/ic_qr_code"
         app:showAsAction="always"
         android:iconTint="@color/colorPrimarytext"
         >

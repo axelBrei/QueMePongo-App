@@ -3,22 +3,16 @@ package dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa;
 import java.util.List;
 
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.ResponseObjects.GuardarropaResponseObject;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults( level = AccessLevel.PRIVATE)
 public class GetGuardarropasResponse {
-    private List<GuardarropaResponseObject> guardarropas;
-
-    public GetGuardarropasResponse(List<GuardarropaResponseObject> guardarropas) {
-        this.guardarropas = guardarropas;
-    }
-
-    public GetGuardarropasResponse() {
-    }
-
-    public List<GuardarropaResponseObject> getGuardarropas() {
-        return guardarropas;
-    }
-
-    public void setGuardarropas(List<GuardarropaResponseObject> guardarropas) {
-        this.guardarropas = guardarropas;
-    }
+    List<GuardarropaResponseObject> guardarropas;
 }

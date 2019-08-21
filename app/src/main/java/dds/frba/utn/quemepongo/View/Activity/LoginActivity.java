@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,11 +21,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import dds.frba.utn.quemepongo.Controllers.GuardarropaController;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Guardarropa.GetGuardarropasResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
-import dds.frba.utn.quemepongo.Utils.OnCompleteListenner;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 
 public class LoginActivity extends QueMePongoActivity {
@@ -38,6 +41,7 @@ public class LoginActivity extends QueMePongoActivity {
     private ActionProcessButton logInButton;
 
     private FirebaseAuth mAuth;
+    private GuardarropaController guardarropaController;
 
     @Override
     protected int getView() {
@@ -48,6 +52,7 @@ public class LoginActivity extends QueMePongoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        guardarropaController = new GuardarropaController(_activity);
 
         mail = findViewById(R.id.LoginUser);
         mailLayout = findViewById(R.id.LoginUserLayout);
@@ -62,8 +67,7 @@ public class LoginActivity extends QueMePongoActivity {
         logInButton.setOnClickListener(onClickLogIn());
 
         signUpButton.setOnClickListener( (View v) -> {
-            Intent inten = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(inten);
+            ActivityHelper.startActivity(_activity, RegisterActivity.class);
         });
 
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -92,21 +96,18 @@ public class LoginActivity extends QueMePongoActivity {
                 mAuth.signInWithEmailAndPassword(mailT, passT)
                         .addOnCompleteListener(( Task<AuthResult> task) -> {
                                     if(task.isSuccessful()){
-                                        SplashActivity.fectchGuardarropas(_activity,
-                                                new OnCompleteListenner<GetGuardarropasResponse>() {
+                                        guardarropaController.getGuardarropasDelCliente(
+                                                new OnCompleteListenerWithStatusAndApplication() {
                                                     @Override
-                                                    public void onComplete(GetGuardarropasResponse param) {
-                                                        ((QueMePongo) getApplication()).setGuardarropas(param);
-                                                        logInButton.setProgress(100);
-                                                        changeButtonsAccesibility(true);
-                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                        startActivity(intent);
-                                                    }
-                                                },
-                                                new OnCompleteListenner<Error>() {
-                                                    @Override
-                                                    public void onComplete(Error param) {
-                                                        logInButton.setProgress(0);
+                                                    public void onComplete(Boolean success   , QueMePongo application, Object obj) {
+                                                        if(success){
+                                                            application.setGuardarropas( (GetGuardarropasResponse) obj);
+                                                            logInButton.setProgress(100);
+                                                            changeButtonsAccesibility(true);
+                                                            ActivityHelper.startActivity(_activity, MainActivity.class);
+                                                        }else {
+                                                            logInButton.setProgress(0);
+                                                        }
                                                     }
                                                 }
                                         );

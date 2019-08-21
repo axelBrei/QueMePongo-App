@@ -21,14 +21,17 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.io.IOException;
 
 import dds.frba.utn.quemepongo.Adapters.ViewPagerAdapter;
+import dds.frba.utn.quemepongo.Controllers.ClienteController;
 import dds.frba.utn.quemepongo.Helpers.CustomNotificationManager;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Evento;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.ClienteRepository;
 import dds.frba.utn.quemepongo.Services.FirebaseMessagingService;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.View.Fragments.AtuendosFragment;
 import dds.frba.utn.quemepongo.View.Fragments.PrendasFragment;
+import dds.frba.utn.quemepongo.View.Fragments.QRFragment;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,20 +60,8 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
     }
 
     private void sendFirebaseToken() {
-       FirebaseMessagingService.getFirebaseToken(token -> {
-           RetrofitInstanciator.instanciateRepository(ClienteRepository.class)
-                   .actualizarToken(
-                           FirebaseAuth.getInstance().getUid(),
-                           token
-                   ).enqueue(new Callback<Void>() {
-               @Override
-               public void onResponse(Call<Void> call, Response<Void> response) {
-               }
-               @Override
-               public void onFailure(Call<Void> call, Throwable t) {
-               }
-           });
-       });
+        ClienteController controller = new ClienteController(this);
+        controller.actualizarFCMToken(FirebaseAuth.getInstance().getUid());
     }
 
     private void initSideMenu(){
@@ -117,15 +108,22 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
+            case R.id.sideMenuShareQr: {
+                ActivityHelper.showFragment(this, new QRFragment(), R.id.MainActivityScreen);
+                break;
+            }
             case R.id.sideMenuCrearGuardarropa: {
-                Intent intent = new Intent(_activity, CrearGuardarropaActivity.class);
-                startActivity(intent);
+                ActivityHelper.startActivity(_activity, CrearGuardarropaActivity.class);
                 break;
             }
             case R.id.sideMenuNotificacion:{
                 CustomNotificationManager.showNotification(this);
             }
+            case R.id.sideMenuVerGuardarropas: {
+                ActivityHelper.startActivity(_activity, GuardarropasActivity.class);
+            }
         }
+        drawerLayout.closeDrawers();
         return true;
     }
 

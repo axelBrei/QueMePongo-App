@@ -1,32 +1,18 @@
 package dds.frba.utn.quemepongo.View;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dds.frba.utn.quemepongo.Adapters.SpinnerArrayAdapter;
-import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.View.Activity.LoginActivity;
 import dds.frba.utn.quemepongo.View.Toolbar.ToolbarView;
 
@@ -82,6 +68,9 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     protected boolean enableToolbarSpinner(){
         return true;
     }
+    protected void setToolbarTitle(String title){
+        toolbar.setToolbarTitle(title);
+    }
 
 
     @Override
@@ -91,8 +80,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     }
 
     protected void logout(){
-        Intent intent = new Intent(_activity, LoginActivity.class);
-        startActivity(intent);
+        ActivityHelper.startActivity(_activity, LoginActivity.class);
         FirebaseAuth.getInstance().signOut();
         finish();
     }
