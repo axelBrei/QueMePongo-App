@@ -1,5 +1,7 @@
 package dds.frba.utn.quemepongo.Model;
 
+import java.io.Serializable;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -12,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Prenda {
+public class Prenda implements Serializable {
 
     Integer id = null;
     String tipoDeTela = "";

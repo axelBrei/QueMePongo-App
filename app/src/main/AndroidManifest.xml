@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
         android:windowSoftInputMode="adjustPan|adjustResize">
+        <activity android:name=".View.Activity.DetalleGuardarropaActivity"></activity>
         <activity android:name=".View.Activity.GuardarropasActivity" />
 
         <service

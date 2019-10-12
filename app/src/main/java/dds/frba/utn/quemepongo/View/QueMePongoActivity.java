@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.ButterKnife;
 import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
@@ -34,6 +35,7 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getView());
+        ButterKnife.bind(this);
         application = ( (QueMePongo) getApplication());
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null){

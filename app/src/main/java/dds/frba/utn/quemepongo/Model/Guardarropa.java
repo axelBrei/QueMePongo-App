@@ -3,6 +3,7 @@ package dds.frba.utn.quemepongo.Model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Guardarropa {
+public class Guardarropa implements Serializable {
     int id;
     String descripcion;
     String uidDueno;

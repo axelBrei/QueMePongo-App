@@ -12,6 +12,7 @@ import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.Repository.GuardarropasRepository;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 
 
 public class GuardarropaController {
@@ -87,5 +88,27 @@ public class GuardarropaController {
                                 (err) -> listener.onComplete(false,err)
                         )
                 );
+    }
+
+    public void dejarDeCompartirGuardarropa(int idGuardarropa, String toUser, OnCompleteListenerWithStatus listener) {
+        CompartirGuardarropaRequest request = new CompartirGuardarropaRequest(
+                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                toUser,
+                idGuardarropa);
+        repository.dejarDeCompartirGuardarropa(request)
+                .enqueue(new ErrorHelper().showCallbackErrorIfNeed(
+                        application,
+                        param -> listener.onComplete(true, param),
+                        error -> listener.onComplete(false, error)
+                ));
+    }
+
+    public void getCompartidos(Integer idGuardarropa, OnCompleteListenerWithStatus listenerWithStatus){
+        repository.getCompoartidosGuardarropa(FirebaseAuth.getInstance().getCurrentUser().getUid(), idGuardarropa)
+                .enqueue(new ErrorHelper().showCallbackErrorIfNeed(
+                        application,
+                        list -> listenerWithStatus.onComplete(true, list),
+                        er -> listenerWithStatus.onComplete(false, er)
+                ));
     }
 }

@@ -34,7 +34,6 @@ public class ErrorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_error, container, false);
-        // TODO: crear contenido de la pantalla
         ActionProcessButton button = view.findViewById(R.id.ErrorFragmentretryButton);
         button.setOnClickListener( (View v) -> {
             button.setProgress(50);

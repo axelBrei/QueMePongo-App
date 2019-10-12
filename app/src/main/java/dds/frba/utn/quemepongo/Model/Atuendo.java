@@ -1,5 +1,6 @@
 package dds.frba.utn.quemepongo.Model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Atuendo {
+public class Atuendo  implements Serializable {
     long id;
     float calificacion;
     List<Prenda> prendas;

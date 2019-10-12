@@ -89,7 +89,7 @@ public class ToolbarView extends Toolbar {
         }
     }
 
-    protected void setToolbarSpinner(Boolean showToolbar){
+    public void setToolbarSpinner(Boolean showToolbar){
         findViewById(R.id.toolbarSpinner).setVisibility( showToolbar ? View.VISIBLE : View.GONE);
     }
 }

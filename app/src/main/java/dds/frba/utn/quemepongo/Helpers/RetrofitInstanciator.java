@@ -29,9 +29,9 @@ public class RetrofitInstanciator {
     }
 
     private RetrofitInstanciator() {
+        String ip = "192.168.0.8";
         retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.1.204:8080")
-                .baseUrl("https://49cff3a9.ngrok.io")
+                .baseUrl("http://" + ip + ":8080")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

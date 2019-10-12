@@ -70,7 +70,6 @@ public class GuardarropasActivity extends QueMePongoActivity implements Swipeabl
 
     @Override
     public void onSwipeLeft(Guardarropa g) {
-        // TODO: delete
         controller.borrarGuardarropas(g.getId(), new OnCompleteListenerWithStatusAndApplication() {
             @Override
             public void onComplete(Boolean success, QueMePongo application, @Nullable Object obj) {
@@ -89,6 +88,13 @@ public class GuardarropasActivity extends QueMePongoActivity implements Swipeabl
     }
 
     @Override
+    public void onPress(Guardarropa g) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DetalleGuardarropaActivity.EXTRA_GUARDARROPA, g);
+        ActivityHelper.startActivity(_activity, DetalleGuardarropaActivity.class, bundle);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @android.support.annotation.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == QrScannerActivity.QR_REQUEST_CODE && data != null){
@@ -96,7 +102,6 @@ public class GuardarropasActivity extends QueMePongoActivity implements Swipeabl
             if(bundle != null){
                 String result = bundle.getString(QrScannerActivity.QR_RESULT_STR, "");
                 if(!result.isEmpty()){
-                    // TODO: share guardarropa
                     controller.compartirGuardarropa(
                             guardarropaACompartir.getId(),
                             result,
