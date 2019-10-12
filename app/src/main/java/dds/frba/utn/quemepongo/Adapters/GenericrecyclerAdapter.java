@@ -61,5 +61,10 @@ public abstract class GenericrecyclerAdapter<T> extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void removeItem(T item){
+        list.remove(item);
+        notifyDataSetChanged();
+    }
+
     public abstract void fillView(View v,T item);
 }

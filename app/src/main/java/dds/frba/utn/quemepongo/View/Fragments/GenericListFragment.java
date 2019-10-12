@@ -59,4 +59,10 @@ public class GenericListFragment<T> extends Fragment {
         }
     }
 
+    public void removeItem(T item){
+        if(adapter.getClass().getSuperclass().equals(GenericrecyclerAdapter.class)){
+            ((GenericrecyclerAdapter)adapter).removeItem(item);
+        }
+    }
+
 }
