@@ -142,7 +142,6 @@ public class PrendasFragment extends Fragment {
             public void onSwipe(int index, int direction) {
                 if(direction == ListSwipeHelper.LEFT){
                     eventsInterface.onLoading(true);
-                    // TODO: handle errors
                     adapter.removeItem(index,
                             // on succes
                             param -> eventsInterface.onLoading(false),

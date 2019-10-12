@@ -20,6 +20,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
+import butterknife.BindView;
 import dds.frba.utn.quemepongo.Adapters.ViewPagerAdapter;
 import dds.frba.utn.quemepongo.Controllers.ClienteController;
 import dds.frba.utn.quemepongo.Helpers.CustomNotificationManager;
@@ -39,20 +40,20 @@ import retrofit2.Response;
 
 public class MainActivity extends QueMePongoActivity  implements PrendasFragment.EventsInterface, TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener{
     // UI
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private DrawerLayout drawerLayout;
-    private NavigationView sideMenuView;
+    @BindView(R.id.MainScreenViewPager)
+        ViewPager viewPager;
+    @BindView(R.id.MainScreenTabLayout)
+        TabLayout tabLayout;
+    @BindView(R.id.MainActivityScreen)
+        DrawerLayout drawerLayout;
+    @BindView(R.id.NavigationDrawer)
+        NavigationView sideMenuView;
+
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //BUSCO UI
-        viewPager = findViewById(R.id.MainScreenViewPager);
-        tabLayout = findViewById(R.id.MainScreenTabLayout);
-        drawerLayout = findViewById(R.id.MainActivityScreen);
-        sideMenuView = findViewById(R.id.NavigationDrawer);
 
         initTabs();
         initSideMenu();
@@ -100,6 +101,7 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
         };
         tabLayout.addOnTabSelectedListener(this);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setupWithViewPager(viewPager);
         adapter.setTabsTitles(tabLayout);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);

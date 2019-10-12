@@ -74,6 +74,9 @@ dependencies {
     //QR READER/GENERATOR
     implementation 'me.ydcool.lib:qrmodule:latest.integration'
 
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 

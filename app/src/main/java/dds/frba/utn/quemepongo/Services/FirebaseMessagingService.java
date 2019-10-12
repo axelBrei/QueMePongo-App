@@ -15,7 +15,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        // TODO mandar nuevo token al back, relacionado al firebase auth
         RetrofitInstanciator
                 .getInstance()
                 .getRetrofit()

@@ -98,15 +98,18 @@ public class GuardarropasAdapter extends RecyclerView.Adapter {
 
     @FieldDefaults(level =  AccessLevel.PRIVATE)
     private class GuardarropaViewHolder extends RecyclerView.ViewHolder{
+        View itemView;
         AutofitTextView title;
 
         public GuardarropaViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.itemView = itemView;
             title = itemView.findViewById(R.id.GuardarropaCellTitle);
         }
 
         public void fillView(Guardarropa guardarropa){
             title.setText(guardarropa.getDescripcion());
+            itemView.setOnClickListener( v -> swipeable.onPress(guardarropa));
         }
     }
 
