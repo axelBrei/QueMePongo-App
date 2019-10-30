@@ -1,19 +1,19 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -41,11 +41,11 @@ import retrofit2.Response;
 public class MainActivity extends QueMePongoActivity  implements PrendasFragment.EventsInterface, TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener{
     // UI
     @BindView(R.id.MainScreenViewPager)
-        ViewPager viewPager;
+    ViewPager viewPager;
     @BindView(R.id.MainScreenTabLayout)
         TabLayout tabLayout;
     @BindView(R.id.MainActivityScreen)
-        DrawerLayout drawerLayout;
+    DrawerLayout drawerLayout;
     @BindView(R.id.NavigationDrawer)
         NavigationView sideMenuView;
 
@@ -116,6 +116,10 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
             }
             case R.id.sideMenuCrearGuardarropa: {
                 ActivityHelper.startActivity(_activity, CrearGuardarropaActivity.class);
+                break;
+            }
+            case R.id.sideMenuEventos: {
+                ActivityHelper.startActivity(_activity, EventsActivity.class);
                 break;
             }
             case R.id.sideMenuNotificacion:{

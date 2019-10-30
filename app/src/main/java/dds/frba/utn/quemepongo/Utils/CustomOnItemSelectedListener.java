@@ -13,12 +13,9 @@ public  class CustomOnItemSelectedListener implements AdapterView.OnItemSelected
         this.customListenner = customListenner;
     }
 
-
-
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-       customListenner.onItemSelectedCustom(parent,view,position,id, listenerType);
+       this.customListenner.onItemSelectedCustom(parent,view,position,id, listenerType);
     }
 
     @Override
@@ -27,6 +24,10 @@ public  class CustomOnItemSelectedListener implements AdapterView.OnItemSelected
 
     public interface OnItemSelectedCustom{
         void onItemSelectedCustom(AdapterView<?> parent, View view, int position, long id, String spinnerType);
+    }
+
+    public String getListenerType() {
+        return listenerType;
     }
 }
 

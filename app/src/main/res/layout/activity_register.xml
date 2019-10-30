@@ -9,7 +9,7 @@
     >
     <include layout="@layout/toolbar_layout" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".View.Activity.RegisterActivity"
@@ -38,14 +38,14 @@
             android:layout_marginRight="5dp"
             />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/RegisterMailLayout"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             >
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/RegisterMail"
 
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -74,7 +74,7 @@
                 android:layout_gravity="center"
                 />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/RegisterPasswordLayout"
 
                 android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                 app:passwordToggleEnabled="true"
 
                 >
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterPassword"
 
                     android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                     android:inputType="textPassword"
 
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
 
@@ -116,14 +116,15 @@
                 android:layout_marginRight="5dp"
                 />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/RegisterUsernameLayout"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true"
                 >
-                <android.support.design.widget.TextInputEditText
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/RegisterUsername"
 
                     android:layout_width="match_parent"
@@ -132,7 +133,7 @@
                     android:imeOptions="actionGo"
                     android:inputType="textEmailAddress"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <com.dd.processbutton.iml.ActionProcessButton
@@ -154,5 +155,5 @@
             app:pb_textError="@string/error"
             app:pb_textProgress="@string/loading" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

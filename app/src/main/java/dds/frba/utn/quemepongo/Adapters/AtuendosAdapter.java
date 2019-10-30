@@ -1,21 +1,16 @@
 package dds.frba.utn.quemepongo.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.aakira.expandablelayout.ExpandableLayout;
 
@@ -100,7 +95,7 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
             });
 
             PrendasAdapter adapter = new PrendasAdapter(activity, R.layout.prenda_grid_item_cell,a.getPrendas());
-            prendarRecycler.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+            prendarRecycler.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
             prendarRecycler.setAdapter(adapter);
 
         }

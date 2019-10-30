@@ -41,5 +41,9 @@
         <item name="android:bottomLeftRadius">20dp</item>
     </style>
 
+    <style name="errorAppearence" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/error_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
 </resources>

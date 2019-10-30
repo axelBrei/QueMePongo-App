@@ -10,7 +10,7 @@
     android:background="@color/colorPrimary"
     >
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
 
                 android:layout_width="match_parent"
@@ -20,7 +20,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 >
-                <android.support.v7.widget.AppCompatSpinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/toolbarSpinner"
 
                     style="@style/toolbarSpinner"
@@ -31,11 +31,11 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown">
 
-                </android.support.v7.widget.AppCompatSpinner>
-            </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.AppCompatSpinner>
+            </androidx.appcompat.widget.Toolbar>
 
 
-            <android.support.v4.widget.ContentLoadingProgressBar
+            <androidx.core.widget.ContentLoadingProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="7dp"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"

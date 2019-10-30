@@ -2,9 +2,8 @@ package dds.frba.utn.quemepongo;
 
 import android.app.Activity;
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;

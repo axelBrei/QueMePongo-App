@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AppText">
+        <attr name="hint" format="string"/>
+        <attr name="text" format="string"/>
+        <attr name="leftSrc" format="integer"/>
+        <attr name="rightSrc" format="integer"/>
+        <attr name="leftSrcTint" format="color"/>
+        <attr name="rightSrcTint" format="color"/>
+        <attr name="disabled" format="boolean"/>
+        <attr name="editable" format="boolean"/>
+        <attr name="showDivider" format="boolean"/>
+    </declare-styleable>
+</resources>

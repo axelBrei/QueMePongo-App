@@ -1,14 +1,14 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import dds.frba.utn.quemepongo.Adapters.GuardarropasAdapter;
@@ -51,7 +51,7 @@ public class GuardarropasActivity extends QueMePongoActivity implements Swipeabl
             adapter.setGuardarropas(list);
         });
         guardarropasRecyclerView.setAdapter(adapter);
-        guardarropasRecyclerView.setLayoutManager( new LinearLayoutManager(_activity, LinearLayoutManager.VERTICAL,false));
+        guardarropasRecyclerView.setLayoutManager( new LinearLayoutManager(_activity, RecyclerView.VERTICAL,false));
     }
 
     private void setFabClickListener() {
@@ -95,7 +95,7 @@ public class GuardarropasActivity extends QueMePongoActivity implements Swipeabl
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @android.support.annotation.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == QrScannerActivity.QR_REQUEST_CODE && data != null){
             Bundle bundle = data.getExtras();

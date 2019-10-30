@@ -29,7 +29,7 @@ public class RetrofitInstanciator {
     }
 
     private RetrofitInstanciator() {
-        String ip = "192.168.0.8";
+        String ip = "10.5.57.171";
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://" + ip + ":8080")
                 .addConverterFactory(JacksonConverterFactory.create())

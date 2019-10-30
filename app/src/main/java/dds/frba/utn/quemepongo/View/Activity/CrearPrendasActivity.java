@@ -1,13 +1,14 @@
 package dds.frba.utn.quemepongo.View.Activity;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
@@ -109,13 +110,13 @@ public class CrearPrendasActivity extends QueMePongoActivity implements CustomOn
     
 
     private void initSpinners(){
-        primaryColorSpinner.setItems(viewModel.getColores());
-        secondaryColorSpinner.setItems(viewModel.getColores());
-        tipoDePrendaSpinner.setItems(viewModel.getPartesQueOcupa());
-        telasSpinner.setItems(viewModel.getTiposDeTela());
-        tipoDePrendaSuperiorSpinner.setItems(viewModel.getTiposSuperiores());
-        formalidadSpinner.setItems(viewModel.getFormalidades());
-        abrigoSpinner.setItems(Arrays.asList("1","2","3","4","5","6","7","8","9","10"));
+        primaryColorSpinner.setItem(viewModel.getColores());
+        secondaryColorSpinner.setItem(viewModel.getColores());
+        tipoDePrendaSpinner.setItem(viewModel.getPartesQueOcupa());
+        telasSpinner.setItem(viewModel.getTiposDeTela());
+        tipoDePrendaSuperiorSpinner.setItem(viewModel.getTiposSuperiores());
+        formalidadSpinner.setItem(viewModel.getFormalidades());
+        abrigoSpinner.setItem(Arrays.asList("1","2","3","4","5","6","7","8","9","10"));
         abrigoSpinner.showFloatingLabel();
         initSpinnerData();
         setSpinnerClickListeners();

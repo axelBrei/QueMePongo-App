@@ -1,14 +1,15 @@
 package dds.frba.utn.quemepongo.View.Fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import dds.frba.utn.quemepongo.Adapters.AtuendosAdapter;
 import dds.frba.utn.quemepongo.QueMePongo;
@@ -48,7 +49,7 @@ public class AtuendosFragment extends Fragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         atuendosRecyclerView.addItemDecoration(itemDecoration);
         atuendosRecyclerView.setAdapter(adapter);
-        atuendosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        atuendosRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         atuendosViewModel.getAtuendo(this, guardarropa -> {
             adapter.setList(guardarropa.getAtuendos());
         });

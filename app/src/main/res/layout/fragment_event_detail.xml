@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragments.EventDetailFragment"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:paddingHorizontal="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/colorPrimary"
+        >
+
+        <ImageButton
+            android:id="@+id/EventDetailCloseFragment"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_black_24dp"
+            android:background="@drawable/background_transparent"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:id="@+id/EventDetailDelete"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/EventDetailCloseFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:background="@drawable/background_transparent"
+            android:layout_marginRight="20dp"
+            android:tint="@color/white"
+            />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/EventDetailName"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:minTextSize="18sp"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="15dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:tint="@color/lightGray"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/EventDetailDay"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:id="@+id/EventDetailTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <dds.frba.utn.quemepongo.View.CustomComponents.AppText
+            android:id="@+id/EventDetailFrecuency"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:showDivider="false"
+            app:editable="false"
+            app:leftSrc="@drawable/ic_cached_black_24dp"
+            app:leftSrcTint="@color/lightGray"
+            />
+
+        <dds.frba.utn.quemepongo.View.CustomComponents.AppText
+            android:id="@+id/EventDetailLocation"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:showDivider="false"
+            app:editable="false"
+            app:leftSrc="@drawable/ic_location_on_black_24dp"
+            app:leftSrcTint="@color/lightGray"
+            />
+
+        <dds.frba.utn.quemepongo.View.CustomComponents.AppText
+            android:id="@+id/EventDetailFomality"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:showDivider="false"
+            app:editable="false"
+            app:leftSrc="@drawable/ic_portrait_black_24dp"
+            app:leftSrcTint="@color/lightGray"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

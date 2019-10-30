@@ -4,14 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import dds.frba.utn.quemepongo.QueMePongo;
+import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.View.QueMePongoActivity;
 
 public class ActivityHelper {
@@ -53,6 +53,35 @@ public class ActivityHelper {
             transaction.add(android.R.id.content, fragment, null);
         }
         transaction.commit();
+    }
+
+    public static void showFragment(AppCompatActivity origin, Fragment fragment, @Nullable Integer where, String tag) {
+        FragmentTransaction transaction = origin.getSupportFragmentManager().beginTransaction();
+        if(where != null){
+            transaction.add(where, fragment, tag);
+        }else{
+            transaction.add(android.R.id.content, fragment, tag);
+        }
+        transaction.commit();
+    }
+
+    public static void showFragmentWithSlideIn(AppCompatActivity origin, Fragment fragment, @Nullable Integer where, String tag) {
+        FragmentTransaction transaction = origin.getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.detail_event_enter, R.anim.detail_event_exit);
+        if(where != null){
+            transaction.add(where, fragment, tag);
+        }else{
+            transaction.add(android.R.id.content, fragment, tag);
+        }
+        transaction.commit();
+    }
+
+    public static void removeFragmentWithAnimation(AppCompatActivity activity, Fragment fragment){
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.detail_event_enter, R.anim.detail_event_exit);
+        transaction
+                .remove(fragment)
+                .commit();
     }
 
 }

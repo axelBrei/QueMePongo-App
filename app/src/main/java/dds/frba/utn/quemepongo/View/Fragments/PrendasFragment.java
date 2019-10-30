@@ -1,24 +1,25 @@
 package dds.frba.utn.quemepongo.View.Fragments;
 
-
-import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import dds.frba.utn.quemepongo.Adapters.PrendasAdapter;
 import dds.frba.utn.quemepongo.Helpers.ListSwipeHelper;
@@ -27,9 +28,6 @@ import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.View.Activity.CrearPrendasActivity;
 import dds.frba.utn.quemepongo.ViewModel.PrendasViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PrendasFragment extends Fragment {
     // MODEL
     private PrendasViewModel prendasViewModel;
@@ -64,7 +62,7 @@ public class PrendasFragment extends Fragment {
         // PREPARO LISTA PARA QUE SE MUESTRE EN LA PANTALLA
         PrendasAdapter adapter = new PrendasAdapter(getActivity());
         prendasRecyclerView.setAdapter(adapter);
-        prendasRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL,false));
+        prendasRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
         prendasRecyclerView.addItemDecoration(setItemDecorator());
         attachItemTouchHelper(adapter);
 

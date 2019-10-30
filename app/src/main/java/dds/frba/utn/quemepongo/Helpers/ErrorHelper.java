@@ -8,7 +8,9 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 
 import dds.frba.utn.quemepongo.Model.Schedulable;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
 import dds.frba.utn.quemepongo.View.Fragments.ErrorFragment;
 import retrofit2.Call;
@@ -108,6 +110,30 @@ public class ErrorHelper {
                 fragment.setCallback(this);
                 schedulable.getContext().getFragmentManager().beginTransaction().add(android.R.id.content, fragment,"").commit();
 
+            }
+        };
+    }
+
+    public <T> CustomRetrofitCallback<T> showToastErrorInCaseIsNeeded(QueMePongo application, OnCompleteListenerWithStatus listenerWithStatus){
+        application.startLoading();
+        return new CustomRetrofitCallback<T>() {
+            @Override
+            public void onCustomResponse(Call<T> call, Response<T> response) {
+                application.stopLoading();
+                listenerWithStatus.onComplete(true, response.body());
+            }
+
+            @Override
+            public void onCustomFailure(Call<T> call, Error error) {
+                application.stopLoading();
+                showSimpleError(application.getContext(), error.getMessage());
+                listenerWithStatus.onComplete(false, error);
+            }
+
+            @Override
+            public void onHttpRequestFail(Call<T> call, Throwable t) {
+                application.stopLoading();
+                showSimpleError(application, "Ha ocurrido un error");
             }
         };
     }

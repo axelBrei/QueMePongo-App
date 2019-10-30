@@ -3,7 +3,6 @@ package dds.frba.utn.quemepongo.View.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import com.dd.processbutton.iml.ActionProcessButton;
 
 import dds.frba.utn.quemepongo.Helpers.CustomRetrofitCallback;
 import dds.frba.utn.quemepongo.Model.WebServices.Error;
-import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import retrofit2.Call;
 import retrofit2.Callback;

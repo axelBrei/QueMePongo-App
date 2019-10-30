@@ -2,10 +2,7 @@ package dds.frba.utn.quemepongo.View.Activity;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -13,8 +10,12 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -80,6 +81,7 @@ public class RegisterActivity extends QueMePongoActivity {
             }
         });
 
+
         clienteController = new ClienteController(this);
         clienteRepository = RetrofitInstanciator.instanciateRepository(ClienteRepository.class);
     }
@@ -99,6 +101,8 @@ public class RegisterActivity extends QueMePongoActivity {
         onBackPressed();
         return true;
     }
+
+
 
     private void registerNewUser(){
         registerButton.setProgress(10);
