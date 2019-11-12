@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import dds.frba.utn.quemepongo.Helpers.ErrorHelper;
 import dds.frba.utn.quemepongo.Helpers.RetrofitInstanciator;
 import dds.frba.utn.quemepongo.Model.Evento;
+import dds.frba.utn.quemepongo.Model.WebServices.Request.Evento.AbmEvento;
 import dds.frba.utn.quemepongo.Model.WebServices.Request.Evento.SendEventoRequest;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Evento.NewEventResponse;
 import dds.frba.utn.quemepongo.QueMePongo;
@@ -45,5 +46,34 @@ public class EventosController {
                     resp -> listenerWithStatus.onComplete(true, resp),
                     err -> listenerWithStatus.onComplete(false,err)
                 ));
+    }
+
+    public void eliminarEvento(long idEvento, OnCompleteListenerWithStatus listenerWithStatus){
+        AbmEvento body = new AbmEvento();
+        body.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        body.setIdEvento(idEvento);
+        repository
+                .eliminarEvento(body)
+                .enqueue(
+                        new ErrorHelper().showToastErrorInCaseIsNeeded(
+                                application,
+                                listenerWithStatus
+                        )
+                );
+    }
+
+    public void eliminarFrecuenciaEvento(Evento evento, OnCompleteListenerWithStatus listenerWithStatus){
+        AbmEvento body = new AbmEvento();
+        body.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        body.setIdEvento(Long.parseLong(evento.getUidEvento()));
+        body.setDesde(evento.getDesde());
+        repository
+                .eliminarFrecuenciaEvento(body)
+                .enqueue(
+                        new ErrorHelper().showToastErrorInCaseIsNeeded(
+                                application,
+                                listenerWithStatus
+                        )
+                );
     }
 }

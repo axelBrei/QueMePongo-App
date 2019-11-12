@@ -1,6 +1,8 @@
 package dds.frba.utn.quemepongo.View.Fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,8 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import commons.validator.routines.EmailValidator;
+import dds.frba.utn.quemepongo.Controllers.EventosController;
 import dds.frba.utn.quemepongo.Model.Evento;
 import dds.frba.utn.quemepongo.R;
+import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
 import dds.frba.utn.quemepongo.View.CustomComponents.AppText;
 import me.grantland.widget.AutofitTextView;
 
@@ -44,16 +48,25 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.EventDetailLocation)
         AppText locationTextView;
 
+    Evento evento;
+    EventosController controller;
+    EventChangeListener callbackListener;
+
     public EventDetailFragment() {
         // Required empty public constructor
     }
 
-    public static EventDetailFragment createFragment(Evento evento){
+    public static EventDetailFragment createFragment(Evento evento, EventChangeListener listener){
         EventDetailFragment fragment = new EventDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_EVENT_SERIALIZED, evento);
         fragment.setArguments(bundle);
+        fragment.setListener(listener);
         return fragment;
+    }
+
+    private void setListener(EventChangeListener listener){
+        this.callbackListener = listener;
     }
 
     @Override
@@ -63,8 +76,10 @@ public class EventDetailFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this,view);
 
+        controller = new EventosController(getContext());
+
         Bundle bundle = getArguments();
-        Evento evento = (Evento) bundle.getSerializable(KEY_EVENT_SERIALIZED);
+        evento = (Evento) bundle.getSerializable(KEY_EVENT_SERIALIZED);
         initView(evento);
         return view;
     }
@@ -87,12 +102,36 @@ public class EventDetailFragment extends Fragment {
 
     @OnClick(R.id.EventDetailDelete)
     void deleteEvent(View v){
+        OnCompleteListenerWithStatus listenerWithStatus = new OnCompleteListenerWithStatus() {
+            @Override
+            public void onComplete(Boolean succed, Object obj) {
+                if(succed){
 
+                }
+                getActivity().onBackPressed();
+            }
+        };
+        new AlertDialog.Builder(getContext())
+                .setTitle("Atención!")
+                .setMessage("Que desea borrar?")
+                .setPositiveButton("Todos los eventos",
+                        (dialog, wich) -> controller.eliminarFrecuenciaEvento(evento,listenerWithStatus)
+                    )
+                .setNegativeButton("Solo este evento",
+                        (dialog, wich) -> controller.eliminarEvento(evento.getId(),listenerWithStatus)
+                    )
+                .setCancelable(true)
+                .setNeutralButton("Cancelar", null)
+                .create()
+                .show();
     }
 
     @OnClick(R.id.EventDetailCloseFragment)
     void closeFragment(View v){
-
+        getActivity().onBackPressed();
     }
 
+    public interface EventChangeListener {
+        void onDelete(Evento evento);
+    }
 }

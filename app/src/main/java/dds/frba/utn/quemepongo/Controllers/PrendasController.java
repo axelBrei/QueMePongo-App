@@ -27,7 +27,11 @@ public class PrendasController {
         repository = RetrofitInstanciator.instanciateRepository(PrendasRepository.class);
         application = (QueMePongo) context.getApplicationContext();
         this.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        idGuardarropaActual = application.getGuardarropaActual().getValue().getId();
+        if(application.getGuardarropaActual().getValue() != null){
+            idGuardarropaActual = application.getGuardarropaActual().getValue().getId();
+        }else
+            idGuardarropaActual = application.getGuardarropas().getValue().get(0).getId();
+
     }
 
     public void agregarPrenda(HashMap<String,Object> prenda, OnCompleteListenerWithStatusAndApplication listener) {

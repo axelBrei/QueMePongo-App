@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWithoutActionBar"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".View.Activity.NewEventActivity"/>
+        <activity android:name=".View.Activity.SeleccionarAtuendoActivity"></activity>
+        <activity android:name=".View.Activity.NewEventActivity" />
         <activity android:name=".View.Activity.EventsActivity" />
         <activity android:name=".View.Activity.DetalleGuardarropaActivity" />
         <activity android:name=".View.Activity.GuardarropasActivity" />

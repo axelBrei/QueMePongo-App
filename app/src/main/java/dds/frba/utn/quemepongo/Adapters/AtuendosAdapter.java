@@ -23,6 +23,7 @@ import dds.frba.utn.quemepongo.R;
 public class AtuendosAdapter extends RecyclerView.Adapter {
     private Activity activity;
     private List<Atuendo> atuendoList = new ArrayList<>();
+    private OnAtuendoClick clickListener;
 
     public AtuendosAdapter(Activity context) {
         this.activity = context;
@@ -31,6 +32,13 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
     public AtuendosAdapter(Activity context, List<Atuendo> atuendoList) {
         this.activity = context;
         this.atuendoList = atuendoList;
+    }
+
+
+    public AtuendosAdapter(Activity context, OnAtuendoClick clickListener) {
+        this.activity = context;
+        this.atuendoList = atuendoList;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -44,6 +52,9 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         AtuendoViewHolder holder = (AtuendoViewHolder) viewHolder;
         holder.fillView(atuendoList.get(i), i);
+        if(clickListener != null){
+            holder.setClickListener(clickListener, atuendoList.get(i));
+        }
     }
 
     @Override
@@ -53,6 +64,11 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
 
     public void addAtuendo(Atuendo atuendo){
         atuendoList.add(atuendo);
+        notifyDataSetChanged();
+    }
+
+    public void addAtuendos(List<Atuendo> atuendos){
+        atuendoList.addAll(atuendos);
         notifyDataSetChanged();
     }
 
@@ -110,6 +126,17 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
             imageTitulo.setImageDrawable(activity.getResources().getDrawable(imageRes));
             imageTitulo.setTag(imageRes);
         }
+        public void setClickListener(OnAtuendoClick listener, Atuendo atuendo){
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(atuendo);
+                }
+            });
+        }
+    }
 
+    public interface OnAtuendoClick {
+        void onClick(Atuendo a);
     }
 }

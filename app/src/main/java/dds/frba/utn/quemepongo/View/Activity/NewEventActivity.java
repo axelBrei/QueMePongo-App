@@ -3,6 +3,7 @@ package dds.frba.utn.quemepongo.View.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,8 +36,10 @@ import dds.frba.utn.quemepongo.Adapters.LocationSpinnerAdapter;
 import dds.frba.utn.quemepongo.Controllers.EventosController;
 import dds.frba.utn.quemepongo.Controllers.GoogleGeocodingController;
 import dds.frba.utn.quemepongo.Model.Evento;
+import dds.frba.utn.quemepongo.Model.Guardarropa;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Evento.NewEventResponse;
 import dds.frba.utn.quemepongo.Model.WebServices.Response.Geocoding.NominatimGeocodeResponse;
+import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatus;
 import dds.frba.utn.quemepongo.Utils.CustomOnItemSelectedListener;
@@ -62,6 +65,8 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
         AppCompatAutoCompleteTextView locationEditText;
     @BindView(R.id.LocationEditTextLayout)
         TextInputLayout locationLayout;
+    @BindView(R.id.NewEventGuardarropa)
+        SmartMaterialSpinner<Guardarropa> guardarropaSpinner;
 
     @BindView(R.id.NewEventSendButton)
         ActionProcessButton sendButton;
@@ -90,7 +95,9 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
             @Override
             public void onClick(View v) {
                 viewModel.setName(eventName.getText());
-                if(validator.validate()){
+                if(viewModel.getLatitud() == null){
+                    locationLayout.setError("Debe seleecionar una direccion para poder continuar");
+                }else if(validator.validate()){
                     Evento evento = viewModel.buildEvent();
                     controller.crearEvento(viewModel.buildEvent(), new OnCompleteListenerWithStatus() {
                         @Override
@@ -122,6 +129,7 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
         validator.addView(new AutoCompleteTextValidable(locationEditText,locationLayout));
         validator.addView(new SmartMaterialSpinnerValidable(formalitySpinner, new CustomOnItemSelectedListener(this, "Formailidad")));
         validator.addView(new SmartMaterialSpinnerValidable(frecuencySpinner, new CustomOnItemSelectedListener(this, "Frecuencia")));
+        validator.addView(new SmartMaterialSpinnerValidable(guardarropaSpinner, new CustomOnItemSelectedListener(this, "Guardarropa")));
 
     }
 
@@ -129,7 +137,9 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
         frecuencySpinner = findViewById(R.id.NewEventFrecuency);
 
         formalitySpinner.setItem(Arrays.asList("Formal", "Informal"));
-        frecuencySpinner.setItem(Arrays.asList("Anual", "Mensual", "Semanal", "Diario"));
+        frecuencySpinner.setItem(Arrays.asList("Anual", "Mensual", "Semanal", "Diario", "Sin repetición"));
+        QueMePongo app = (QueMePongo) getApplication();
+        guardarropaSpinner.setItem(app.getGuardarropas().getValue());
     }
 
     private void initCalendarButtons() {
@@ -204,9 +214,15 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
     // -------------- END SCREEN CONFIG -------------------
 
     private void openDatePicker(OnSelectDateListener listener) {
+        Calendar threeMonths = Calendar.getInstance();
+        Calendar yesterday = (Calendar) threeMonths.clone();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+        threeMonths.add(Calendar.MONTH, 3);
         new DatePickerBuilder(_activity,listener)
                 .setDate(Calendar.getInstance())
                 .setPickerType(CalendarView.ONE_DAY_PICKER)
+                .setMinimumDate(yesterday)
+                .setMaximumDate(threeMonths)
                 .build()
                 .show();
     }
@@ -235,6 +251,11 @@ public class NewEventActivity extends QueMePongoActivity implements CustomOnItem
             }
             case "Formailidad": {
                 viewModel.setFormalidad( (String) val);
+                break;
+            }
+            case "Guardarropa": {
+                Guardarropa g = (Guardarropa) parent.getItemAtPosition(position);
+                viewModel.setIdGuardarropa(g.getId());
                 break;
             }
         }

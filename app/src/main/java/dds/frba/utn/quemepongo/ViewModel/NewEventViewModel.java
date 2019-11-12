@@ -52,6 +52,7 @@ public class NewEventViewModel extends AndroidViewModel {
         evento.setLatitud(latitud);
         evento.setLongitud(longitud);
         evento.setNombreUbicacion(nombreUbicacion);
+        evento.setId_guardarropa(idGuardarropa);
         return evento;
     }
 }

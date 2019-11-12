@@ -40,7 +40,7 @@ import lombok.Setter;
 import me.grantland.widget.AutofitTextView;
 
 
-public class CalendarFragment extends Fragment implements OnDayClickListener{
+public class CalendarFragment extends Fragment implements OnDayClickListener, EventDetailFragment.EventChangeListener {
     public static final String EVENT_DETAIL_FRAGMENT_TAG = "EVENT_DETAIL_FRAGMENT";
 
     @BindView(R.id.CalendarFragmentCalendar)
@@ -140,13 +140,16 @@ public class CalendarFragment extends Fragment implements OnDayClickListener{
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 time.setText(format.format(item.getEvento().getDesde()));
 
-                eventDetailFragment = EventDetailFragment.createFragment(item.getEvento());
-                container.setOnClickListener( view -> ActivityHelper.showFragmentWithSlideIn(
-                        (AppCompatActivity) getActivity(),
-                        eventDetailFragment,
-                        R.id.EventActivityContainer,
-                        EVENT_DETAIL_FRAGMENT_TAG
-                        )
+
+                container.setOnClickListener( view -> {
+                            eventDetailFragment = EventDetailFragment.createFragment(item.getEvento(), CalendarFragment.this);
+                            ActivityHelper.showFragmentWithSlideIn(
+                                    (AppCompatActivity) getActivity(),
+                                    eventDetailFragment,
+                                    R.id.EventActivityContainer,
+                                    EVENT_DETAIL_FRAGMENT_TAG
+                            );
+                        }
                 );
             }
         };
@@ -155,6 +158,15 @@ public class CalendarFragment extends Fragment implements OnDayClickListener{
 
     public boolean isDetailVisible(){
         return eventDetailFragment != null && eventDetailFragment.isVisible();
+    }
+
+    @Override
+    public void onDelete(Evento evento) {
+        for (CustomEventDay ev :evetos) {
+            if(ev.getEvento().getId() == evento.getId()){
+                adapter.removeItem(ev);
+            }
+        }
     }
 
     public interface OnCalendarDaySelected {

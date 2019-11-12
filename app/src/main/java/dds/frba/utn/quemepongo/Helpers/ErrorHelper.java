@@ -3,6 +3,7 @@ package dds.frba.utn.quemepongo.Helpers;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 
@@ -29,11 +30,12 @@ public class ErrorHelper {
     }
 
     public static void showSimpleError(Context activity, String errorMessage){
-         getDefaultErrorBuilder(activity)
-            .setDescription(errorMessage)
-             .setNeutralText("Aceptar")
-            .build()
-            .show();
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
+//         getDefaultErrorBuilder(activity)
+//            .setDescription(errorMessage)
+//             .setNeutralText("Aceptar")
+//            .build()
+//            .show();
 
     }
 
