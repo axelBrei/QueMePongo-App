@@ -50,12 +50,12 @@ public class RegisterActivity extends QueMePongoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if(toolbar != null){
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        if(toolbar != null){
+//            setSupportActionBar(toolbar);
+            setToolbarTitle("Registro");
+            enableBackButton();
+//        }
 
         mail = findViewById(R.id.RegisterMail);
         password = findViewById(R.id.RegisterPassword);
@@ -94,12 +94,6 @@ public class RegisterActivity extends QueMePongoActivity {
     @Override
     protected boolean enableToolbarSpinner() {
         return false;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
 

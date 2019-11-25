@@ -3,10 +3,12 @@ package dds.frba.utn.quemepongo.Adapters;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +31,10 @@ import dds.frba.utn.quemepongo.Model.WebServices.Request.Prendas.DeletePrendaReq
 import dds.frba.utn.quemepongo.QueMePongo;
 import dds.frba.utn.quemepongo.R;
 import dds.frba.utn.quemepongo.Repository.PrendasRepository;
+import dds.frba.utn.quemepongo.Utils.ActivityHelper;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenerWithStatusAndApplication;
 import dds.frba.utn.quemepongo.Utils.CustomListenners.OnCompleteListenner;
+import dds.frba.utn.quemepongo.View.Activity.DetallePrendaActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PrendasAdapter extends RecyclerView.Adapter {
@@ -149,6 +153,7 @@ public class PrendasAdapter extends RecyclerView.Adapter {
         private TextView comosition;
         private CircleImageView typeImage;
         private ImageView likeButton;
+        private RelativeLayout container;
 
         public PrendasViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +163,9 @@ public class PrendasAdapter extends RecyclerView.Adapter {
             comosition = itemView.findViewById(R.id.PrendaCellCompositionType);
             likeButton = itemView.findViewById(R.id.PrendasContainerLikeButton);
             typeImage = itemView.findViewById(R.id.PrendaCellTypeImage);
+            container = itemView.findViewById(R.id.PrendaCellContainer);
+
+
         }
 
         public void fillView(Prenda prenda, int index){
@@ -176,6 +184,16 @@ public class PrendasAdapter extends RecyclerView.Adapter {
                             prenda.getTipoDePrenda()
                     )
             );
+            if(cellResource == R.layout.prenda_item_cell){
+                container.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("Prenda", prenda);
+                        ActivityHelper.startActivity(activity, DetallePrendaActivity.class,bundle);
+                    }
+                });
+            }
         }
         
         public void setClickListenner(View.OnClickListener listenner){

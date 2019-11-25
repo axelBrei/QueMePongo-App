@@ -127,10 +127,11 @@ public class AtuendosAdapter extends RecyclerView.Adapter {
             imageTitulo.setTag(imageRes);
         }
         public void setClickListener(OnAtuendoClick listener, Atuendo atuendo){
-            container.setOnClickListener(new View.OnClickListener() {
+            container.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     listener.onClick(atuendo);
+                    return true;
                 }
             });
         }

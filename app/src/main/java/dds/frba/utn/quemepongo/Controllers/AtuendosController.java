@@ -36,7 +36,7 @@ public class AtuendosController {
     public void reservarAtuendo(Atuendo atuendo, Long eventId, OnCompleteListenerWithStatus listenerWithStatus){
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Call call = respository.reservarAtuendo(userId, eventId, atuendo.getId());
-        call.enqueue(new ErrorHelper().showToastErrorInCaseIsNeeded(
+        call.enqueue(new ErrorHelper().showErrorInCaseIsNeeded(
                 application,
                 listenerWithStatus
         ));

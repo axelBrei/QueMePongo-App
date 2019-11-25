@@ -139,4 +139,37 @@ public class ErrorHelper {
             }
         };
     }
+
+    public <T> CustomRetrofitCallback<T> showErrorInCaseIsNeeded(QueMePongo application, OnCompleteListenerWithStatus listenerWithStatus){
+        application.startLoading();
+        return new CustomRetrofitCallback<T>() {
+            @Override
+            public void onCustomResponse(Call<T> call, Response<T> response) {
+                application.stopLoading();
+                listenerWithStatus.onComplete(true, response.body());
+            }
+
+            @Override
+            public void onCustomFailure(Call<T> call, Error error) {
+                application.stopLoading();
+                new MaterialStyledDialog.Builder(application.getContext())
+                        .setCancelable(true)
+                        .setHeaderColor(R.color.red_error)
+                        .setHeaderScaleType(ImageView.ScaleType.FIT_CENTER)
+                        .setHeaderDrawable(R.drawable.ic_error_white)
+                        .setDescription(error.getMessage())
+                        .setNeutralText("Aceptar")
+                        .build()
+                        .show();
+
+                listenerWithStatus.onComplete(false, error);
+            }
+
+            @Override
+            public void onHttpRequestFail(Call<T> call, Throwable t) {
+                application.stopLoading();
+                showSimpleError(application, "Ha ocurrido un error");
+            }
+        };
+    }
 }

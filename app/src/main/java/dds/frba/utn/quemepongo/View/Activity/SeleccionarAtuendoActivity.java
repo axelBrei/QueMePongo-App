@@ -83,9 +83,9 @@ public class SeleccionarAtuendoActivity extends QueMePongoActivity {
                     if(succed){
                         Toast.makeText(_activity, "Gracias por seleccionar el atuendo", Toast.LENGTH_SHORT).show();
                     }
-                    onBackPressed();
                 }
         );
+        onBackPressed();
     }
 
     private void fetchAtuendos(Long eventId){

@@ -39,8 +39,8 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         ButterKnife.bind(this);
         application = ( (QueMePongo) getApplication());
         mAuth = FirebaseAuth.getInstance();
+        toolbar = new ToolbarView(_activity, enableToolbarSpinner());
         if (mAuth.getCurrentUser() != null){
-            toolbar = new ToolbarView(_activity, enableToolbarSpinner());
             if(toolbar.getView() != null){
                 application.loading.observe(_activity, aBoolean -> setProgressDialog(aBoolean));
                 progressBar = findViewById(R.id.toolbarProgres);
@@ -58,7 +58,9 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
     }
 
     public void enableBackButton(){
-        toolbar.enableBackButton();
+        if(toolbar != null){
+            toolbar.enableBackButton();
+        }
     }
 
     @Override
@@ -72,7 +74,9 @@ public abstract class QueMePongoActivity extends AppCompatActivity implements Sc
         return true;
     }
     protected void setToolbarTitle(String title){
-        toolbar.setToolbarTitle(title);
+        if(toolbar != null){
+            toolbar.setToolbarTitle(title);
+        }
     }
 
 

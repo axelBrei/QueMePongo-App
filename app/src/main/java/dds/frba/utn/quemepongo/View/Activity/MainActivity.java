@@ -134,9 +134,9 @@ public class MainActivity extends QueMePongoActivity  implements PrendasFragment
                 ActivityHelper.startActivity(_activity, EventsActivity.class);
                 break;
             }
-            case R.id.sideMenuNotificacion:{
-                CustomNotificationManager.showNotification(this);
-            }
+//            case R.id.sideMenuNotificacion:{
+//                CustomNotificationManager.showNotification(this);
+//            }
             case R.id.sideMenuVerGuardarropas: {
                 ActivityHelper.startActivity(_activity, GuardarropasActivity.class);
             }

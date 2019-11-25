@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Activity.DetallePrendaActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/toolbar_layout"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:id="@+id/DetallePrendaFoto"
+
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/ultraLightGray"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical"
+            >
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaDescripcion"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:paddingVertical="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaTipoDeTela"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tipo de tela"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaColorP"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="color primario"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaColorS"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="color S"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaABrigo"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="abrigo"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaTipoDePrenda"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tipoDePrenda"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/DetallePrendaFormalidad"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tipoDePrenda"
+                android:paddingVertical="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

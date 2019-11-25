@@ -25,10 +25,4 @@
         android:title="@string/drawerEventos"
         android:icon="@drawable/ic_add_black"
         />
-
-    <item
-        android:id="@+id/sideMenuNotificacion"
-        android:title="Enviar notificacion"
-        android:icon="@drawable/ic_add_black"
-        />
 </menu>

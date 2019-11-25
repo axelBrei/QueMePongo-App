@@ -70,6 +70,7 @@ dependencies {
 
     //CRICULAR IMAGEVIEW
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     // EXPANDABLE LAYOUT
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 

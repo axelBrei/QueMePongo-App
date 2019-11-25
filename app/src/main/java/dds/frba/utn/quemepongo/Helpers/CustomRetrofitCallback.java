@@ -17,7 +17,7 @@ public abstract class CustomRetrofitCallback<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         if(response.code() == 200){
             onCustomResponse(call,response);
-        }else if(response.code() == 404 && response.errorBody() != null){
+        }else if(response.code() != 500 && response.errorBody() != null){
             try{
                 ObjectMapper mapper = new ObjectMapper();
                 Error e = mapper.readValue(response.errorBody().string(),Error.class);
@@ -25,6 +25,8 @@ public abstract class CustomRetrofitCallback<T> implements Callback<T> {
             } catch (IOException e) {
                 onHttpRequestFail(call, e);
             }
+        }else{
+            onHttpRequestFail(call, new Throwable());
         }
     }
 

@@ -26,6 +26,8 @@ public class Prenda implements Serializable {
     Integer indiceSuperposicion;
     String formalidad;
 
+    String fotoURL = "";
+
     @Override
     public boolean equals(Object obj) {
         Prenda p = (Prenda)obj;
